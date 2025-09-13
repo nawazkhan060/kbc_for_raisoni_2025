@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KBC - Host Control Panel</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Load Socket.IO -->
+  <script src="/socket.io/socket.io.min.js"></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <div style="text-align: center; padding: 15px; background: #0a0a2a; border-bottom: 3px solid gold; color: white;">
+    <h2>📺 KBC Host Control Panel</h2>
+    <a href="index.html" style="color: gold; text-decoration: underline; font-weight: bold;">← Back to Player View</a>
+  </div>
+
+  <div class="host-panel">
+
+    <!-- Lifeline Buttons -->
+    <div class="lifeline-bar">
+      <button id="lf-5050" class="lifeline-btn" onclick="triggerFiftyFifty()">🎯 50:50</button>
+      <button id="lf-friend" class="lifeline-btn" onclick="forceLifeline('Ask Friend')">📞 Ask Friend</button>
+      <button id="lf-audience" class="lifeline-btn" onclick="forceLifeline('Ask Audience')">👥 Ask Audience</button>
+      <button class="lifeline-btn" style="background:#0099cc;" onclick="flipQuestion()">🔄 Flip Question</button>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-box">
+      <input type="text" placeholder="🔍 Search questions..." id="search-input" onkeyup="searchQuestions()">
+    </div>
+
+    <!-- Questions Table -->
+    <div class="table-container" style="max-height: 60vh; overflow-y: auto; border-bottom: 1px solid #444;">
+      <table id="questions-table" style="width: 100%; border-collapse: collapse;">
+        <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold;">
+          <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Options</th>
+            <th>Answer</th>
+            <th>Hint</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Lifeline Requests -->
+    <div class="requests-area">
+      <h3>🛎️ Lifeline Requests</h3>
+      <ul class="requests-list" id="requests-list">No requests yet</ul>
+    </div>
+
+  </div>
+
+  <!-- Shared Script -->
+<script src="script.js"></script>
+<script>
+  window.isHost = true;
+  let sentQuestions = new Set();
+  let currentQuestionData = null;
+
+  // Track which lifelines have been used
+  const usedLifelines = new Set();
+
+  // Sample Questions (40)
+  const questions = Array.from({ length: 40 }, (_, i) => ({
+    id: i + 1,
+    text: `What is the capital of Country ${i + 1}?`,
+    options: { 
+      A: `Option A${i+1}`, 
+      B: `Option B${i+1}`, 
+      C: `Option C${i+1}`, 
+      D: `Option D${i+1}` 
+    },
+    correct: ["A","B","C","D"][i % 4],
+    description: `This is hint/description for Question ${i+1}. Use this to guide or remember context.`
+  }));
+
+  // Render table
+  function renderTable(qs = questions) {
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = '';
+    qs.forEach(q => {
+      const row = document.createElement('tr');
+      const opts = `${q.options.A} | ${q.options.B} | ${q.options.C} | ${q.options.D}`;
+      row.innerHTML = `
+        <td style="color:white;padding:10px;text-align:center;">${q.id}</td>
+        <td title="${q.text}" class="question-col">${q.text}</td>
+        <td style="color:#ccc;font-size:0.9rem;">${opts}</td>
+        <td style="color:gold;font-weight:bold;text-align:center;">${q.correct}</td>
+        <td title="${q.description}" class="desc-col">${q.description.substring(0,50)}...</td>
+        <td style="text-align:center;">
+          <button class="action-btn" 
+                  onclick="sendQuestion(${q.id - 1})"
+                  ${sentQuestions.has(q.id) ? 'disabled' : ''}>
+            ${sentQuestions.has(q.id) ? '✅ Sent' : '📤 Send'}
+          </button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Send question to player
+  function sendQuestion(index) {
+    const q = questions[index];
+    currentQuestionData = q;
+    socket.emit('send-question', { ...q, index });
+
+    sentQuestions.add(q.id);
+    renderTable();
+
+    // Sound on send
+    const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+    snd.play().catch(e => console.log("Sound failed:", e));
+
+    alert(`✅ Sent Q${q.id}: "${q.text.substring(0, 40)}..."`);
+  }
+
+  // Mark lifeline as used (cross out)
+  function markLifelineUsed(type) {
+    let id;
+    if (type === '50:50') id = 'lf-5050';
+    else if (type === 'Ask Friend') id = 'lf-friend';
+    else if (type === 'Ask Audience') id = 'lf-audience';
+
+    const btn = document.getElementById(id);
+    if (btn && !usedLifelines.has(type)) {
+      btn.style.textDecoration = 'line-through';
+      btn.style.opacity = '0.6';
+      btn.style.cursor = 'not-allowed';
+      btn.disabled = true;
+      usedLifelines.add(type); // Prevent reuse
+    }
+  }
+
+  // Force lifeline manually (host-triggered)
+  function forceLifeline(type) {
+    if (usedLifelines.has(type)) {
+      alert(`❌ "${type}" has already been used!`);
+      return;
+    }
+
+    socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
+    alert(`📢 Host triggered: ${type}`);
+    markLifelineUsed(type); // Immediately cross it out
+  }
+
+  // Handle 50:50
+  function triggerFiftyFifty() {
+    if (!currentQuestionData) {
+      alert("⚠️ No active question!");
+      return;
+    }
+    if (usedLifelines.has('50:50')) {
+      alert("❌ 50:50 has already been used!");
+      return;
+    }
+
+    const correct = currentQuestionData.correct;
+    const wrong = ['A','B','C','D'].filter(opt => opt !== correct);
+    const toRemove = wrong.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+    socket.emit('fifty-fifty', { remove: toRemove });
+    alert(`🎯 50:50: Hid ${toRemove.join(', ')}`);
+    markLifelineUsed('50:50');
+  }
+
+  // Flip to next unsent question
+  function flipQuestion() {
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      if (!sentQuestions.has(q.id)) {
+        sendQuestion(i);
+        return;
+      }
+    }
+    alert("🎉 All questions have been sent!");
+  }
+
+  // Search functionality
+  function searchQuestions() {
+    const term = document.getElementById('search-input').value.toLowerCase();
+    const filtered = questions.filter(q => 
+      q.text.toLowerCase().includes(term) || 
+      q.description.toLowerCase().includes(term)
+    );
+    renderTable(filtered);
+  }
+
+  // On load
+  window.onload = () => {
+    socket.emit('join-host');
+    renderTable();
+
+    // Listen for lifeline requests from player
+    socket.on('lifeline-request', (data) => {
+      const list = document.getElementById('requests-list');
+      if (list.innerHTML === 'No requests yet') {
+        list.innerHTML = '';
+      }
+      const li = document.createElement('li');
+      li.textContent = `[${data.time}] Player used: ${data.type}`;
+      list.appendChild(li);
+
+      // ✅ Cross out the lifeline when used
+      markLifelineUsed(data.type);
+    });
+  };
+</script>
+</body>
+</html>

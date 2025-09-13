@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: kbc-backend
+    plan: free
+    runtime: node
+    env: 
+      PORT: 10000
+    buildCommand: "npm install"
+    startCommand: "node server.js"

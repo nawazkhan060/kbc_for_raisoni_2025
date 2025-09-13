@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🏆 Prize Approved - Encarta IT Cell</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #000 url('https://img.freepik.com/free-vector/dark-blue-circuit-board-background_1017-33659.jpg') no-repeat center;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Roboto', sans-serif;
+      position: relative;
+    }
+
+    .container {
+      z-index: 10;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 30px;
+      background: rgba(0, 15, 40, 0.8);
+      border-bottom: 2px solid #00ccff;
+      margin-bottom: 30px;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .logo {
+      height: 80px;
+      filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.5));
+    }
+
+    .title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: gold;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+    }
+
+    /* Input Section */
+    .input-section {
+      margin: 30px 0;
+      font-size: 1.3rem;
+      color: #ccc;
+    }
+
+    input {
+      padding: 14px;
+      width: 280px;
+      margin: 10px;
+      border: 2px solid #00ccff;
+      border-radius: 12px;
+      background: rgba(0, 0, 30, 0.6);
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+    }
+
+    button {
+      background: linear-gradient(to bottom, #0099cc, #006699);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border-radius: 15px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: 0 5px 15px rgba(0, 200, 255, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 200, 255, 0.7);
+    }
+
+    /* Transaction Screen */
+    .bank-screen {
+      display: none;
+      margin-top: 30px;
+      padding: 30px;
+      background: rgba(0, 10, 30, 0.9);
+      border: 1px solid #00ccff;
+      border-radius: 15px;
+      font-size: 1.4rem;
+      line-height: 2.3;
+      text-align: left;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
+    }
+
+    .bank-row {
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: all 0.8s ease;
+    }
+
+    .highlight {
+      color: #00cc66;
+      font-weight: bold;
+    }
+
+    .amount {
+      font-size: 2rem;
+      color: #00cc66;
+      font-weight: bold;
+    }
+
+    /* Approved Stamp */
+    .stamp {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg) scale(0);
+      width: 200px;
+      height: 200px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="%23d4af37" stroke-width="10"/><text x="100" y="100" font-family="Arial" font-size="28" fill="%23d4af37" text-anchor="middle" dy=".3em">APPROVED</text></svg>') no-repeat;
+      background-size: contain;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Digital Signature */
+    .signature {
+      margin-top: 20px;
+      font-style: italic;
+      color: #00ccff;
+      font-size: 1.2rem;
+    }
+
+    /* Confetti */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #f00;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Approved Stamp -->
+  <div class="stamp" id="stamp"></div>
+
+  <div class="container">
+    <div class="header">
+      <img src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="Encarta IT Cell" class="logo">
+      <div class="title">PRIZE CREDIT SYSTEM</div>
+    </div>
+
+    <div class="input-section">
+      <p>Enter winner details to approve fund transfer</p>
+      <input type="text" id="studentName" placeholder="Student Full Name">
+      <input type="number" id="prizeAmount" placeholder="₹ Amount">
+
+      <br>
+      <button onclick="approveTransfer()">✅ Approve Transfer</button>
+    </div>
+
+    <!-- Bank Screen -->
+    <div class="bank-screen" id="bankScreen">
+      <div class="bank-row" id="row1">[SECURE] 🔐 Session authenticated...</div>
+      <div class="bank-row" id="row2">User: <strong>KBC_ADMIN</strong> | Role: Host</div>
+      <div class="bank-row" id="row3">Validating recipient identity...</div>
+      <div class="bank-row" id="row4">Recipient: <span id="display-name"></span></div>
+      <div class="bank-row" id="row5">Institution: Raisoni College</div>
+      <div class="bank-row" id="row6">Account: ENCXXXXXX<span id="accNum"></span></div>
+      <div class="bank-row" id="row7">Status: <span style="color:#ffcc00">Processing</span></div>
+
+      <div class="amount" id="transferText" style="opacity:0;">
+        💸 CREDITING: ₹<span id="display-amount"></span>
+      </div>
+
+      <div class="bank-row" id="row8">Status: <span class="highlight">APPROVED & CREDITED</span></div>
+      <div class="bank-row" id="row9">Transaction ID: KBC-ENC-<span id="txid"></span></div>
+      <div class="bank-row" id="row10" style="color:#00cc66; font-weight:bold;">🎉 MISSION SUCCESSFUL</div>
+
+      <div class="signature">Digitally signed by Encarta IT Cell Authority</div>
+    </div>
+  </div>
+
+  <script>
+    function approveTransfer() {
+      const name = document.getElementById('studentName').value.trim();
+      const amount = document.getElementById('prizeAmount').value.trim();
+
+      if (!name || !amount) {
+        alert("⚠️ Please enter both name and amount!");
+        return;
+      }
+
+      // Show screen
+      const screen = document.getElementById('bankScreen');
+      screen.style.display = 'block';
+
+      // Generate random data
+      const accNum = Math.floor(1000 + Math.random() * 9000);
+      const txid = Math.random().toString(36).substr(2, 8).toUpperCase();
+
+      // Insert values
+      document.getElementById('display-name').textContent = name;
+      document.getElementById('accNum').textContent = accNum;
+      document.getElementById('display-amount').textContent = parseInt(amount).toLocaleString();
+      document.getElementById('txid').textContent = txid;
+
+      // Animate rows
+      let delay = 0;
+      document.querySelectorAll('.bank-row').forEach((row, i) => {
+        setTimeout(() => {
+          row.style.opacity = '1';
+          row.style.transform = 'translateX(0)';
+        }, delay);
+        delay += 700;
+      });
+
+      // Show money animation
+      setTimeout(() => {
+        const transfer = document.getElementById('transferText');
+        transfer.style.opacity = '1';
+        transfer.animate([
+          { transform: 'scale(0)', opacity: 0 },
+          { transform: 'scale(1.3)', opacity: 1 },
+          { transform: 'scale(1)', opacity: 1 }
+        ], { duration: 800, easing: 'ease-out' });
+      }, 2800);
+
+      // Show APPROVED stamp
+      setTimeout(() => {
+        const stamp = document.getElementById('stamp');
+        stamp.style.opacity = '1';
+        stamp.animate([
+          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(0)' },
+          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(1.2)' },
+          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(1)' }
+        ], { duration: 1000, easing: 'elastic-out(1, 0.5)' });
+      }, 3200);
+
+      // Play cash sound
+      const snd = new Audio("https://www.soundjay.com/money/sound/banknote-sweep-01a.mp3");
+      snd.play().catch(() => {});
+
+      // Confetti!
+      createConfetti();
+
+      // Final alert
+      setTimeout(() => {
+        alert(`🎉 Congratulations ${name}!\n₹${parseInt(amount).toLocaleString()} has been officially credited!`);
+      }, 4000);
+    }
+
+    function createConfetti() {
+      const colors = ['#FFD700', '#00CC66', '#00CCFF', '#FF69B4', '#FF8C00'];
+      for (let i = 0; i < 150; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.backgroundColor = colors[i % colors.length];
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(confetti);
+
+        confetti.animate([
+          { transform: 'translate(0,0) rotate(0)', opacity: 1 },
+          { transform: `translate(${Math.random()*100-50}vw, ${Math.random()*100}vh) rotate(720deg)`, opacity: 0 }
+        ], {
+          duration: 3000 + Math.random() * 2000,
+          easing: 'cubic-bezier(0.1, 0.8, 0.9, 0.1)'
+        });
+
+        setTimeout(() => confetti.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>
