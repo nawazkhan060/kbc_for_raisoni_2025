@@ -1,705 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KBC - Host Control Panel</title>
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
-  <!-- Load Socket.IO -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    // 🔥 Connect to your live server (fixed: no trailing spaces)
     const socket = io("https://kbc-for-raisoni-2.onrender.com");
   </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Montserrat', sans-serif; 
+      background: #0a0a2a; 
+      color: #eee; 
+      padding: 0;
+      overflow-x: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #0a0a2a;
+      border-bottom: 4px solid gold;
+      color: white;
+    }
+    .prize-ladder {
+      background: #0d1a33;
+      padding: 15px;
+      margin: 15px auto;
+      max-width: 900px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #2a3c5b;
+    }
+    .prize-ladder span {
+      display: inline-block;
+      margin: 3px;
+      padding: 6px 12px;
+      background: #1a2c4d;
+      color: gold;
+      font-size: 0.9rem;
+      border: 1px solid gold;
+      border-radius: 4px;
+    }
+    .host-panel {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .lifeline-bar {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .lifeline-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .lifeline-btn:hover { transform: translateY(-2px); }
+    #lf-5050 { background: #e74c3c; color: white; }
+    #lf-friend { background: #3498db; color: white; }
+    #lf-audience { background: #2ecc71; color: white; }
+    .flip-btn { background: #0099cc; color: white; }
+    .search-box input {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #0f1a2e;
+      color: white;
+      font-size: 1rem;
+      margin: 15px auto;
+      display: block;
+    }
+    .table-container {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      margin: 20px 0;
+      max-height: 50vh;
+      overflow-y: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #0f1a2e;
+      color: #eee;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #2a3c5b;
+    }
+    th {
+      background: #001f5b;
+      color: gold;
+      position: sticky;
+      top: 0;
+      font-weight: 600;
+    }
+    td {
+      color: #ccc;
+    }
+    .hint-col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hint-col span {
+      flex: 1;
+      cursor: pointer;
+      color: #aaa;
+    }
+    .hint-col i {
+      color: #0099cc;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      background: #0099cc;
+      color: white;
+      cursor: pointer;
+    }
+    .action-btn[disabled] {
+      background: #555;
+      cursor: not-allowed;
+    }
+    .requests-area {
+      background: #0d1a33;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border: 1px solid #2a3c5b;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .requests-list li {
+      padding: 8px;
+      margin: 5px 0;
+      background: #1a2c4d;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    #hint-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #0a0a2a;
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 80%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 2px solid gold;
+      text-align: left;
+    }
+    .modal-title {
+      color: gold;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0099cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
 </head>
-<body style="margin: 0; padding: 0; height: 100vh; overflow: hidden; font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #0a0a2a, #0d1a33); color: #e0e0e0;">
+<body>
 
   <!-- Header -->
-  <header style="text-align: center; padding: 20px; background: #0a0a2a; border-bottom: 4px solid #FFD700; color: white; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);">
-    <h1 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.8rem; letter-spacing: -0.5px;">📺 KBC Host Control Panel</h1>
-    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #e0e0e0;">Manage questions, lifelines, and track player progress in real-time.</p>
-    <a href="index.html" style="color: #FFD700; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block; border-bottom: 1px solid #FFD700; padding-bottom: 2px;">← Back to Player View</a>
+  <header>
+    <h1>📺 KBC Host Control Panel</h1>
+    <a href="index.html" style="color: gold; text-decoration: underline;">← Back to Player View</a>
   </header>
 
-  <!-- PRIZE MONEY LADDER (Added back as per your data) -->
-  <div style="background: #0d1a33; padding: 18px; margin: 20px auto; max-width: 1200px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b;">
-    <h3 style="color: gold; text-align: center; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600;">🏆 Prize Money Ladder</h3>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.9rem; font-family: 'Courier New', monospace; font-weight: bold;">
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 3,000</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,500</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,000</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,500</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,000</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 900</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 800</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 700</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 600</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 500</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 400</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 300</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 200</span>
-      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 100</span>
-      <span style="background: #333; color: #777; padding: 8px 16px; border-radius: 6px; border: 1px solid #444;">₹ 0</span>
-    </div>
+  <!-- Prize Money Ladder -->
+  <div class="prize-ladder">
+    <span>₹ 3,000</span>
+    <span>₹ 2,500</span>
+    <span>₹ 2,000</span>
+    <span>₹ 1,500</span>
+    <span>₹ 1,000</span>
+    <span>₹ 900</span>
+    <span>₹ 800</span>
+    <span>₹ 700</span>
+    <span>₹ 600</span>
+    <span>₹ 500</span>
+    <span>₹ 400</span>
+    <span>₹ 300</span>
+    <span>₹ 200</span>
+    <span>₹ 100</span>
+    <span>₹ 0</span>
   </div>
 
-  <div class="host-panel" style="height: calc(100vh - 260px); display: flex; flex-direction: column; max-width: 1400px; margin: 0 auto; padding: 20px; box-sizing: border-box;">
+  <div class="host-panel">
 
     <!-- Lifeline Buttons -->
-    <div class="lifeline-bar" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
-      <button id="lf-5050" class="lifeline-btn" onclick="triggerFiftyFifty()" style="
-        background: #e74c3c;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
-      ">
-        🎯 50:50
-      </button>
-      <button id="lf-friend" class="lifeline-btn" onclick="forceLifeline('Ask Friend')" style="
-        background: #3498db;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
-      ">
-        📞 Ask Friend
-      </button>
-      <button id="lf-audience" class="lifeline-btn" onclick="forceLifeline('Ask Audience')" style="
-        background: #2ecc71;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
-      ">
-        👥 Ask Audience
-      </button>
-      <button class="lifeline-btn" onclick="flipQuestion()" style="
-        background: #0099cc;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 8px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 10px rgba(0, 153, 204, 0.4);
-      ">
-        🔄 Flip Question
-      </button>
+    <div class="lifeline-bar">
+      <button id="lf-5050" onclick="triggerFiftyFifty()">🎯 50:50</button>
+      <button id="lf-friend" onclick="forceLifeline('Ask Friend')">📞 Ask Friend</button>
+      <button id="lf-audience" onclick="forceLifeline('Ask Audience')">👥 Ask Audience</button>
+      <button class="flip-btn" onclick="flipQuestion()">🔄 Flip Question</button>
     </div>
 
     <!-- Search Box -->
-    <div class="search-box" style="margin-bottom: 25px; text-align: center;">
-      <input type="text" placeholder="🔍 Search questions by topic or hint..." id="search-input" onkeyup="searchQuestions()" style="
-        width: 90%;
-        max-width: 600px;
-        padding: 14px 20px;
-        border-radius: 10px;
-        border: 1px solid #333;
-        background: #0f1a2e;
-        color: white;
-        font-family: 'Montserrat', sans-serif;
-        font-size: 1rem;
-        outline: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      ">
-    </div>
+    <input type="text" placeholder="🔍 Search questions..." id="search-input" onkeyup="searchQuestions()">
 
     <!-- Questions Table -->
-    <div class="table-container" style="flex: 1; overflow: hidden; border-radius: 12px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); border: 1px solid #2a3c5b; display: flex; flex-direction: column;">
-      <div style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
-        <table id="questions-table" style="
-          width: 100%;
-          border-collapse: collapse;
-          background: #0f1a2e;
-          color: #e0e0e0;
-          margin: 0;
-          table-layout: fixed;
-        ">
-          <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
-            <tr>
-              <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
-              <th style="padding: 16px 12px; text-align: left; width: 35%; word-wrap: break-word;">Question</th>
-              <th style="padding: 16px 12px; text-align: left; width: 25%; word-wrap: break-word;">Options</th>
-              <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
-              <th style="padding: 16px 12px; text-align: left; width: 15%; word-wrap: break-word;">Hint</th>
-              <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
-            </tr>
-          </thead>
-          <tbody id="table-body" style="display: block; max-height: calc(100vh - 400px); overflow-y: auto;"></tbody>
-        </table>
-      </div>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Options</th>
+            <th>Answer</th>
+            <th>Hint</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
     </div>
 
     <!-- Lifeline Requests -->
-    <div class="requests-area" style="margin-top: 25px; padding: 20px; background: #0d1a33; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b; max-height: 150px; overflow-y: auto;">
-      <h3 style="color: gold; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1rem;">🛎️ Lifeline Requests</h3>
-      <ul class="requests-list" id="requests-list" style="list-style-type: none; padding: 0; margin: 0; font-size: 0.9rem; color: #ccc;">
+    <div class="requests-area">
+      <h3>🛎️ Lifeline Requests</h3>
+      <ul class="requests-list" id="requests-list">
         <li>No requests yet</li>
       </ul>
     </div>
 
   </div>
 
-  <!-- Modal for Full Hint -->
-  <div id="hint-modal" style="
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    justify-content: center;
-    align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    padding: 20px;
-  ">
-    <div style="
-      background: #0a0a2a;
-      color: white;
-      padding: 40px;
-      border-radius: 16px;
-      max-width: 85%;
-      max-height: 85vh;
-      overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(255, 215, 0, 0.4);
-      border: 2px solid #FFD700;
-      position: relative;
-      animation: modalFadeIn 0.4s ease-out;
-    ">
-      <span id="modal-title" style="font-size: 1.5rem; font-weight: 700; display: block; margin-bottom: 20px; color: #FFD700; text-align: center;"></span>
-      <div id="modal-content" style="line-height: 1.8; font-size: 1.1rem; text-align: left; color: #e0e0e0; white-space: pre-line; margin-top: 15px;"></div>
-      <button onclick="closeModal()" style="
-        margin-top: 30px;
-        padding: 14px 30px;
-        background: #0099cc;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 600;
-        font-size: 1rem;
-        transition: all 0.3s;
-        box-shadow: 0 6px 15px rgba(0, 153, 204, 0.5);
-      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-        Close
-      </button>
+  <!-- Hint Modal -->
+  <div id="hint-modal">
+    <div class="modal-content">
+      <h3 class="modal-title"></h3>
+      <div id="modal-text"></div>
+      <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
   </div>
 
-  <!-- Shared Script -->
-<script src="script.js"></script>
-<script>
-  window.isHost = true;
-  let sentQuestions = new Set();
-  let currentQuestionData = null;
+  <script>
+    window.isHost = true;
+    let sentQuestions = new Set();
+    let currentQuestionData = null;
+    const usedLifelines = new Set();
 
-  // Track which lifelines have been used
-  const usedLifelines = new Set();
+    // Your 30 Questions (with Hindi explanations)
+    const questions = [
+      {id:1,text:"What is a class in C++?",options:{A:"Data Type",B:"Function",C:"User Defined Data Type",D:"Variable"},correct:"C",description:"A class in C++ is a user-defined data type that encapsulates data and functions into a single unit. It forms the basis of object-oriented programming."},
+      {id:2,text:"In the movie 'PK', Aamir Khan uses a device to communicate with his spaceship. Which IT technology is closest to this concept?",options:{A:"Satellite Communication",B:"Fiber Optics",C:"Bluetooth",D:"LAN Networking"},correct:"A",description:"The movie depicts wireless communication over long distances using electromagnetic waves, similar to satellite communication systems used for space-to-earth messaging."},
+      {id:3,text:"In 2018, which Indian airline suffered a data breach that exposed personal data of 4.5 million passengers?",options:{A:"IndiGo",B:"Air India",C:"SpiceJet",D:"Jet Airways"},correct:"B",description:"2018 में Air India के IT सिस्टम पर बड़ा साइबर हमला हुआ था। इस ब्रिच में लगभग 45 लाख यात्रियों का डाटा लीक हो गया था, जिसमें पासपोर्ट, क्रेडिट कार्ड और यात्रा की जानकारी शामिल थी। यह घटना दर्शाती है कि Aviation Sector में भी Cyber Security कितनी महत्वपूर्ण है।"},
+      {id:4,text:"What is the full form of GUI?",options:{A:"Graphical User Interaction",B:"General User Interface",C:"Graphical User Interface",D:"Global User Input"},correct:"C",description:"GUI allows users to interact with computers using icons and menus."},
+      {id:5,text:"Which is the fastest memory in a computer?",options:{A:"RAM",B:"Cache",C:"ROM",D:"Hard Disk"},correct:"B",description:"Cache memory is closer to the CPU and faster than RAM."},
+      {id:6,text:"What is the full form of VPN?",options:{A:"Virtual Private Network",B:"Variable Processing Network",C:"Virtual Process Node",D:"Verified Public Network"},correct:"A",description:"VPN creates a secure tunnel for data over public networks."},
+      {id:7,text:"Which is not a programming language?",options:{A:"Java",B:"Python",C:"Oracle",D:"C++"},correct:"C",description:"Oracle is a database, not a programming language."},
+      {id:8,text:"In 'Koi Mil Gaya', Movie Rohit receives instruction from outer space on his computer. Which IT application is being depicted?",options:{A:"Database Management",B:"Networking",C:"Signal Processing",D:"Cyber security"},correct:"C",description:"The movie shows signal decoding and processing, where radio signals are captured, decoded, and interpreted by computer systems."},
+      {id:9,text:"What does HTTP stand for in computer networking?",options:{A:"Hyper Transfer Text Protocol",B:"Hyper Text Transmission Program",C:"Hyper Text Transfer Protocol",D:"High Text Transmission Protocol"},correct:"C",description:"HTTP is the foundation of data communication on the World Wide Web. It defines how messages are formatted and transmitted, and how web servers and browsers respond to commands. For example, when you open a website, your browser sends an HTTP request to the server."},
+      {id:10,text:"Which of the following is an example of cloud computing service model?",options:{A:"SaaS, PaaS, IaaS",B:"LAN, MAN, WAN",C:"HTTP, FTP, SMTP",D:"Excel, Word, PowerPoint"},correct:"A",description:"• SaaS (Software as a Service): Software delivered via the internet (e.g., Gmail, Google Docs). • PaaS (Platform as a Service): Provides a platform for developers (e.g., Google App Engine). • IaaS (Infrastructure as a Service): Provides virtualized computing resources (e.g., AWS, Microsoft Azure)."},
+      {id:11,text:"In cyber security, phishing refers to:",options:{A:"Unauthorized access to physical servers",B:"Sending fraud emails to steal sensitive information",C:"Monitoring network packets for analysis",D:"Encrypting data for secure communication"},correct:"B",description:"Phishing एक प्रकार का cyber attack है जिसमें नकली ईमेल, मैसेज या वेबसाइट बनाकर यूज़र से पासवर्ड, बैंक डिटेल्स और क्रेडिट कार्ड नंबर जैसी संवेदनशील जानकारी चुराई जाती है।"},
+      {id:12,text:"Which protocol is used to send emails?",options:{A:"FTP",B:"SMTP",C:"HTTP",D:"SNMP"},correct:"B",description:"SMTP (Simple Mail Transfer Protocol) इंटरनेट पर ईमेल भेजने का मानक प्रोटोकॉल है।"},
+      {id:13,text:"Which Indian bank lost ₹94 crore in a cyberattack in 2018 through SWIFT system hacking?",options:{A:"Punjab National Bank (PNB)",B:"Cosmos Bank",C:"ICICI Bank",D:"Yes Bank"},correct:"B",description:"2018 में पुणे स्थित Cosmos Bank के सर्वर पर साइबर हमला हुआ। हैकर्स ने SWIFT International Payment System को हैक कर ₹94 करोड़ चुरा लिए। इस घटना ने दिखाया कि banking sector साइबर अपराधियों का बड़ा टारगेट है।"},
+      {id:14,text:"Which storage device is non-volatile?",options:{A:"RAM",B:"Cache memory",C:"Hard Disk",D:"Registers"},correct:"C",description:"Non-volatile storage वह होती है जहाँ बिजली बंद होने पर भी डेटा सुरक्षित रहता है। Hard Disk में डेटा स्थायी रूप से स्टोर होता है।"},
+      {id:15,text:"Which of the following is NOT a programming language?",options:{A:"Python",B:"Java",C:"HTML",D:"C++"},correct:"C",description:"HTML (Hyper Text Markup Language) प्रोग्रामिंग भाषा नहीं बल्कि एक Markup Language है जिसका उपयोग वेब पेज डिज़ाइन करने में होता है।"},
+      {id:16,text:"Which of the following is an example of system software?",options:{A:"MS Excel",B:"VLC Player",C:"Operating System",D:"Photoshop"},correct:"C",description:"System software वह होता है जो हार्डवेयर और एप्लीकेशन के बीच काम करता है। Operating System इसका मुख्य उदाहरण है।"},
+      {id:17,text:"In the movie 'Mohan Joshi Hazir Ho!' (1984), computer technology was shown as a tool for?",options:{A:"Legal Case Filing",B:"Medical Surgery",C:"Online Shopping",D:"Banking"},correct:"A",description:"इस मूवी में दिखाया गया था कि कैसे कंप्यूटर का उपयोग कोर्ट और कानूनी मामलों में डॉक्यूमेंटेशन और केस फाइलिंग के लिए किया जा सकता है। यह शुरुआती समय की फ़िल्मों में से एक थी जिसने भारत में IT का उपयोग कानूनी प्रक्रियाओं में दिखाया।"},
+      {id:18,text:"Which technology is used in contactless payment?",options:{A:"NFC",B:"Bluetooth",C:"Wi-Fi",D:"QR Code"},correct:"A",description:"NFC (Near Field Communication) का प्रयोग Contactless Payment जैसे Google Pay, PhonePe Tap & Pay में किया जाता है।"},
+      {id:19,text:"Which Bollywood movie showed the misuse of hacking and cybercrime?",options:{A:"Koi Mil Gaya",B:"Ungli",C:"A Wednesday",D:"Mickey Virus"},correct:"D",description:"Mickey Virus (2013) एक कॉमेडी थ्रिलर फ़िल्म है जिसमें मुख्य किरदार एक ethical hacker होता है। इस मूवी में हैकिंग, साइबर क्राइम और साइबर सिक्योरिटी का महत्व दिखाया गया है। यह फिल्म बताती है कि कैसे टेक्नोलॉजी का दुरुपयोग अपराधियों द्वारा किया जा सकता है।"},
+      {id:20,text:"The college server was hacked and student records were leaked. Which type of cyber attack does this represent?",options:{A:"Phishing",B:"Data Breach",C:"Denial of Service",D:"Spoofing"},correct:"B",description:"जब Unauthorized Access से गोपनीय डेटा लीक हो जाता है तो उसे Data Breach कहा जाता है।"},
+      {id:21,text:"Raisoni group of Institution Mangalwari branch use biometric systems for employee attendance. Which IT concept does this represent?",options:{A:"Authentication",B:"Debugging",C:"Cloud Storage",D:"Data Encryption"},correct:"A",description:"Biometric System (Fingerprint/Face ID) Authentication का तरीका है, जिससे कर्मचारियों की पहचान सत्यापित होती है।"},
+      {id:22,text:"A student in the college accidentally deleted an important project file. Which feature of an operating system helps to recover it from the Recycle Bin?",options:{A:"Multitasking",B:"File Management",C:"Memory Management",D:"Device Management"},correct:"B",description:"Operating System का File Management काम करता है फाइल को स्टोर, डिलीट और रिकवर करने का। Recycle Bin इसी का हिस्सा है।"},
+      {id:23,text:"During a seminar, the Wi-Fi stopped working in the college auditorium. Which network device needs to be checked first?",options:{A:"Router",B:"Printer",C:"Scanner",D:"Projector"},correct:"A",description:"Router Wi-Fi नेटवर्क को प्रबंधित करता है। अगर Wi-Fi बंद हो जाए तो सबसे पहले Router की जाँच की जाती है।"},
+      {id:24,text:"A student wants to give a presentation using a projector. Which type of cable is usually used to connect a laptop to a projector?",options:{A:"HDMI/VGA",B:"USB",C:"LAN",D:"Power Cable"},correct:"A",description:"Laptop को प्रोजेक्टर से जोड़ने के लिए HDMI या VGA cable का उपयोग किया जाता है।"},
+      {id:25,text:"In the movie 'Ra.One', the villain is actually a ______?",options:{A:"Computer Hacker",B:"Video Game Character",C:"Artificial Human",D:"Robot"},correct:"B",description:"फिल्म Ra.One (Shahrukh Khan) में villain \"Ra.One\" एक video game character है जो AI और Virtual Reality से real world में आ जाता है। यह concept Information Technology से जुड़ा है क्योंकि यह दिखाता है कि कैसे gaming technology, AI और virtual simulation एक दिन real-life में भी खतरनाक हो सकते हैं।"},
+      {id:26,text:"A client reported a bug in the company’s software. Which step should the software testing team perform first?",options:{A:"Debugging",B:"Deployment",C:"Documentation",D:"Encryption"},correct:"A",description:"जब सॉफ्टवेयर में कोई Bug मिलता है तो सबसे पहले Developer उसे Debugging करके Error को ढूँढते और ठीक करते हैं।"},
+      {id:27,text:"A client asked for a mobile app that should run on both Android and iOS. Which type of development should the company prefer?",options:{A:"Native App Development",B:"Web Development",C:"Cross-platform Development",D:"Assembly Language Programming"},correct:"C",description:"Cross-platform Development में एक ही Codebase से App दोनों Platforms (Android & iOS) पर चल सकती है (जैसे Flutter, React Native)।"},
+      {id:28,text:"Nagpur Metro launched a mobile app for online ticket booking. This is an example of which IT concept?",options:{A:"Artificial Intelligence",B:"E-Governance",C:"Cyber security",D:"Cloud Computing"},correct:"B",description:"E-Governance का मतलब है सरकारी सेवाओं को डिजिटल माध्यम से उपलब्ध कराना। Nagpur Metro App इसी का उदाहरण है।"},
+      {id:29,text:"Rashtrasant Tukadoji Maharaj Nagpur University introduced an online exam system. Which IT technology is mainly used here?",options:{A:"Virtual Reality",B:"Online Assessment System",C:"Cloud Gaming",D:"Compiler"},correct:"B",description:"Online Assessment System का उपयोग छात्रों के लिए ऑनलाइन परीक्षा आयोजित करने और उसका मूल्यांकन करने में होता है।"},
+      {id:30,text:"Nagpur colleges conduct online admissions through a centralized system. Which IT concept is this?",options:{A:"Database & Cloud Integration",B:"Operating System",C:"Cybersecurity Threat",D:"Virtual Machine"},correct:"A",description:"Online Admission System Central Database और Cloud पर आधारित है, जिससे सभी कॉलेज एक ही पोर्टल से Manage होते हैं।"}
+    ];
 
-  // 🔥 NEW QUESTIONS - 30 Total (10 per Round)
-  const questions = [
-    {
-      id: 1,
-      text: "What is a class in C++?",
-      options: { A: "Data Type", B: "Function", C: "User Defined Data Type", D: "Variable" },
-      correct: "C",
-      description: "A class in C++ is a user-defined data type that encapsulates data and functions into a single unit. It forms the basis of object-oriented programming."
-    },
-    {
-      id: 2,
-      text: "In the movie 'PK', Aamir Khan uses a device to communicate with his spaceship. Which IT technology is closest to this concept?",
-      options: { A: "Satellite Communication", B: "Fiber Optics", C: "Bluetooth", D: "LAN Networking" },
-      correct: "A",
-      description: "The movie depicts wireless communication over long distances using electromagnetic waves, similar to satellite communication systems used for space-to-earth messaging."
-    },
-    {
-      id: 3,
-      text: "In 2018, which Indian airline suffered a data breach that exposed personal data of 4.5 million passengers?",
-      options: { A: "IndiGo", B: "Air India", C: "SpiceJet", D: "Jet Airways" },
-      correct: "B",
-      description: "2018 में Air India के IT सिस्टम पर बड़ा साइबर हमला हुआ था। इस ब्रिच में लगभग 45 लाख यात्रियों का डाटा लीक हो गया था, जिसमें पासपोर्ट, क्रेडिट कार्ड और यात्रा की जानकारी शामिल थी। यह घटना दर्शाती है कि Aviation Sector में भी Cyber Security कितनी महत्वपूर्ण है।"
-    },
-    {
-      id: 4,
-      text: "What is the full form of GUI?",
-      options: { A: "Graphical User Interaction", B: "General User Interface", C: "Graphical User Interface", D: "Global User Input" },
-      correct: "C",
-      description: "GUI allows users to interact with computers using icons and menus."
-    },
-    {
-      id: 5,
-      text: "Which is the fastest memory in a computer?",
-      options: { A: "RAM", B: "Cache", C: "ROM", D: "Hard Disk" },
-      correct: "B",
-      description: "Cache memory is closer to the CPU and faster than RAM."
-    },
-    {
-      id: 6,
-      text: "What is the full form of VPN?",
-      options: { A: "Virtual Private Network", B: "Variable Processing Network", C: "Virtual Process Node", D: "Verified Public Network" },
-      correct: "A",
-      description: "VPN creates a secure tunnel for data over public networks."
-    },
-    {
-      id: 7,
-      text: "Which is not a programming language?",
-      options: { A: "Java", B: "Python", C: "Oracle", D: "C++" },
-      correct: "C",
-      description: "Oracle is a database, not a programming language."
-    },
-    {
-      id: 8,
-      text: "In 'Koi Mil Gaya', Movie Rohit receives instruction from outer space on his computer. Which IT application is being depicted?",
-      options: { A: "Database Management", B: "Networking", C: "Signal Processing", D: "Cyber security" },
-      correct: "C",
-      description: "The movie shows signal decoding and processing, where radio signals are captured, decoded, and interpreted by computer systems."
-    },
-    {
-      id: 9,
-      text: "What does HTTP stand for in computer networking?",
-      options: { A: "Hyper Transfer Text Protocol", B: "Hyper Text Transmission Program", C: "Hyper Text Transfer Protocol", D: "High Text Transmission Protocol" },
-      correct: "C",
-      description: "HTTP is the foundation of data communication on the World Wide Web. It defines how messages are formatted and transmitted, and how web servers and browsers respond to commands. For example, when you open a website, your browser sends an HTTP request to the server."
-    },
-    {
-      id: 10,
-      text: "Which of the following is an example of cloud computing service model?",
-      options: { A: "SaaS, PaaS, IaaS", B: "LAN, MAN, WAN", C: "HTTP, FTP, SMTP", D: "Excel, Word, PowerPoint" },
-      correct: "A",
-      description: "• SaaS (Software as a Service): Software delivered via the internet (e.g., Gmail, Google Docs). • PaaS (Platform as a Service): Provides a platform for developers (e.g., Google App Engine). • IaaS (Infrastructure as a Service): Provides virtualized computing resources (e.g., AWS, Microsoft Azure)."
-    },
-    {
-      id: 11,
-      text: "In cyber security, phishing refers to:",
-      options: { A: "Unauthorized access to physical servers", B: "Sending fraud emails to steal sensitive information", C: "Monitoring network packets for analysis", D: "Encrypting data for secure communication" },
-      correct: "B",
-      description: "Phishing एक प्रकार का cyber attack है जिसमें नकली ईमेल, मैसेज या वेबसाइट बनाकर यूज़र से पासवर्ड, बैंक डिटेल्स और क्रेडिट कार्ड नंबर जैसी संवेदनशील जानकारी चुराई जाती है।"
-    },
-    {
-      id: 12,
-      text: "Which protocol is used to send emails?",
-      options: { A: "FTP", B: "SMTP", C: "HTTP", D: "SNMP" },
-      correct: "B",
-      description: "SMTP (Simple Mail Transfer Protocol) इंटरनेट पर ईमेल भेजने का मानक प्रोटोकॉल है।"
-    },
-    {
-      id: 13,
-      text: "Which Indian bank lost ₹94 crore in a cyberattack in 2018 through SWIFT system hacking?",
-      options: { A: "Punjab National Bank (PNB)", B: "Cosmos Bank", C: "ICICI Bank", D: "Yes Bank" },
-      correct: "B",
-      description: "2018 में पुणे स्थित Cosmos Bank के सर्वर पर साइबर हमला हुआ। हैकर्स ने SWIFT International Payment System को हैक कर ₹94 करोड़ चुरा लिए। इस घटना ने दिखाया कि banking sector साइबर अपराधियों का बड़ा टारगेट है।"
-    },
-    {
-      id: 14,
-      text: "Which storage device is non-volatile?",
-      options: { A: "RAM", B: "Cache memory", C: "Hard Disk", D: "Registers" },
-      correct: "C",
-      description: "Non-volatile storage वह होती है जहाँ बिजली बंद होने पर भी डेटा सुरक्षित रहता है। Hard Disk में डेटा स्थायी रूप से स्टोर होता है।"
-    },
-    {
-      id: 15,
-      text: "Which of the following is NOT a programming language?",
-      options: { A: "Python", B: "Java", C: "HTML", D: "C++" },
-      correct: "C",
-      description: "HTML (Hyper Text Markup Language) प्रोग्रामिंग भाषा नहीं बल्कि एक Markup Language है जिसका उपयोग वेब पेज डिज़ाइन करने में होता है।"
-    },
-    {
-      id: 16,
-      text: "Which of the following is an example of system software?",
-      options: { A: "MS Excel", B: "VLC Player", C: "Operating System", D: "Photoshop" },
-      correct: "C",
-      description: "System software वह होता है जो हार्डवेयर और एप्लीकेशन के बीच काम करता है। Operating System इसका मुख्य उदाहरण है।"
-    },
-    {
-      id: 17,
-      text: "In the movie 'Mohan Joshi Hazir Ho!' (1984), computer technology was shown as a tool for?",
-      options: { A: "Legal Case Filing", B: "Medical Surgery", C: "Online Shopping", D: "Banking" },
-      correct: "A",
-      description: "इस मूवी में दिखाया गया था कि कैसे कंप्यूटर का उपयोग कोर्ट और कानूनी मामलों में डॉक्यूमेंटेशन और केस फाइलिंग के लिए किया जा सकता है। यह शुरुआती समय की फ़िल्मों में से एक थी जिसने भारत में IT का उपयोग कानूनी प्रक्रियाओं में दिखाया।"
-    },
-    {
-      id: 18,
-      text: "Which technology is used in contactless payment?",
-      options: { A: "NFC", B: "Bluetooth", C: "Wi-Fi", D: "QR Code" },
-      correct: "A",
-      description: "NFC (Near Field Communication) का प्रयोग Contactless Payment जैसे Google Pay, PhonePe Tap & Pay में किया जाता है।"
-    },
-    {
-      id: 19,
-      text: "Which Bollywood movie showed the misuse of hacking and cybercrime?",
-      options: { A: "Koi Mil Gaya", B: "Ungli", C: "A Wednesday", D: "Mickey Virus" },
-      correct: "D",
-      description: "Mickey Virus (2013) एक कॉमेडी थ्रिलर फ़िल्म है जिसमें मुख्य किरदार एक ethical hacker होता है। इस मूवी में हैकिंग, साइबर क्राइम और साइबर सिक्योरिटी का महत्व दिखाया गया है। यह फिल्म बताती है कि कैसे टेक्नोलॉजी का दुरुपयोग अपराधियों द्वारा किया जा सकता है।"
-    },
-    {
-      id: 20,
-      text: "The college server was hacked and student records were leaked. Which type of cyber attack does this represent?",
-      options: { A: "Phishing", B: "Data Breach", C: "Denial of Service", D: "Spoofing" },
-      correct: "B",
-      description: "जब Unauthorized Access से गोपनीय डेटा लीक हो जाता है तो उसे Data Breach कहा जाता है।"
-    },
-    {
-      id: 21,
-      text: "Raisoni group of Institution Mangalwari branch use biometric systems for employee attendance. Which IT concept does this represent?",
-      options: { A: "Authentication", B: "Debugging", C: "Cloud Storage", D: "Data Encryption" },
-      correct: "A",
-      description: "Biometric System (Fingerprint/Face ID) Authentication का तरीका है, जिससे कर्मचारियों की पहचान सत्यापित होती है।"
-    },
-    {
-      id: 22,
-      text: "A student in the college accidentally deleted an important project file. Which feature of an operating system helps to recover it from the Recycle Bin?",
-      options: { A: "Multitasking", B: "File Management", C: "Memory Management", D: "Device Management" },
-      correct: "B",
-      description: "Operating System का File Management काम करता है फाइल को स्टोर, डिलीट और रिकवर करने का। Recycle Bin इसी का हिस्सा है।"
-    },
-    {
-      id: 23,
-      text: "During a seminar, the Wi-Fi stopped working in the college auditorium. Which network device needs to be checked first?",
-      options: { A: "Router", B: "Printer", C: "Scanner", D: "Projector" },
-      correct: "A",
-      description: "Router Wi-Fi नेटवर्क को प्रबंधित करता है। अगर Wi-Fi बंद हो जाए तो सबसे पहले Router की जाँच की जाती है।"
-    },
-    {
-      id: 24,
-      text: "A student wants to give a presentation using a projector. Which type of cable is usually used to connect a laptop to a projector?",
-      options: { A: "HDMI/VGA", B: "USB", C: "LAN", D: "Power Cable" },
-      correct: "A",
-      description: "Laptop को प्रोजेक्टर से जोड़ने के लिए HDMI या VGA cable का उपयोग किया जाता है।"
-    },
-    {
-      id: 25,
-      text: "In the movie 'Ra.One', the villain is actually a ______?",
-      options: { A: "Computer Hacker", B: "Video Game Character", C: "Artificial Human", D: "Robot" },
-      correct: "B",
-      description: "फिल्म Ra.One (Shahrukh Khan) में villain \"Ra.One\" एक video game character है जो AI और Virtual Reality से real world में आ जाता है। यह concept Information Technology से जुड़ा है क्योंकि यह दिखाता है कि कैसे gaming technology, AI और virtual simulation एक दिन real-life में भी खतरनाक हो सकते हैं।"
-    },
-    {
-      id: 26,
-      text: "A client reported a bug in the company’s software. Which step should the software testing team perform first?",
-      options: { A: "Debugging", B: "Deployment", C: "Documentation", D: "Encryption" },
-      correct: "A",
-      description: "जब सॉफ्टवेयर में कोई Bug मिलता है तो सबसे पहले Developer उसे Debugging करके Error को ढूँढते और ठीक करते हैं।"
-    },
-    {
-      id: 27,
-      text: "A client asked for a mobile app that should run on both Android and iOS. Which type of development should the company prefer?",
-      options: { A: "Native App Development", B: "Web Development", C: "Cross-platform Development", D: "Assembly Language Programming" },
-      correct: "C",
-      description: "Cross-platform Development में एक ही Codebase से App दोनों Platforms (Android & iOS) पर चल सकती है (जैसे Flutter, React Native)।"
-    },
-    {
-      id: 28,
-      text: "Nagpur Metro launched a mobile app for online ticket booking. This is an example of which IT concept?",
-      options: { A: "Artificial Intelligence", B: "E-Governance", C: "Cyber security", D: "Cloud Computing" },
-      correct: "B",
-      description: "E-Governance का मतलब है सरकारी सेवाओं को डिजिटल माध्यम से उपलब्ध कराना। Nagpur Metro App इसी का उदाहरण है।"
-    },
-    {
-      id: 29,
-      text: "Rashtrasant Tukadoji Maharaj Nagpur University introduced an online exam system. Which IT technology is mainly used here?",
-      options: { A: "Virtual Reality", B: "Online Assessment System", C: "Cloud Gaming", D: "Compiler" },
-      correct: "B",
-      description: "Online Assessment System का उपयोग छात्रों के लिए ऑनलाइन परीक्षा आयोजित करने और उसका मूल्यांकन करने में होता है।"
-    },
-    {
-      id: 30,
-      text: "Nagpur colleges conduct online admissions through a centralized system. Which IT concept is this?",
-      options: { A: "Database & Cloud Integration", B: "Operating System", C: "Cybersecurity Threat", D: "Virtual Machine" },
-      correct: "A",
-      description: "Online Admission System Central Database और Cloud पर आधारित है, जिससे सभी कॉलेज एक ही पोर्टल से Manage होते हैं।"
-    }
-  ];
+    function renderTable(qs = questions) {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      qs.forEach(q => {
+        const opts = `${q.options.A} | ${q.options.B} | ${q.options.C} | ${q.options.D}`;
+        const descShort = q.description.length > 60 ? q.description.substring(0, 60) + '...' : q.description;
 
-  // Render table
-  function renderTable(qs = questions) {
-    const tbody = document.getElementById('table-body');
-    tbody.innerHTML = '';
-    qs.forEach(q => {
-      const opts = `${q.options.A} | ${q.options.B} | ${q.options.C} | ${q.options.D}`;
-      const descShort = q.description.length > 80 ? q.description.substring(0, 80) + '...' : q.description;
-
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td style="color:white;padding:14px 12px;text-align:center;vertical-align:middle; font-weight:600;">${q.id}</td>
-        <td style="color:#e0e0e0;padding:14px 12px;vertical-align:middle; word-wrap: break-word; font-size: 0.95rem;" title="${q.text}">${q.text}</td>
-        <td style="color:#aaa;padding:14px 12px;vertical-align:middle; font-size: 0.9rem; word-wrap: break-word;">${opts}</td>
-        <td style="color:#FFD700;padding:14px 12px;text-align:center;vertical-align:middle; font-weight:bold; font-size: 1rem;">${q.correct}</td>
-        <td style="color:#ccc;padding:14px 12px;vertical-align:middle; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
-          <span style="flex: 1; word-wrap: break-word; cursor: pointer;" onclick="showFullHint('${q.description.replace(/'/g, "\\'")}', 'Question ${q.id}')">${descShort}</span>
-          <span style="cursor: pointer; color: #0099cc; font-size: 1.2rem; font-weight: bold;" 
-                onclick="showFullHint('${q.description.replace(/'/g, "\\'")}', 'Question ${q.id}')"
-                title="View full explanation">
-            ℹ️
-          </span>
-        </td>
-        <td style="text-align:center; padding:14px 12px; vertical-align:middle;">
-          <button class="action-btn" 
-                  onclick="sendQuestion(${q.id - 1})"
-                  ${sentQuestions.has(q.id) ? 'disabled' : ''}
-                  style="
-                    padding: 8px 16px;
-                    background: ${sentQuestions.has(q.id) ? '#555' : '#0099cc'};
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    font-family: 'Montserrat', sans-serif;
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    cursor: ${sentQuestions.has(q.id) ? 'not-allowed' : 'pointer'};
-                    transition: all 0.3s;
-                    box-shadow: 0 3px 8px rgba(0, 153, 204, 0.4);
-                  ">
-            ${sentQuestions.has(q.id) ? '✅ Sent' : '📤 Send'}
-          </button>
-        </td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
-
-  // Show full hint in modal
-  function showFullHint(description, title) {
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-content').innerHTML = description.replace(/\n/g, '<br>').replace(/  /g, '&nbsp;&nbsp;');
-    document.getElementById('hint-modal').style.display = 'flex';
-  }
-
-  function closeModal() {
-    document.getElementById('hint-modal').style.display = 'none';
-  }
-
-  // Send question to player
-  function sendQuestion(index) {
-    const q = questions[index];
-    currentQuestionData = q;
-    socket.emit('send-question', { ...q, index });
-
-    sentQuestions.add(q.id);
-    renderTable();
-
-    // Sound on send (fixed URL: no trailing spaces)
-    const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
-    snd.play().catch(e => console.log("Sound failed:", e));
-
-    alert(`✅ Sent Q${q.id}: "${q.text.substring(0, 40)}..."`);
-  }
-
-  // Mark lifeline as used (cross out)
-  function markLifelineUsed(type) {
-    let id;
-    if (type === '50:50') id = 'lf-5050';
-    else if (type === 'Ask Friend') id = 'lf-friend';
-    else if (type === 'Ask Audience') id = 'lf-audience';
-
-    const btn = document.getElementById(id);
-    if (btn && !usedLifelines.has(type)) {
-      btn.style.textDecoration = 'line-through';
-      btn.style.opacity = '0.6';
-      btn.style.cursor = 'not-allowed';
-      btn.disabled = true;
-      usedLifelines.add(type); // Prevent reuse
-    }
-  }
-
-  // Force lifeline manually (host-triggered)
-  function forceLifeline(type) {
-    if (usedLifelines.has(type)) {
-      alert(`❌ "${type}" has already been used!`);
-      return;
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="color:white; padding:10px; text-align:center; font-weight:bold;">${q.id}</td>
+          <td style="padding:10px; color:#ccc; word-wrap: break-word;">${q.text}</td>
+          <td style="padding:10px; color:#aaa; font-size:0.9rem;">${opts}</td>
+          <td style="padding:10px; color:gold; text-align:center; font-weight:bold;">${q.correct}</td>
+          <td class="hint-col">
+            <span>${descShort}</span>
+            <i class="fas fa-info-circle" onclick="showFullHint('${q.description}', 'Q${q.id}')"></i>
+          </td>
+          <td style="text-align:center;">
+            <button class="action-btn" onclick="sendQuestion(${q.id - 1})" ${sentQuestions.has(q.id) ? 'disabled' : ''}>
+              ${sentQuestions.has(q.id) ? '✅ Sent' : '📤 Send'}
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
     }
 
-    socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
-    alert(`📢 Host triggered: ${type}`);
-    markLifelineUsed(type); // Immediately cross it out
-  }
-
-  // Handle 50:50
-  function triggerFiftyFifty() {
-    if (!currentQuestionData) {
-      alert("⚠️ No active question!");
-      return;
-    }
-    if (usedLifelines.has('50:50')) {
-      alert("❌ 50:50 has already been used!");
-      return;
+    function showFullHint(description, title) {
+      document.querySelector('.modal-title').textContent = title;
+      document.querySelector('#modal-text').innerHTML = description.replace(/\n/g, '<br>');
+      document.getElementById('hint-modal').style.display = 'flex';
     }
 
-    const correct = currentQuestionData.correct;
-    const wrong = ['A','B','C','D'].filter(opt => opt !== correct);
-    const toRemove = wrong.sort(() => 0.5 - Math.random()).slice(0, 2);
+    function closeModal() {
+      document.getElementById('hint-modal').style.display = 'none';
+    }
 
-    socket.emit('fifty-fifty', { remove: toRemove });
-    alert(`🎯 50:50: Hid ${toRemove.join(', ')}`);
-    markLifelineUsed('50:50');
-  }
+    function sendQuestion(index) {
+      const q = questions[index];
+      currentQuestionData = q;
+      socket.emit('send-question', { ...q, index });
+      sentQuestions.add(q.id);
+      renderTable();
+      const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+      snd.play().catch(e => console.log("Sound failed:", e));
+      alert(`✅ Sent Q${q.id}: "${q.text.substring(0, 40)}..."`);
+    }
 
-  // Flip to next unsent question
-  function flipQuestion() {
-    for (let i = 0; i < questions.length; i++) {
-      const q = questions[i];
-      if (!sentQuestions.has(q.id)) {
-        sendQuestion(i);
-        return;
+    function markLifelineUsed(type) {
+      const btn = document.getElementById(type === '50:50' ? 'lf-5050' : type === 'Ask Friend' ? 'lf-friend' : 'lf-audience');
+      if (btn && !usedLifelines.has(type)) {
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'not-allowed';
+        btn.disabled = true;
+        usedLifelines.add(type);
       }
     }
-    alert("🎉 All questions have been sent!");
-  }
 
-  // Search functionality
-  function searchQuestions() {
-    const term = document.getElementById('search-input').value.toLowerCase();
-    const filtered = questions.filter(q => 
-      q.text.toLowerCase().includes(term) || 
-      q.description.toLowerCase().includes(term)
-    );
-    renderTable(filtered);
-  }
-
-  // On load
-  window.onload = () => {
-    socket.emit('join-host');
-    renderTable();
-
-    // Listen for lifeline requests from player
-    socket.on('lifeline-request', (data) => {
-      const list = document.getElementById('requests-list');
-      
-      // Clear placeholder if it's the first request
-      if (list.innerHTML === '<li>No requests yet</li>') {
-        list.innerHTML = '';
-      }
-
-      // Create new request item
-      const li = document.createElement('li');
-      li.textContent = `[${data.time}] Player used: ${data.type}`;
-      li.style.padding = '10px';
-      li.style.borderBottom = '1px solid #2a3c5b';
-      li.style.margin = '0 -20px';
-      li.style.backgroundColor = '#0d1a33';
-      li.style.fontWeight = '500';
-      li.style.fontSize = '0.9rem';
-      list.appendChild(li);
-
-      // ✅ AUTO-SCROLL TO BOTTOM — IMMEDIATELY
-      list.scrollTop = list.scrollHeight;
-
-      // ✅ Cross out the lifeline when used
-      markLifelineUsed(data.type);
-    });
-  };
-
-  // Add subtle animation for modal
-  document.addEventListener('DOMContentLoaded', () => {
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes modalFadeIn {
-        from { opacity: 0; transform: translateY(-30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      /* Custom Scrollbar for Table */
-      .table-container > div::-webkit-scrollbar {
-        width: 8px;
-      }
-      .table-container > div::-webkit-scrollbar-track {
-        background: #0f1a2e;
-      }
-      .table-container > div::-webkit-scrollbar-thumb {
-        background: #0099cc;
-        border-radius: 10px;
-      }
-      .table-container > div::-webkit-scrollbar-thumb:hover {
-        background: #00bfff;
-      }
-      /* Info Icon Hover */
-      span[title="View full explanation"]:hover {
-        color: #FFD700;
-        transform: scale(1.1);
-        transition: all 0.2s;
-      }
-    `;
-    document.head.appendChild(style);
-  });
-</script>
-
-<style>
-  /* Global Styles */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #0a0a2a, #0d1a33);
-    color: #e0e0e0;
-    line-height: 1.6;
-    padding-bottom: 40px;
-  }
-
-  .host-panel {
-    padding: 20px;
-    margin: 0 auto;
-  }
-
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 1.8rem;
+    function forceLifeline(type) {
+      if (usedLifelines.has(type)) return alert(`❌ "${type}" already used!`);
+      socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
+      alert(`📢 Host triggered: ${type}`);
+      markLifelineUsed(type);
     }
-    .lifeline-bar {
-      flex-direction: column;
-      align-items: stretch;
-    }
-    .lifeline-btn {
-      margin-bottom: 10px;
-    }
-    .search-box input {
-      width: 100%;
-    }
-    th, td {
-      padding: 10px 8px !important;
-      font-size: 0.85rem !important;
-    }
-  }
 
-  /* Hover Effects */
-  .lifeline-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  }
+    function triggerFiftyFifty() {
+      if (!currentQuestionData) return alert("⚠️ No active question!");
+      if (usedLifelines.has('50:50')) return alert("❌ 50:50 already used!");
+      const correct = currentQuestionData.correct;
+      const wrong = ['A','B','C','D'].filter(opt => opt !== correct);
+      const toRemove = wrong.sort(() => 0.5 - Math.random()).slice(0, 2);
+      socket.emit('fifty-fifty', { remove: toRemove });
+      alert(`🎯 50:50: Hid ${toRemove.join(', ')}`);
+      markLifelineUsed('50:50');
+    }
 
-  .action-btn:hover:not([disabled]) {
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0, 153, 204, 0.6);
-  }
-</style>
+    function flipQuestion() {
+      for (let i = 0; i < questions.length; i++) {
+        if (!sentQuestions.has(questions[i].id)) {
+          sendQuestion(i);
+          return;
+        }
+      }
+      alert("🎉 All questions sent!");
+    }
+
+    function searchQuestions() {
+      const term = document.getElementById('search-input').value.toLowerCase();
+      const filtered = questions.filter(q => 
+        q.text.toLowerCase().includes(term) || 
+        q.description.toLowerCase().includes(term)
+      );
+      renderTable(filtered);
+    }
+
+    window.onload = () => {
+      socket.emit('join-host');
+      renderTable();
+
+      socket.on('lifeline-request', (data) => {
+        const list = document.getElementById('requests-list');
+        if (list.innerHTML === '<li>No requests yet</li>') list.innerHTML = '';
+        const li = document.createElement('li');
+        li.textContent = `[${data.time}] Player used: ${data.type}`;
+        list.appendChild(li);
+        list.scrollTop = list.scrollHeight;
+        markLifelineUsed(data.type);
+      });
+    };
+  </script>
 
 </body>
 </html>
