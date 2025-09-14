@@ -9,7 +9,7 @@
   <!-- Load Socket.IO -->
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    // 🔥 Connect to your live server
+    // 🔥 Connect to your live server (fixed: no trailing spaces)
     const socket = io("https://kbc-for-raisoni-2.onrender.com");
   </script>
 </head>
@@ -22,7 +22,29 @@
     <a href="index.html" style="color: #FFD700; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block; border-bottom: 1px solid #FFD700; padding-bottom: 2px;">← Back to Player View</a>
   </header>
 
-  <div class="host-panel" style="height: calc(100vh - 160px); display: flex; flex-direction: column; max-width: 1400px; margin: 0 auto; padding: 20px; box-sizing: border-box;">
+  <!-- PRIZE MONEY LADDER (Added back as per your data) -->
+  <div style="background: #0d1a33; padding: 18px; margin: 20px auto; max-width: 1200px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b;">
+    <h3 style="color: gold; text-align: center; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600;">🏆 Prize Money Ladder</h3>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.9rem; font-family: 'Courier New', monospace; font-weight: bold;">
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 3,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 900</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 800</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 700</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 600</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 400</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 300</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 200</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 100</span>
+      <span style="background: #333; color: #777; padding: 8px 16px; border-radius: 6px; border: 1px solid #444;">₹ 0</span>
+    </div>
+  </div>
+
+  <div class="host-panel" style="height: calc(100vh - 260px); display: flex; flex-direction: column; max-width: 1400px; margin: 0 auto; padding: 20px; box-sizing: border-box;">
 
     <!-- Lifeline Buttons -->
     <div class="lifeline-bar" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
@@ -106,32 +128,31 @@
     </div>
 
     <!-- Questions Table -->
-   <!-- Questions Table -->
-<!-- Questions Table -->
-<div class="table-container" style="flex: 1; overflow: hidden; border-radius: 12px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); border: 1px solid #2a3c5b; display: flex; flex-direction: column;">
-  <div style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
-    <table id="questions-table" style="
-      width: 100%;
-      border-collapse: collapse;
-      background: #0f1a2e;
-      color: #e0e0e0;
-      margin: 0;
-      table-layout: fixed; /* 🔥 Critical fix */
-    ">
-      <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
-        <tr>
-          <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
-          <th style="padding: 16px 12px; text-align: left; width: 35%; word-wrap: break-word;">Question</th>
-          <th style="padding: 16px 12px; text-align: left; width: 25%; word-wrap: break-word;">Options</th>
-          <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
-          <th style="padding: 16px 12px; text-align: left; width: 15%; word-wrap: break-word;">Hint</th>
-          <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
-        </tr>
-      </thead>
-      <tbody id="table-body" style="display: block; max-height: calc(100vh - 300px); overflow-y: auto;"></tbody>
-    </table>
-  </div>
-</div>
+    <div class="table-container" style="flex: 1; overflow: hidden; border-radius: 12px; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); border: 1px solid #2a3c5b; display: flex; flex-direction: column;">
+      <div style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+        <table id="questions-table" style="
+          width: 100%;
+          border-collapse: collapse;
+          background: #0f1a2e;
+          color: #e0e0e0;
+          margin: 0;
+          table-layout: fixed;
+        ">
+          <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
+            <tr>
+              <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
+              <th style="padding: 16px 12px; text-align: left; width: 35%; word-wrap: break-word;">Question</th>
+              <th style="padding: 16px 12px; text-align: left; width: 25%; word-wrap: break-word;">Options</th>
+              <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
+              <th style="padding: 16px 12px; text-align: left; width: 15%; word-wrap: break-word;">Hint</th>
+              <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" style="display: block; max-height: calc(100vh - 400px); overflow-y: auto;"></tbody>
+        </table>
+      </div>
+    </div>
+
     <!-- Lifeline Requests -->
     <div class="requests-area" style="margin-top: 25px; padding: 20px; background: #0d1a33; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b; max-height: 150px; overflow-y: auto;">
       <h3 style="color: gold; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 1rem;">🛎️ Lifeline Requests</h3>
@@ -482,7 +503,7 @@
     sentQuestions.add(q.id);
     renderTable();
 
-    // Sound on send
+    // Sound on send (fixed URL: no trailing spaces)
     const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
     snd.play().catch(e => console.log("Sound failed:", e));
 
@@ -602,22 +623,17 @@
         to { opacity: 1; transform: translateY(0); }
       }
       /* Custom Scrollbar for Table */
-      .table-container > table tbody {
-        display: block;
-        max-height: calc(100vh - 300px);
-        overflow-y: auto;
-      }
-      .table-container > table tbody::-webkit-scrollbar {
+      .table-container > div::-webkit-scrollbar {
         width: 8px;
       }
-      .table-container > table tbody::-webkit-scrollbar-track {
+      .table-container > div::-webkit-scrollbar-track {
         background: #0f1a2e;
       }
-      .table-container > table tbody::-webkit-scrollbar-thumb {
+      .table-container > div::-webkit-scrollbar-thumb {
         background: #0099cc;
         border-radius: 10px;
       }
-      .table-container > table tbody::-webkit-scrollbar-thumb:hover {
+      .table-container > div::-webkit-scrollbar-thumb:hover {
         background: #00bfff;
       }
       /* Info Icon Hover */
@@ -631,8 +647,59 @@
   });
 </script>
 
+<style>
+  /* Global Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0a0a2a, #0d1a33);
+    color: #e0e0e0;
+    line-height: 1.6;
+    padding-bottom: 40px;
+  }
+
+  .host-panel {
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.8rem;
+    }
+    .lifeline-bar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .lifeline-btn {
+      margin-bottom: 10px;
+    }
+    .search-box input {
+      width: 100%;
+    }
+    th, td {
+      padding: 10px 8px !important;
+      font-size: 0.85rem !important;
+    }
+  }
+
+  /* Hover Effects */
+  .lifeline-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .action-btn:hover:not([disabled]) {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 153, 204, 0.6);
+  }
+</style>
+
 </body>
 </html>
-
-
-
