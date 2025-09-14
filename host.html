@@ -7,13 +7,12 @@
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
   <!-- Load Socket.IO -->
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-  // 🔥 Connect to your live server
-  const socket = io("https://kbc-for-raisoni-2.onrender.com");
-</script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    // 🔥 Connect to your live server
+    const socket = io("https://kbc-for-raisoni-2.onrender.com");
+  </script>
 </head>
-
 <body>
 
   <!-- Header -->
@@ -129,20 +128,37 @@
     </div>
 
     <!-- Questions Table -->
-    <div class="table-container" style="max-height: 60vh; overflow-y: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); border: 1px solid #2a3c5b;">
-      <table id="questions-table" style="width: 100%; border-collapse: collapse; background: #0f1a2e; color: #e0e0e0;">
-        <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
-          <tr>
-            <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
-            <th style="padding: 16px 12px; text-align: left; width: 30%;">Question</th>
-            <th style="padding: 16px 12px; text-align: left; width: 25%;">Options</th>
-            <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
-            <th style="padding: 16px 12px; text-align: left; width: 20%;">Hint</th>
-            <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
-          </tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
+    <div class="table-container" style="
+      max-height: 60vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      border: 1px solid #2a3c5b;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    ">
+      <!-- Scrollable Table Wrapper -->
+      <div style="flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;">
+        <table id="questions-table" style="
+          width: 100%;
+          border-collapse: collapse;
+          background: #0f1a2e;
+          color: #e0e0e0;
+          table-layout: fixed;
+        ">
+          <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
+            <tr>
+              <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
+              <th style="padding: 16px 12px; text-align: left; width: 30%;">Question</th>
+              <th style="padding: 16px 12px; text-align: left; width: 25%;">Options</th>
+              <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
+              <th style="padding: 16px 12px; text-align: left; width: 20%;">Hint</th>
+              <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Lifeline Requests -->
@@ -579,9 +595,13 @@
     // Listen for lifeline requests from player
     socket.on('lifeline-request', (data) => {
       const list = document.getElementById('requests-list');
+      
+      // Clear placeholder if it's the first request
       if (list.innerHTML === '<li>No requests yet</li>') {
         list.innerHTML = '';
       }
+
+      // Create new request item
       const li = document.createElement('li');
       li.textContent = `[${data.time}] Player used: ${data.type}`;
       li.style.padding = '10px';
@@ -589,8 +609,11 @@
       li.style.margin = '0 -20px';
       li.style.backgroundColor = '#0d1a33';
       li.style.fontWeight = '500';
+      li.style.fontSize = '0.95rem';
       list.appendChild(li);
-      li.scrollIntoView({ behavior: 'smooth' });
+
+      // ✅ AUTO-SCROLL TO BOTTOM — IMMEDIATELY
+      list.scrollTop = list.scrollHeight;
 
       // ✅ Cross out the lifeline when used
       markLifelineUsed(data.type);
@@ -604,6 +627,20 @@
       @keyframes modalFadeIn {
         from { opacity: 0; transform: translateY(-30px); }
         to { opacity: 1; transform: translateY(0); }
+      }
+      /* Custom Scrollbar for Table */
+      .table-container > div::-webkit-scrollbar {
+        width: 8px;
+      }
+      .table-container > div::-webkit-scrollbar-track {
+        background: #0f1a2e;
+      }
+      .table-container > div::-webkit-scrollbar-thumb {
+        background: #0099cc;
+        border-radius: 10px;
+      }
+      .table-container > div::-webkit-scrollbar-thumb:hover {
+        background: #00bfff;
       }
     `;
     document.head.appendChild(style);
@@ -662,25 +699,7 @@
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(0, 153, 204, 0.6);
   }
-
-  /* Scrollbar Styling */
-  .table-container::-webkit-scrollbar {
-    width: 8px;
-  }
-  .table-container::-webkit-scrollbar-track {
-    background: #0f1a2e;
-  }
-  .table-container::-webkit-scrollbar-thumb {
-    background: #0099cc;
-    border-radius: 10px;
-  }
-  .table-container::-webkit-scrollbar-thumb:hover {
-    background: #00bfff;
-  }
 </style>
 
 </body>
 </html>
-
-
-
