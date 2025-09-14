@@ -17,37 +17,128 @@
 <body>
 
   <!-- Header -->
-  <div style="text-align: center; padding: 15px; background: #0a0a2a; border-bottom: 3px solid gold; color: white;">
-    <h2>📺 KBC Host Control Panel</h2>
-    <a href="index.html" style="color: gold; text-decoration: underline; font-weight: bold;">← Back to Player View</a>
+  <header style="text-align: center; padding: 20px; background: #0a0a2a; border-bottom: 4px solid #FFD700; color: white; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);">
+    <h1 style="margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 2.2rem; letter-spacing: -0.5px;">📺 KBC Host Control Panel</h1>
+    <p style="margin: 10px 0 0 0; font-size: 0.95rem; color: #e0e0e0;">Manage questions, lifelines, and track player progress in real-time.</p>
+    <a href="index.html" style="color: #FFD700; text-decoration: none; font-weight: 600; margin-top: 10px; display: inline-block; border-bottom: 1px solid #FFD700; padding-bottom: 2px;">← Back to Player View</a>
+  </header>
+
+  <!-- Prize Money Display -->
+  <div style="background: #0d1a33; padding: 18px; margin: 20px auto; max-width: 1200px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b;">
+    <h3 style="color: gold; text-align: center; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600;">🏆 Prize Money Ladder</h3>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; font-size: 0.9rem; font-family: 'Courier New', monospace; font-weight: bold;">
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 3,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 2,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 1,000</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 900</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 800</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 700</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 600</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 500</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 400</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 300</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 200</span>
+      <span style="background: #1a2c4d; color: #FFD700; padding: 8px 16px; border-radius: 6px; border: 1px solid #FFD700;">₹ 100</span>
+      <span style="background: #333; color: #777; padding: 8px 16px; border-radius: 6px; border: 1px solid #444;">₹ 0</span>
+    </div>
   </div>
 
-  <div class="host-panel">
+  <div class="host-panel" style="max-width: 1200px; margin: 0 auto; padding: 20px;">
 
     <!-- Lifeline Buttons -->
-    <div class="lifeline-bar">
-      <button id="lf-5050" class="lifeline-btn" onclick="triggerFiftyFifty()">🎯 50:50</button>
-      <button id="lf-friend" class="lifeline-btn" onclick="forceLifeline('Ask Friend')">📞 Ask Friend</button>
-      <button id="lf-audience" class="lifeline-btn" onclick="forceLifeline('Ask Audience')">👥 Ask Audience</button>
-      <button class="lifeline-btn" style="background:#0099cc;" onclick="flipQuestion()">🔄 Flip Question</button>
+    <div class="lifeline-bar" style="display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;">
+      <button id="lf-5050" class="lifeline-btn" onclick="triggerFiftyFifty()" style="
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(231, 76, 60, 0.4);
+      ">
+        🎯 50:50
+      </button>
+      <button id="lf-friend" class="lifeline-btn" onclick="forceLifeline('Ask Friend')" style="
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(52, 152, 219, 0.4);
+      ">
+        📞 Ask Friend
+      </button>
+      <button id="lf-audience" class="lifeline-btn" onclick="forceLifeline('Ask Audience')" style="
+        background: #2ecc71;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(46, 204, 113, 0.4);
+      ">
+        👥 Ask Audience
+      </button>
+      <button class="lifeline-btn" onclick="flipQuestion()" style="
+        background: #0099cc;
+        color: white;
+        border: none;
+        padding: 14px 24px;
+        border-radius: 8px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(0, 153, 204, 0.4);
+      ">
+        🔄 Flip Question
+      </button>
     </div>
 
     <!-- Search Box -->
-    <div class="search-box">
-      <input type="text" placeholder="🔍 Search questions..." id="search-input" onkeyup="searchQuestions()">
+    <div class="search-box" style="margin-bottom: 25px; text-align: center;">
+      <input type="text" placeholder="🔍 Search questions by topic or hint..." id="search-input" onkeyup="searchQuestions()" style="
+        width: 90%;
+        max-width: 600px;
+        padding: 14px 20px;
+        border-radius: 10px;
+        border: 1px solid #333;
+        background: #0f1a2e;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;
+        outline: none;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      ">
     </div>
 
     <!-- Questions Table -->
-    <div class="table-container" style="max-height: 60vh; overflow-y: auto; border-bottom: 1px solid #444;">
-      <table id="questions-table" style="width: 100%; border-collapse: collapse;">
-        <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold;">
+    <div class="table-container" style="max-height: 60vh; overflow-y: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4); border: 1px solid #2a3c5b;">
+      <table id="questions-table" style="width: 100%; border-collapse: collapse; background: #0f1a2e; color: #e0e0e0;">
+        <thead style="position: sticky; top: 0; background: #001f5b; z-index: 10; color: gold; font-weight: 600; font-size: 0.95rem;">
           <tr>
-            <th>#</th>
-            <th>Question</th>
-            <th>Options</th>
-            <th>Answer</th>
-            <th>Hint</th>
-            <th>Action</th>
+            <th style="padding: 16px 12px; text-align: center; width: 5%;">#</th>
+            <th style="padding: 16px 12px; text-align: left; width: 30%;">Question</th>
+            <th style="padding: 16px 12px; text-align: left; width: 25%;">Options</th>
+            <th style="padding: 16px 12px; text-align: center; width: 10%;">Answer</th>
+            <th style="padding: 16px 12px; text-align: left; width: 20%;">Hint</th>
+            <th style="padding: 16px 12px; text-align: center; width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
@@ -55,9 +146,11 @@
     </div>
 
     <!-- Lifeline Requests -->
-    <div class="requests-area">
-      <h3>🛎️ Lifeline Requests</h3>
-      <ul class="requests-list" id="requests-list">No requests yet</ul>
+    <div class="requests-area" style="margin-top: 30px; padding: 20px; background: #0d1a33; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); border: 1px solid #2a3c5b;">
+      <h3 style="color: gold; margin: 0 0 15px 0; font-family: 'Montserrat', sans-serif; font-weight: 600;">🛎️ Lifeline Requests</h3>
+      <ul class="requests-list" id="requests-list" style="list-style-type: none; padding: 0; margin: 0; font-size: 0.95rem; color: #ccc;">
+        <li>No requests yet</li>
+      </ul>
     </div>
 
   </div>
@@ -71,35 +164,43 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0.85);
     justify-content: center;
     align-items: center;
     font-family: 'Montserrat', sans-serif;
+    padding: 20px;
   ">
     <div style="
       background: #0a0a2a;
       color: white;
-      padding: 30px;
-      border-radius: 10px;
-      max-width: 80%;
-      max-height: 80vh;
+      padding: 40px;
+      border-radius: 16px;
+      max-width: 85%;
+      max-height: 85vh;
       overflow-y: auto;
-      box-shadow: 0 10px 30px rgba(255,215,0,0.5);
-      border: 2px solid gold;
+      box-shadow: 0 20px 50px rgba(255, 215, 0, 0.4);
+      border: 2px solid #FFD700;
       position: relative;
+      animation: modalFadeIn 0.4s ease-out;
     ">
-      <span id="modal-title" style="font-size: 1.3rem; font-weight: 700; display: block; margin-bottom: 15px; color: gold;"></span>
-      <div id="modal-content" style="line-height: 1.7; font-size: 1rem;"></div>
+      <span id="modal-title" style="font-size: 1.5rem; font-weight: 700; display: block; margin-bottom: 20px; color: #FFD700; text-align: center;"></span>
+      <div id="modal-content" style="line-height: 1.8; font-size: 1.1rem; text-align: left; color: #e0e0e0; white-space: pre-line;"></div>
       <button onclick="closeModal()" style="
-        margin-top: 20px;
-        padding: 10px 20px;
+        margin-top: 30px;
+        padding: 14px 30px;
         background: #0099cc;
         color: white;
         border: none;
-        border-radius: 5px;
+        border-radius: 8px;
         cursor: pointer;
-        font-weight: bold;
-      ">Close</button>
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s;
+        box-shadow: 0 6px 15px rgba(0, 153, 204, 0.5);
+      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        Close
+      </button>
     </div>
   </div>
 
@@ -335,20 +436,35 @@
       const opts = `${q.options.A} | ${q.options.B} | ${q.options.C} | ${q.options.D}`;
       const descShort = q.description.length > 80 ? q.description.substring(0, 80) + '...' : q.description;
 
-      row = document.createElement('tr');
+      const row = document.createElement('tr');
       row.innerHTML = `
-        <td style="color:white;padding:10px;text-align:center;">${q.id}</td>
-        <td title="${q.text}" class="question-col">${q.text}</td>
-        <td style="color:#ccc;font-size:0.9rem;">${opts}</td>
-        <td style="color:gold;font-weight:bold;text-align:center;">${q.correct}</td>
-        <td style="color:#ddd; cursor: pointer; font-size: 0.9rem; word-wrap: break-word; max-width: 250px;" 
-            onclick="showFullHint('${q.description}', 'Question ${q.id}')">
+        <td style="color:white;padding:14px 12px;text-align:center;vertical-align:middle; font-weight:600;">${q.id}</td>
+        <td style="color:#e0e0e0;padding:14px 12px;vertical-align:middle; word-wrap: break-word; font-size: 0.95rem;" title="${q.text}">${q.text}</td>
+        <td style="color:#aaa;padding:14px 12px;vertical-align:middle; font-size: 0.9rem; word-wrap: break-word;">${opts}</td>
+        <td style="color:#FFD700;padding:14px 12px;text-align:center;vertical-align:middle; font-weight:bold; font-size: 1rem;">${q.correct}</td>
+        <td style="color:#ccc;padding:14px 12px;vertical-align:middle; cursor: pointer; font-size: 0.95rem; max-width: 280px; word-wrap: break-word; transition: color 0.3s;"
+            onclick="showFullHint('${q.description.replace(/'/g, "\\'")}', 'Question ${q.id}')"
+            onmouseover="this.style.color='#FFD700'"
+            onmouseout="this.style.color='#ccc'">
           ${descShort}
         </td>
-        <td style="text-align:center;">
+        <td style="text-align:center; padding:14px 12px; vertical-align:middle;">
           <button class="action-btn" 
                   onclick="sendQuestion(${q.id - 1})"
-                  ${sentQuestions.has(q.id) ? 'disabled' : ''}>
+                  ${sentQuestions.has(q.id) ? 'disabled' : ''}
+                  style="
+                    padding: 8px 16px;
+                    background: ${sentQuestions.has(q.id) ? '#555' : '#0099cc'};
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: 600;
+                    font-size: 0.9rem;
+                    cursor: ${sentQuestions.has(q.id) ? 'not-allowed' : 'pointer'};
+                    transition: all 0.3s;
+                    box-shadow: 0 3px 8px rgba(0, 153, 204, 0.4);
+                  ">
             ${sentQuestions.has(q.id) ? '✅ Sent' : '📤 Send'}
           </button>
         </td>
@@ -360,7 +476,7 @@
   // Show full hint in modal
   function showFullHint(description, title) {
     document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-content').innerHTML = description.replace(/\n/g, '<br>');
+    document.getElementById('modal-content').innerHTML = description.replace(/\n/g, '<br>').replace(/  /g, '&nbsp;&nbsp;');
     document.getElementById('hint-modal').style.display = 'flex';
   }
 
@@ -463,39 +579,103 @@
     // Listen for lifeline requests from player
     socket.on('lifeline-request', (data) => {
       const list = document.getElementById('requests-list');
-      if (list.innerHTML === 'No requests yet') {
+      if (list.innerHTML === '<li>No requests yet</li>') {
         list.innerHTML = '';
       }
       const li = document.createElement('li');
       li.textContent = `[${data.time}] Player used: ${data.type}`;
+      li.style.padding = '10px';
+      li.style.borderBottom = '1px solid #2a3c5b';
+      li.style.margin = '0 -20px';
+      li.style.backgroundColor = '#0d1a33';
+      li.style.fontWeight = '500';
       list.appendChild(li);
+      li.scrollIntoView({ behavior: 'smooth' });
 
       // ✅ Cross out the lifeline when used
       markLifelineUsed(data.type);
     });
   };
+
+  // Add subtle animation for modal
+  document.addEventListener('DOMContentLoaded', () => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes modalFadeIn {
+        from { opacity: 0; transform: translateY(-30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    `;
+    document.head.appendChild(style);
+  });
 </script>
 
 <style>
-  /* Optional: Add smooth hover effect for hint cells */
-  .desc-col:hover {
-    background-color: rgba(255, 215, 0, 0.1);
-    transition: background-color 0.3s;
+  /* Global Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
-  /* Make modal responsive */
-  @media (max-width: 600px) {
-    #hint-modal div {
-      padding: 20px;
-      margin: 10px;
-      max-width: 95vw;
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0a0a2a, #0d1a33);
+    color: #e0e0e0;
+    line-height: 1.6;
+    padding-bottom: 40px;
+  }
+
+  .host-panel {
+    padding: 20px;
+    margin: 0 auto;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.8rem;
     }
-    #modal-title {
-      font-size: 1.2rem;
+    .lifeline-bar {
+      flex-direction: column;
+      align-items: stretch;
     }
-    #modal-content {
-      font-size: 0.9rem;
+    .lifeline-btn {
+      margin-bottom: 10px;
     }
+    .search-box input {
+      width: 100%;
+    }
+    th, td {
+      padding: 10px 8px !important;
+      font-size: 0.85rem !important;
+    }
+  }
+
+  /* Hover Effects */
+  .lifeline-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .action-btn:hover:not([disabled]) {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 153, 204, 0.6);
+  }
+
+  /* Scrollbar Styling */
+  .table-container::-webkit-scrollbar {
+    width: 8px;
+  }
+  .table-container::-webkit-scrollbar-track {
+    background: #0f1a2e;
+  }
+  .table-container::-webkit-scrollbar-thumb {
+    background: #0099cc;
+    border-radius: 10px;
+  }
+  .table-container::-webkit-scrollbar-thumb:hover {
+    background: #00bfff;
   }
 </style>
 
