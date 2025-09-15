@@ -4,15 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KBC - College Edition</title>
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script>
-    // 🔥 Connect to your live server
-    const socket = io("https://kbc-for-raison.onrender.com");
-  </script>
   <style>
-    /* Only for logos — doesn't affect existing layout */
+    /* Global Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Logo Container */
     .logo-container {
       position: fixed;
       top: 15px;
@@ -24,24 +33,172 @@
     }
 
     .logo-container img {
-      height: 50px;
-      /* Adjust height as needed */
+      height: auto;
+      max-height: 150px;
+    }
+
+    /* Main Game Container */
+    .kbc-container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: 180px; /* Make space for logos */
+    }
+
+    /* Prize Ladder */
+    .prize-ladder {
+      width: 250px;
+      background: #111;
+      padding: 20px 15px;
+      font-family: 'Orbitron', sans-serif;
+      border-right: 2px solid #333;
+    }
+
+    .prize-ladder h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: gold;
+      font-size: 1.2rem;
+    }
+
+    #money-tree {
+      list-style: none;
+    }
+
+    #money-tree li {
+      padding: 10px 5px;
+      text-align: center;
+      font-size: 0.95rem;
+      border-bottom: 1px dashed #444;
+      color: #ccc;
+    }
+
+    #money-tree li.current {
+      background: #ffcc00;
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Game Area */
+    .game-area {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(to bottom, #000, #222);
+    }
+
+    .header img {
+      height: 200px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: red;
+      margin: 10px 0;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .question-box {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .question-box p {
+      font-size: 1.4rem;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px 0;
+    }
+
+    .option-btn {
+      padding: 15px;
+      font-size: 1.1rem;
+      background: #333;
+      color: white;
+      border: 2px solid #555;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .option-btn:hover {
+      background: #444;
+      transform: scale(1.03);
+    }
+
+    .option-btn.correct {
+      background: #28a745 !important;
+      color: white !important;
+      border-color: #218838 !important;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(40, 167, 69, 0.7);
+    }
+
+    .option-btn.incorrect {
+      background: #dc3545 !important;
+      color: white !important;
+      border-color: #c82333 !important;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(220, 53, 69, 0.7);
+    }
+
+    #result-message {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      min-height: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .kbc-container {
+        flex-direction: column;
+        padding-top: 200px;
+      }
+
+      .prize-ladder {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #333;
+      }
+
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo-container img {
+        max-height: 100px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- 🆕 Logos on Left & Right (Does NOT affect layout below) -->
+  <!-- Logos on Left & Right -->
   <div class="logo-container">
-    <img style="height: 150px; margin-left: 150px;" src="Screenshot_2025-09-15_184559-removebg-preview.png" alt="Left Logo">
-    <img style="height: 120px;" src="Screenshot_2025-09-15_184622-removebg-preview.png" alt="Right Logo">
+    <img src="Screenshot_2025-09-15_184559-removebg-preview.png" alt="Left Logo" style="height: 150px; margin-left: 150px;">
+    <img src="Screenshot_2025-09-15_184622-removebg-preview.png" alt="Right Logo" style="height: 120px;">
   </div>
 
-  <!-- ⚠️ YOUR ORIGINAL CONTENT BELOW — UNCHANGED -->
+  <!-- Game UI -->
   <div class="kbc-container">
 
     <!-- Prize Ladder -->
     <div class="prize-ladder">
+      <h3>PRIZE MONEY</h3>
       <ul id="money-tree">
         <li><span>₹ 3,000</span></li>
         <li><span>₹ 2,500</span></li>
@@ -64,7 +221,7 @@
     <!-- Game Area -->
     <div class="game-area">
       <div class="header">
-        <img style="height: 200px;" src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="">
+        <img src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="KBC Host">
       </div>
       <div class="timer">60</div>
 
@@ -73,17 +230,62 @@
       </div>
 
       <div class="options-grid" id="options-container">
-        <!-- Options injected here -->
+        <!-- Options will be injected here by JavaScript -->
       </div>
 
       <div id="result-message"></div>
     </div>
   </div>
 
-  <!-- Audio Feedback -->
-  <script src="script.js"></script>
+  <!-- Socket.IO + Game Logic -->
+  <script>
+    // 🔥 Connect to server — NO EXTRA SPACES
+    const socket = io("https://kbc-for-raison.onrender.com");
+
+    // 🎯 Tell server we are a player
+    socket.emit('join-player');
+
+    // 📥 Listen for questions from host
+    socket.on('new-question', (data) => {
+      console.log("📥 Received question:", data);
+
+      // Update question text
+      document.getElementById("question-text").textContent = data.text;
+
+      // Clear previous options
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      // Render new options
+      Object.keys(data.options).forEach(key => {
+        const btn = document.createElement("button");
+        btn.classList.add("option-btn");
+        btn.textContent = `${key}: ${data.options[key]}`;
+        btn.onclick = () => {
+          const isCorrect = key === data.correct;
+          btn.classList.add(isCorrect ? "correct" : "incorrect");
+          document.getElementById("result-message").textContent = isCorrect ? "✅ Correct!" : "❌ Wrong!";
+          document.getElementById("result-message").style.color = isCorrect ? "green" : "red";
+
+          // Disable all buttons after answer
+          document.querySelectorAll(".option-btn").forEach(b => {
+            b.disabled = true;
+          });
+        };
+        container.appendChild(btn);
+      });
+    });
+
+    // Optional: Connection feedback
+    socket.on("connect", () => {
+      console.log("✅ Connected to KBC server");
+    });
+
+    socket.on("connect_error", (err) => {
+      console.error("🔌 Connection Failed:", err.message);
+      document.getElementById("question-text").textContent = "❌ Server Connection Failed";
+    });
+  </script>
+
 </body>
 </html>
-
-
-
