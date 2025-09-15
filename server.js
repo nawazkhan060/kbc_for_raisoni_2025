@@ -9,7 +9,7 @@ const server = http.createServer(app);
 // Initialize Socket.IO
 const io = require('socket.io')(server, {
   cors: {
-    origin: "https://kbc-for-raison.onrender.com/", // Allow all (or replace with your Vercel/Netlify URL later)
+    origin: "*", // Allow all (or replace with your Vercel/Netlify URL later)
     methods: ["GET", "POST"]
   }
 });
@@ -74,4 +74,5 @@ const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
   console.log(`\n🚀 Server running on port ${PORT}`);
 });
+
 
