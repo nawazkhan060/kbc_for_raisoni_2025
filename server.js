@@ -6,73 +6,86 @@ const path = require('path');
 const app = express();
 const server = http.createServer(app);
 
-// Initialize Socket.IO
+// Initialize Socket.IO with CORS
 const io = require('socket.io')(server, {
   cors: {
-    origin: "*", // Allow all (or replace with your Vercel/Netlify URL later)
-    methods: ["GET", "POST"]
+    origin: "*", // Allow all domains (secure later if needed)
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
-// Serve static files from current directory
+// Serve static files (HTML, CSS, JS, images) from current directory
 app.use(express.static(__dirname));
 
 // Handle new connections
 io.on('connection', (socket) => {
-  console.log('✅ Connected:', socket.id);
+  console.log('✅ New client connected:', socket.id);
 
   // Player joins
   socket.on('join-player', () => {
     socket.role = 'player';
-    console.log('🎯 Player joined');
+    console.log('🎯 Player joined:', socket.id);
+    socket.emit('status', 'You are now playing!');
   });
 
   // Host joins
   socket.on('join-host', () => {
     socket.role = 'host';
-    console.log('👨‍🏫 Host joined');
+    console.log('👨‍🏫 Host joined:', socket.id);
+    socket.emit('status', 'Host panel active');
   });
 
   // Host sends a question
-  socket.on('send-question', (q) => {
-    if (socket.role === 'host') {
-      console.log('📤 Sent:', q.text);
-      io.emit('new-question', q); // Send to everyone
+  socket.on('send-question', (questionData) => {
+    if (socket.role !== 'host') {
+      console.warn('⚠️ Non-host tried to send question:', socket.id);
+      return;
     }
+
+    console.log('📤 Host sent question:', questionData.text);
+    // Broadcast to everyone (including player)
+    io.emit('new-question', questionData);
   });
 
-  // Player uses lifeline
-  socket.on('use-lifeline', (data) => {
-    if (socket.role === 'player') {
-      console.log('🆘 Lifeline:', data.type);
-      io.emit('lifeline-request', data);
-    }
-  });
-
-  // 50:50 from host
+  // Host triggers 50:50 (removes two wrong options)
   socket.on('fifty-fifty', (data) => {
-    if (socket.role === 'host') {
-      io.emit('fifty-fifty', data);
-    }
+    if (socket.role !== 'host') return;
+
+    console.log('🔧 50:50 used:', data.remove);
+    io.emit('fifty-fifty', data); // Send to player
   });
 
-  // Submit answer
+  // Player uses a lifeline
+  socket.on('use-lifeline', (data) => {
+    if (socket.role !== 'player') return;
+
+    console.log('🆘 Lifeline request:', data.type);
+    // Forward to host
+    io.emit('lifeline-request', {
+      type: data.type,
+      time: new Date().toLocaleTimeString()
+    });
+  });
+
+  // Player submits answer (for logging)
   socket.on('submit-answer', (data) => {
-    if (socket.role === 'player') {
-      console.log('📝 Answer submitted:', data.correct ? 'Correct!' : 'Wrong!');
-    }
+    if (socket.role !== 'player') return;
+
+    console.log(`📝 Player answered: ${data.answer} → Correct: ${data.correct}`);
+    // You can log this or broadcast to host
   });
 
-  // Disconnect
+  // Handle disconnect
   socket.on('disconnect', () => {
-    console.log('❌ Disconnected:', socket.id);
+    console.log('❌ Client disconnected:', socket.id);
   });
 });
 
-// Start server
+// Start the server
 const PORT = process.env.PORT || 10000;
 server.listen(PORT, () => {
-  console.log(`\n🚀 Server running on port ${PORT}`);
+  console.log(`\n🚀 KBC Server is running on port ${PORT}`);
+  console.log(`🔗 Connect your frontend to: https://your-app.onrender.com`);
+  console.log(`💡 Make sure your HTML uses: const socket = io("https://your-app.onrender.com");\n`);
 });
-
-
