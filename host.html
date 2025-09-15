@@ -135,4 +135,330 @@
       font-size: 0.85rem;
       background: #0099cc;
       color: white;
-      cursor: pointe
+      cursor: pointer;
+    }
+    .action-btn[disabled] {
+      background: #555;
+      cursor: not-allowed;
+    }
+    .requests-area {
+      background: #0d1a33;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border: 1px solid #2a3c5b;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+    .requests-list li {
+      padding: 8px;
+      margin: 5px 0;
+      background: #1a2c4d;
+      border-radius: 4px;
+      font-size: 0.9rem;
+    }
+    #hint-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #0a0a2a;
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 80%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 2px solid gold;
+      text-align: left;
+    }
+    .modal-title {
+      color: gold;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
+    }
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0099cc;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>📺 KBC Host Control Panel</h1>
+    <a href="index.html" style="color: gold; text-decoration: underline;">← Back to Player View</a>
+  </header>
+
+  <!-- Prize Money Ladder -->
+  <div class="prize-ladder">
+    <span>₹ 3,000</span>
+    <span>₹ 2,500</span>
+    <span>₹ 2,000</span>
+    <span>₹ 1,500</span>
+    <span>₹ 1,000</span>
+    <span>₹ 900</span>
+    <span>₹ 800</span>
+    <span>₹ 700</span>
+    <span>₹ 600</span>
+    <span>₹ 500</span>
+    <span>₹ 400</span>
+    <span>₹ 300</span>
+    <span>₹ 200</span>
+    <span>₹ 100</span>
+    <span>₹ 0</span>
+  </div>
+
+  <div class="host-panel">
+
+    <!-- Lifeline Buttons -->
+    <div class="lifeline-bar">
+      <button id="lf-5050" onclick="triggerFiftyFifty()">🎯 50:50</button>
+      <button id="lf-friend" onclick="forceLifeline('Ask Friend')">📞 Ask Friend</button>
+      <button id="lf-audience" onclick="forceLifeline('Ask Audience')">👥 Ask Audience</button>
+      <button class="flip-btn" onclick="flipQuestion()">🔄 Flip Question</button>
+    </div>
+
+    <!-- Search Box -->
+    <input type="text" placeholder="🔍 Search questions..." id="search-input" onkeyup="searchQuestions()">
+
+    <!-- Questions Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Question</th>
+            <th>Options</th>
+            <th>Answer</th>
+            <th>Hint</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Lifeline Requests -->
+    <div class="requests-area">
+      <h3>🛎️ Lifeline Requests</h3>
+      <ul class="requests-list" id="requests-list">
+        <li>No requests yet</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Hint Modal -->
+  <div id="hint-modal">
+    <div class="modal-content">
+      <h3 class="modal-title"></h3>
+      <div id="modal-text"></div>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    window.isHost = true;
+    let sentQuestions = new Set();
+    let currentQuestionData = null;
+    const usedLifelines = new Set();
+
+    // 🔥 9 NEW QUESTIONS — GROUPED AS ROUND 1 (1-2-3), ROUND 2 (11-12-13), ROUND 3 (21-22-23)
+    const questions = [
+      // ROUND 1: EASY (Q1-Q3)
+      {
+        id: 1,
+        text: "What is the binary equivalent of decimal number 10?",
+        options: { A: "1110", B: "1100", C: "1010", D: "1001" },
+        correct: "C",
+        description: "The binary equivalent of decimal 10 is 1010. (8 + 2 = 10)"
+      },
+      {
+        id: 2,
+        text: "Which type of memory is non-volatile and retains data even when power is off?",
+        options: { A: "RAM", B: "Cache", C: "ROM", D: "Register" },
+        correct: "C",
+        description: "ROM (Read-Only Memory) is permanent storage and does not lose data when power is switched off."
+      },
+      {
+        id: 3,
+        text: "Which is not an example of an operating system?",
+        options: { A: "Windows", B: "Linux", C: "MS Word", D: "MacOS" },
+        correct: "C",
+        description: "MS Word is an application software, not an OS. An OS manages hardware and software resources."
+      },
+
+      // ROUND 2: MEDIUM (Q11-Q13)
+      {
+        id: 11,
+        text: "Which of these is an example of Artificial Intelligence in daily life?",
+        options: { A: "Online Calculator", B: "Google Maps Navigation", C: "Notepad", D: "MS Paint" },
+        correct: "B",
+        description: "Google Maps uses AI to predict traffic, find shortest routes, and provide real-time directions."
+      },
+      {
+        id: 12,
+        text: "Which of the following is a secondary storage device?",
+        options: { A: "RAM", B: "Hard Disk", C: "Cache Memory", D: "Register" },
+        correct: "B",
+        description: "Hard disks are non-volatile and used for long-term data storage. RAM and cache are primary memory."
+      },
+      {
+        id: 13,
+        text: "The speed of an internet connection is usually measured in:",
+        options: { A: "MB", B: "Mbps", C: "Hz", D: "GB" },
+        correct: "B",
+        description: "Internet speed is measured in megabits per second (Mbps), while MB and GB refer to data size, not speed."
+      },
+
+      // ROUND 3: HARD (Q21-Q23)
+      {
+        id: 21,
+        text: "Which generation of computers used Integrated Circuits (ICs)?",
+        options: { A: "First Generation", B: "Second Generation", C: "Third Generation", D: "Fourth Generation" },
+        correct: "C",
+        description: "Third-generation computers (1965–1971) used ICs, making them smaller, faster, and more reliable."
+      },
+      {
+        id: 22,
+        text: "Which technology is used in chat bots like Chat GPT?",
+        options: { A: "Machine Learning", B: "Data Mining", C: "Cloud Storage", D: "Cryptography" },
+        correct: "A",
+        description: "Chatbots use machine learning and natural language processing (NLP) to understand and respond to human language."
+      },
+      {
+        id: 23,
+        text: "Which component of a computer executes instructions from programs?",
+        options: { A: "Hard Disk", B: "RAM", C: "CPU", D: "GPU" },
+        correct: "C",
+        description: "The CPU (Central Processing Unit) is the brain of the computer that executes program instructions."
+      }
+    ];
+
+    function renderTable(qs = questions) {
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+      qs.forEach(q => {
+        const opts = `${q.options.A} | ${q.options.B} | ${q.options.C} | ${q.options.D}`;
+        const descShort = q.description.length > 60 ? q.description.substring(0, 60) + '...' : q.description;
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td style="color:white; padding:10px; text-align:center; font-weight:bold;">${q.id}</td>
+          <td style="padding:10px; color:#ccc; word-wrap: break-word;">${q.text}</td>
+          <td style="padding:10px; color:#aaa; font-size:0.9rem;">${opts}</td>
+          <td style="padding:10px; color:gold; text-align:center; font-weight:bold;">${q.correct}</td>
+          <td class="hint-col">
+            <span>${descShort}</span>
+            <i class="fas fa-info-circle" onclick="showFullHint('${q.description}', 'Q${q.id}')"></i>
+          </td>
+          <td style="text-align:center;">
+            <button class="action-btn" onclick="sendQuestion(${q.id - 1})" ${sentQuestions.has(q.id) ? 'disabled' : ''}>
+              ${sentQuestions.has(q.id) ? '✅ Sent' : '📤 Send'}
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function showFullHint(description, title) {
+      document.querySelector('.modal-title').textContent = title;
+      document.querySelector('#modal-text').innerHTML = description.replace(/\n/g, '<br>');
+      document.getElementById('hint-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('hint-modal').style.display = 'none';
+    }
+
+    function sendQuestion(index) {
+      const q = questions[index];
+      currentQuestionData = q;
+      socket.emit('send-question', { ...q, index });
+      sentQuestions.add(q.id);
+      renderTable();
+      const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+      snd.play().catch(e => console.log("Sound failed:", e));
+      alert(`✅ Sent Q${q.id}: "${q.text.substring(0, 40)}..."`);
+    }
+
+    function markLifelineUsed(type) {
+      const btn = document.getElementById(type === '50:50' ? 'lf-5050' : type === 'Ask Friend' ? 'lf-friend' : 'lf-audience');
+      if (btn && !usedLifelines.has(type)) {
+        btn.style.opacity = '0.6';
+        btn.style.cursor = 'not-allowed';
+        btn.disabled = true;
+        usedLifelines.add(type);
+      }
+    }
+
+    function forceLifeline(type) {
+      if (usedLifelines.has(type)) return alert(`❌ "${type}" already used!`);
+      socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
+      alert(`📢 Host triggered: ${type}`);
+      markLifelineUsed(type);
+    }
+
+    function triggerFiftyFifty() {
+      if (!currentQuestionData) return alert("⚠️ No active question!");
+      if (usedLifelines.has('50:50')) return alert("❌ 50:50 already used!");
+      const correct = currentQuestionData.correct;
+      const wrong = ['A','B','C','D'].filter(opt => opt !== correct);
+      const toRemove = wrong.sort(() => 0.5 - Math.random()).slice(0, 2);
+      socket.emit('fifty-fifty', { remove: toRemove });
+      alert(`🎯 50:50: Hid ${toRemove.join(', ')}`);
+      markLifelineUsed('50:50');
+    }
+
+    function flipQuestion() {
+      for (let i = 0; i < questions.length; i++) {
+        if (!sentQuestions.has(questions[i].id)) {
+          sendQuestion(i);
+          return;
+        }
+      }
+      alert("🎉 All questions sent!");
+    }
+
+    function searchQuestions() {
+      const term = document.getElementById('search-input').value.toLowerCase();
+      const filtered = questions.filter(q => 
+        q.text.toLowerCase().includes(term) || 
+        q.description.toLowerCase().includes(term)
+      );
+      renderTable(filtered);
+    }
+
+    window.onload = () => {
+      socket.emit('join-host');
+      renderTable();
+
+      socket.on('lifeline-request', (data) => {
+        const list = document.getElementById('requests-list');
+        if (list.innerHTML === '<li>No requests yet</li>') list.innerHTML = '';
+        const li = document.createElement('li');
+        li.textContent = `[${data.time}] Player used: ${data.type}`;
+        list.appendChild(li);
+        list.scrollTop = list.scrollHeight;
+        markLifelineUsed(data.type);
+      });
+    };
+  </script>
+
+</body>
+</html>
