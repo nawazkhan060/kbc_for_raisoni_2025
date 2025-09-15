@@ -6,13 +6,15 @@
   <title>KBC - College Edition</title>
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js  "></script>
+
+  <!-- Load Socket.IO from CDN -->
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
   <script>
-    // 🔥 Connect to your live server
+    // 🔥 Connect to YOUR live backend
     const socket = io("https://kbc-for-raison-4zjm.onrender.com");
   </script>
+
   <style>
-    /* Only for logos — doesn't affect existing layout */
     .logo-container {
       position: fixed;
       top: 15px;
@@ -22,24 +24,20 @@
       padding: 0 30px;
       z-index: 100;
     }
-
     .logo-container img {
       height: 50px;
-      /* Adjust height as needed */
     }
   </style>
 </head>
 <body>
 
-  <!-- 🆕 Logos on Left & Right (Does NOT affect layout below) -->
+  <!-- Logos -->
   <div class="logo-container">
     <img style="height: 150px; margin-left: 150px;" src="Screenshot_2025-09-15_184559-removebg-preview.png" alt="Left Logo">
     <img style="height: 120px;" src="Screenshot_2025-09-15_184622-removebg-preview.png" alt="Right Logo">
   </div>
 
-  <!-- ⚠️ YOUR ORIGINAL CONTENT BELOW — UNCHANGED -->
   <div class="kbc-container">
-
     <!-- Prize Ladder -->
     <div class="prize-ladder">
       <ul id="money-tree">
@@ -81,17 +79,10 @@
   </div>
 
   <!-- Audio Feedback -->
+  <audio id="correct" src="https://www.soundjay.com/buttons/sounds/button-1.mp3"></audio>
+  <audio id="wrong" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+
+  <!-- ✅ Only one script include -->
   <script src="script.js"></script>
-  <script src="script.js"></script>
-<script>
-  if (!window.isHost) {
-    socket.emit('join-player'); // Tell server: I'm player
-    console.log("🎮 Player: Joined game");
-  }
-</script>
 </body>
 </html>
-
-
-
-
