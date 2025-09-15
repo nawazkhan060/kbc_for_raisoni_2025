@@ -82,8 +82,16 @@
 
   <!-- Audio Feedback -->
   <script src="script.js"></script>
+  <script src="script.js"></script>
+<script>
+  if (!window.isHost) {
+    socket.emit('join-player'); // Tell server: I'm player
+    console.log("🎮 Player: Joined game");
+  }
+</script>
 </body>
 </html>
+
 
 
 
