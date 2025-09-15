@@ -4,18 +4,209 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KBC - College Edition</title>
-  <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-  // 🔥 Connect to your live server
-  const socket = io("https://kbc-for-raisoni-2.onrender.com");
-</script>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    /* Reset & Base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #000;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    /* Header Section with Logos */
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 5%;
+      background: #111;
+      border-bottom: 3px solid gold;
+    }
+
+    .kbc-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      color: gold;
+      text-align: center;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+
+    .logo {
+      height: 60px;
+      width: auto;
+    }
+
+    .left-logo {
+      margin-right: auto;
+    }
+
+    .right-logo {
+      margin-left: auto;
+    }
+
+    /* Main Container */
+    .kbc-container {
+      display: flex;
+      height: calc(100vh - 100px);
+    }
+
+    /* Prize Ladder */
+    .prize-ladder {
+      width: 250px;
+      background: #111;
+      padding: 20px 15px;
+      font-family: 'Orbitron', sans-serif;
+      border-right: 2px solid #333;
+    }
+
+    .prize-ladder h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: gold;
+      font-size: 1.2rem;
+    }
+
+    #money-tree {
+      list-style: none;
+    }
+
+    #money-tree li {
+      padding: 10px 5px;
+      text-align: center;
+      font-size: 0.95rem;
+      border-bottom: 1px dashed #444;
+      color: #ccc;
+    }
+
+    #money-tree li.current {
+      background: #ffcc00;
+      color: #000;
+      font-weight: bold;
+    }
+
+    /* Game Area */
+    .game-area {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(to bottom, #000, #222);
+    }
+
+    .timer {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: red;
+      margin: 10px 0;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .question-box {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    .question-box p {
+      font-size: 1.4rem;
+      line-height: 1.5;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px 0;
+    }
+
+    .option-btn {
+      padding: 15px;
+      font-size: 1.1rem;
+      background: #333;
+      color: white;
+      border: 2px solid #555;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      border-radius: 8px;
+    }
+
+    .option-btn:hover {
+      background: #444;
+      transform: scale(1.03);
+    }
+
+    .option-btn.correct {
+      background: #28a745 !important;
+      color: white !important;
+      border-color: #218838 !important;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(40, 167, 69, 0.7);
+    }
+
+    .option-btn.incorrect {
+      background: #dc3545 !important;
+      color: white !important;
+      border-color: #c82333 !important;
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(220, 53, 69, 0.7);
+    }
+
+    #result-message {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      min-height: 30px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .kbc-container {
+        flex-direction: column;
+      }
+
+      .prize-ladder {
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid #333;
+      }
+
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kbc-title {
+        font-size: 1.4rem;
+      }
+
+      .logo {
+        height: 50px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Logo Section -->
- 
+  <!-- Top Header with Logos and Title -->
+  <div class="header-section">
+    <!-- Replace src with actual logo paths -->
+    <img class="logo left-logo" src="Screenshot_2025-09-15_184559-removebg-preview.png" alt="Left Logo">
+    <h1 class="kbc-title">KBC - College Edition</h1>
+    <img class="logo right-logo" src="Screenshot_2025-09-15_184559-removebg-preview.png" alt="Right Logo">
+  </div>
+
   <div class="kbc-container">
 
     <!-- Prize Ladder -->
@@ -43,26 +234,114 @@
     <!-- Game Area -->
     <div class="game-area">
       <div class="header">
-        <img style="height: 200px;" src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="">
+        <!-- Replace src with your host image -->
+        <img style="height: 200px; border-radius: 10px;" src="https://via.placeholder.com/400x200?text=KBC+Host" alt="Host">
       </div>
-      <div class="timer">60</div>
+      <div class="timer" id="countdown">60</div>
 
       <div class="question-box">
-        <p id="question-text">ANSWER THE QUESTIONS...</p>
+        <p id="question-text">Who is known as the Father of the Nation in India?</p>
       </div>
 
       <div class="options-grid" id="options-container">
-        <!-- Options injected here -->
+        <!-- Options will be rendered here -->
       </div>
 
       <div id="result-message"></div>
     </div>
   </div>
 
-  <!-- Audio Feedback -->
-  
+  <script>
+    // 🔥 Connect to your live server
+    const socket = io("https://kbc-for-raisoni-2.onrender.com");
 
-  <script src="script.js"></script>
+    // Sample Question & Options (Replace with your data source)
+    const currentQuestion = {
+      question: "Who is known as the Father of the Nation in India?",
+      options: [
+        { text: "Jawaharlal Nehru", isCorrect: false },
+        { text: "Mahatma Gandhi", isCorrect: true },
+        { text: "Subhas Chandra Bose", isCorrect: false },
+        { text: "Sardar Patel", isCorrect: false }
+      ]
+    };
+
+    // Render Options
+    function renderQuestion() {
+      const container = document.getElementById('options-container');
+      container.innerHTML = '';
+
+      currentQuestion.options.forEach((option, index) => {
+        const button = document.createElement('button');
+        button.classList.add('option-btn');
+        button.textContent = option.text;
+        button.dataset.index = index;
+        button.addEventListener('click', () => selectOption(button, option.isCorrect));
+        container.appendChild(button);
+      });
+    }
+
+    // Handle Option Selection
+    function selectOption(selectedButton, isCorrect) {
+      // Disable all buttons
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        btn.disabled = true;
+      });
+
+      if (isCorrect) {
+        selectedButton.classList.add('correct');
+        document.getElementById('result-message').textContent = "✅ Correct Answer!";
+        document.getElementById('result-message').style.color = "#28a745";
+
+        // Optional: Move up prize ladder
+        highlightNextPrize();
+      } else {
+        selectedButton.classList.add('incorrect');
+        document.getElementById('result-message').textContent = "❌ Wrong Answer!";
+        document.getElementById('result-message').style.color = "#dc3545";
+
+        // Reveal correct answer
+        const correctIndex = currentQuestion.options.findIndex(opt => opt.isCorrect);
+        const correctButton = document.querySelector(`.option-btn[data-index="${correctIndex}"]`);
+        if (correctButton) {
+          correctButton.classList.add('correct');
+        }
+      }
+    }
+
+    // Simple Prize Ladder Highlight (moves up one level)
+    function highlightNextPrize() {
+      const current = document.querySelector('#money-tree li.current');
+      if (current && current.previousElementSibling) {
+        current.classList.remove('current');
+        current.previousElementSibling.classList.add('current');
+      }
+    }
+
+    // Simple Timer (counts down from 60)
+    function startTimer() {
+      let timeLeft = 60;
+      const timerElement = document.getElementById('countdown');
+
+      const timer = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          timerElement.textContent = "Time's Up!";
+          document.querySelectorAll('.option-btn').forEach(btn => btn.disabled = true);
+          document.getElementById('result-message').textContent = "⏰ Time's Up!";
+          document.getElementById('result-message').style.color = "#ffc107";
+        }
+      }, 1000);
+    }
+
+    // Initialize Game
+    window.addEventListener('DOMContentLoaded', () => {
+      renderQuestion();
+      startTimer();
+    });
+  </script>
 </body>
-
 </html>
