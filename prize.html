@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🏆 Prize Approved - Encarta IT Cell</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-  <script>
-    const socket = io("https://kbc-for-raisoni-2.onrender.com");
-  </script>
+  <title>💸 Prize Transferred | Encarta IT Cell</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -17,177 +13,127 @@
     }
 
     body {
-      background: #000 url('https://img.freepik.com/free-vector/dark-blue-circuit-board-background_1017-33659.jpg') no-repeat center;
-      background-size: cover;
-      color: #fff;
+      background: linear-gradient(135deg, #0a0a2a, #1a004e);
+      color: white;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      overflow: hidden;
-      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
       position: relative;
+      overflow: hidden;
+    }
+
+    /* Background Particles */
+    .particles {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      opacity: 0;
     }
 
     .container {
       z-index: 10;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    /* Header */
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 30px;
-      background: rgba(0, 15, 40, 0.8);
-      border-bottom: 2px solid #00ccff;
-      margin-bottom: 30px;
-      border-radius: 15px 15px 0 0;
+      max-width: 600px;
+      padding: 40px 30px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.2);
     }
 
     .logo {
       height: 80px;
-      filter: drop-shadow(0 0 10px rgba(0, 200, 255, 0.5));
+      margin-bottom: 20px;
     }
 
-    .title {
-      font-family: 'Orbitron', sans-serif;
+    h1 {
       font-size: 2rem;
       color: gold;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+      margin-bottom: 10px;
+      font-weight: 600;
     }
 
-    /* Input Section */
-    .input-section {
-      margin: 30px 0;
-      font-size: 1.3rem;
+    p {
       color: #ccc;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-direction: column;
+      align-items: center;
     }
 
     input {
-      padding: 14px;
-      width: 280px;
-      margin: 10px;
-      border: 2px solid #00ccff;
+      padding: 12px 20px;
+      width: 100%;
+      max-width: 300px;
+      border: 1px solid #444;
       border-radius: 12px;
-      background: rgba(0, 0, 30, 0.6);
+      background: rgba(255, 255, 255, 0.1);
       color: white;
-      font-size: 1.2rem;
+      font-size: 1rem;
       text-align: center;
     }
 
     button {
-      background: linear-gradient(to bottom, #0099cc, #006699);
+      background: linear-gradient(to right, #00cc66, #00994d);
       color: white;
       border: none;
-      padding: 16px 32px;
-      font-size: 1.3rem;
-      font-weight: bold;
+      padding: 14px 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
       border-radius: 15px;
       cursor: pointer;
-      margin-top: 20px;
-      box-shadow: 0 5px 15px rgba(0, 200, 255, 0.4);
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 200, 100, 0.3);
     }
 
     button:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 20px rgba(0, 200, 255, 0.7);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 200, 100, 0.5);
     }
 
-    /* Approval Centerpiece */
-    .approval-center {
-      margin: 40px auto;
-      position: relative;
-      width: 200px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .approval-circle {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border: 8px solid transparent;
-      border-top-color: #00cc66;
-      border-radius: 50%;
-      animation: rotate 2s linear infinite, glow 2s ease-in-out infinite alternate;
-      opacity: 0;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes glow {
-      from { box-shadow: 0 0 20px rgba(0, 200, 100, 0.5); }
-      to { box-shadow: 0 0 40px rgba(0, 200, 100, 0.8); }
-    }
-
-    .tick {
-      position: absolute;
-      width: 100px;
-      height: 100px;
-      background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 L40,70 L80,30" stroke="%2300cc66" stroke-width="10" fill="none" stroke-linecap="round" /></svg>') no-repeat;
-      background-size: contain;
-      opacity: 0;
-      transform: scale(0);
-      z-index: 10;
-    }
-
-    .student-info {
-      margin-top: 20px;
-      font-size: 1.5rem;
-      color: #00cc66;
-      font-weight: bold;
-      opacity: 0;
-    }
-
-    /* Transaction Screen */
-    .bank-screen {
-      display: none;
+    /* Transfer Animation */
+    .transfer-box {
       margin-top: 30px;
-      padding: 30px;
-      background: rgba(0, 10, 30, 0.9);
-      border: 1px solid #00ccff;
-      border-radius: 15px;
       font-size: 1.4rem;
-      line-height: 2.3;
-      text-align: left;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 0 30px rgba(0, 200, 255, 0.2);
-    }
-
-    .bank-row {
-      opacity: 0;
-      transform: translateX(-30px);
-      transition: all 0.8s ease;
-    }
-
-    .highlight {
-      color: #00cc66;
-      font-weight: bold;
+      color: #ccc;
+      display: none;
     }
 
     .amount {
-      font-size: 2rem;
+      font-size: 2.5rem;
       color: #00cc66;
       font-weight: bold;
+      margin: 15px 0;
+      opacity: 0;
     }
 
-    /* Digital Signature */
-    .signature {
-      margin-top: 20px;
-      font-style: italic;
-      color: #00ccff;
-      font-size: 1.2rem;
+    .tick {
+      font-size: 4rem;
+      color: #00cc66;
+      margin: 20px 0;
+      opacity: 0;
     }
 
-    /* Confetti */
     .confetti {
       position: absolute;
       width: 10px;
@@ -199,113 +145,134 @@
 </head>
 <body>
 
-  <!-- Approved Stamp -->
-  <div class="stamp" id="stamp"></div>
+  <!-- Background Particles -->
+  <div class="particles" id="particles"></div>
 
   <div class="container">
-    <div class="header">
-      <img src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="Encarta IT Cell" class="logo">
-      <div class="title">PRIZE CREDIT SYSTEM</div>
-    </div>
+    <img src="WhatsApp Image 2025-09-13 at 12.36.38 PM.jpeg" alt="Encarta IT Cell" class="logo">
 
-    <div class="input-section">
-      <p>Enter winner details to approve fund transfer</p>
-      <input type="text" id="studentName" placeholder="Student Full Name">
+    <h1>Fund Transfer Initiated</h1>
+    <p>Enter winner details to complete the transaction</p>
+
+    <div class="input-group">
+      <input type="text" id="studentName" placeholder="Student Name">
       <input type="number" id="prizeAmount" placeholder="₹ Amount">
-
-      <br>
-      <button onclick="approveTransfer()">🚀 Approve Transfer</button>
+      <button onclick="transferPrize()">✅ Confirm Transfer</button>
     </div>
 
-    <!-- Animated Approval Center -->
-    <div class="approval-center">
-      <div class="approval-circle" id="progressCircle"></div>
-      <div class="tick" id="tick"></div>
-      <div class="student-info" id="studentInfo"></div>
-    </div>
-
-    <!-- Bank Screen -->
-    <div class="bank-screen" id="bankScreen">
-      <div class="bank-row" id="row1">[SECURE] 🔐 Session authenticated...</div>
-      <div class="bank-row" id="row2">User: <strong>KBC_ADMIN</strong> | Role: Host</div>
-      <div class="bank-row" id="row3">Validating recipient identity...</div>
-      <div class="bank-row" id="row4">Recipient: <span id="display-name"></span></div>
-      <div class="bank-row" id="row5">Institution: Raisoni College</div>
-      <div class="bank-row" id="row6">Account: ENCXXXXXX<span id="accNum"></span></div>
-      <div class="bank-row" id="row7">Status: <span style="color:#ffcc00">Processing</span></div>
-
-      <div class="amount" id="transferText" style="opacity:0;">
-        💸 CREDITING: ₹<span id="display-amount"></span>
+    <!-- Transfer Success View -->
+    <div class="transfer-box" id="transferBox">
+      <div style="color:#00cc66; font-size:1.2rem;">Transaction Successful</div>
+      <div class="amount" id="amountDisplay">₹0</div>
+      <div class="tick">✅</div>
+      <div style="color:#ccc; font-size:1.1rem;">
+        Credited to:<br>
+        <strong id="nameDisplay" style="color:white;"></strong><br>
+        <small style="color:#aaa;">via Encarta Digital Wallet</small>
       </div>
-
-      <div class="bank-row" id="row8">Status: <span class="highlight">APPROVED & CREDITED</span></div>
-      <div class="bank-row" id="row9">Transaction ID: KBC-ENC-<span id="txid"></span></div>
-      <div class="bank-row" id="row10" style="color:#00cc66; font-weight:bold;">🎉 MISSION SUCCESSFUL</div>
-
-      <div class="signature">Digitally signed by Encarta IT Cell Authority</div>
     </div>
   </div>
 
   <script>
-    function approveTransfer() {
+    function transferPrize() {
       const name = document.getElementById('studentName').value.trim();
       const amount = document.getElementById('prizeAmount').value.trim();
 
       if (!name || !amount) {
-        alert("⚠️ Please enter both name and amount!");
+        alert("Please enter both name and amount!");
         return;
       }
 
-      // Show screen
-      const screen = document.getElementById('bankScreen');
-      screen.style.display = 'block';
+      const box = document.getElementById('transferBox');
+      const amountEl = document.getElementById('amountDisplay');
+      const nameEl = document.getElementById('nameDisplay');
 
-      // Generate random data
-      const accNum = Math.floor(1000 + Math.random() * 9000);
-      const txid = Math.random().toString(36).substr(2, 8).toUpperCase();
+      box.style.display = 'block';
+      nameEl.textContent = name;
+      amountEl.textContent = `₹${parseInt(amount).toLocaleString()}`;
 
-      // Insert values
-      document.getElementById('display-name').textContent = name;
-      document.getElementById('accNum').textContent = accNum;
-      document.getElementById('display-amount').textContent = parseInt(amount).toLocaleString();
-      document.getElementById('txid').textContent = txid;
-
-      // Animate rows
-      let delay = 0;
-      document.querySelectorAll('.bank-row').forEach((row, i) => {
-        setTimeout(() => {
-          row.style.opacity = '1';
-          row.style.transform = 'translateX(0)';
-        }, delay);
-        delay += 700;
-      });
-
-      // Show circle progress
-      const progressCircle = document.getElementById('progressCircle');
-      progressCircle.style.opacity = '1';
-
-      // After 3 seconds → show tick
+      // Animate amount fade-in
       setTimeout(() => {
-        const tick = document.getElementById('tick');
-        tick.style.opacity = '1';
-        tick.style.transform = 'scale(1)';
-        tick.animate([
+        amountEl.animate([
+          { opacity: 0, transform: 'translateY(20px)' },
+          { opacity: 1, transform: 'translateY(0)' }
+        ], { duration: 800, easing: 'ease-out' });
+        amountEl.style.opacity = 1;
+      }, 300);
+
+      // Show tick
+      setTimeout(() => {
+        document.querySelector('.tick').style.opacity = 1;
+        document.querySelector('.tick').animate([
           { transform: 'scale(0)', opacity: 0 },
-          { transform: 'scale(1.2)', opacity: 1 },
+          { transform: 'scale(1.3)', opacity: 1 },
           { transform: 'scale(1)', opacity: 1 }
-        ], { duration: 500, easing: 'ease-out' });
-      }, 3000);
+        ], { duration: 600, easing: 'elastic-out(1, 0.5)' });
+      }, 1000);
 
-      // Show student name
-      setTimeout(() => {
-        const info = document.getElementById('studentInfo');
-        info.textContent = `${name}\n₹${parseInt(amount).toLocaleString()}`;
-        info.style.opacity = '1';
-      }, 3200);
+      // Play cash sound
+      new Audio("https://www.soundjay.com/money/sound/banknote-sweep-01a.mp3").play().catch(() => {});
 
-      // Show money animation
+      // Confetti!
+      createConfetti();
+
+      // Final alert
       setTimeout(() => {
-        const transfer = document.getElementById('transferText');
-        transfer.style.opacity = '1';
-        transfer.animate([
-          { transform: 'scale(0
+        alert(`🎉 Congratulations ${name}!\n₹${parseInt(amount).toLocaleString()} has been credited!`);
+      }, 2000);
+    }
+
+    // Create floating particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      for (let i = 0; i < 50; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.top = Math.random() * 100 + 'vh';
+        container.appendChild(p);
+
+        // Animate
+        p.animate([
+          { transform: 'scale(0)', opacity: 0 },
+          { transform: 'scale(1)', opacity: 0.7 },
+          { transform: 'scale(0)', opacity: 0 }
+        ], {
+          duration: 3000 + Math.random() * 2000,
+          delay: Math.random() * 3000,
+          fill: 'both',
+          easing: 'ease-out'
+        });
+      }
+    }
+
+    // Confetti burst
+    function createConfetti() {
+      const colors = ['#FFD700', '#00CC66', '#00CCFF', '#FF69B4'];
+      for (let i = 0; i < 100; i++) {
+        const c = document.createElement('div');
+        c.classList.add('confetti');
+        c.style.backgroundColor = colors[i % colors.length];
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.top = Math.random() * 100 + 'vh';
+        document.body.appendChild(c);
+
+        c.animate([
+          { transform: 'translate(0,0) rotate(0)', opacity: 1 },
+          { transform: `translate(${Math.random()*100-50}vw, ${Math.random()*100}vh) rotate(720deg)`, opacity: 0 }
+        ], {
+          duration: 3000 + Math.random() * 2000,
+          easing: 'cubic-bezier(0.1, 0.8, 0.9, 0.1)'
+        });
+
+        setTimeout(() => c.remove(), 5000);
+      }
+    }
+
+    // On load
+    window.onload = () => {
+      createParticles();
+    };
+  </script>
+</body>
+</html>
