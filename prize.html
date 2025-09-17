@@ -6,10 +6,9 @@
   <title>🏆 Prize Approved - Encarta IT Cell</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-<script>
-  // 🔥 Connect to your live server
-  const socket = io("https://kbc-for-raisoni-2.onrender.com");
-</script>
+  <script>
+    const socket = io("https://kbc-for-raisoni-2.onrender.com");
+  </script>
   <style>
     * {
       margin: 0;
@@ -97,6 +96,57 @@
       box-shadow: 0 8px 20px rgba(0, 200, 255, 0.7);
     }
 
+    /* Approval Centerpiece */
+    .approval-center {
+      margin: 40px auto;
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .approval-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 8px solid transparent;
+      border-top-color: #00cc66;
+      border-radius: 50%;
+      animation: rotate 2s linear infinite, glow 2s ease-in-out infinite alternate;
+      opacity: 0;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 20px rgba(0, 200, 100, 0.5); }
+      to { box-shadow: 0 0 40px rgba(0, 200, 100, 0.8); }
+    }
+
+    .tick {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: url('image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,50 L40,70 L80,30" stroke="%2300cc66" stroke-width="10" fill="none" stroke-linecap="round" /></svg>') no-repeat;
+      background-size: contain;
+      opacity: 0;
+      transform: scale(0);
+      z-index: 10;
+    }
+
+    .student-info {
+      margin-top: 20px;
+      font-size: 1.5rem;
+      color: #00cc66;
+      font-weight: bold;
+      opacity: 0;
+    }
+
     /* Transaction Screen */
     .bank-screen {
       display: none;
@@ -127,21 +177,6 @@
       font-size: 2rem;
       color: #00cc66;
       font-weight: bold;
-    }
-
-    /* Approved Stamp */
-    .stamp {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-20deg) scale(0);
-      width: 200px;
-      height: 200px;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="90" fill="none" stroke="%23d4af37" stroke-width="10"/><text x="100" y="100" font-family="Arial" font-size="28" fill="%23d4af37" text-anchor="middle" dy=".3em">APPROVED</text></svg>') no-repeat;
-      background-size: contain;
-      opacity: 0;
-      pointer-events: none;
-      z-index: 100;
     }
 
     /* Digital Signature */
@@ -179,7 +214,14 @@
       <input type="number" id="prizeAmount" placeholder="₹ Amount">
 
       <br>
-      <button onclick="approveTransfer()">✅ Approve Transfer</button>
+      <button onclick="approveTransfer()">🚀 Approve Transfer</button>
+    </div>
+
+    <!-- Animated Approval Center -->
+    <div class="approval-center">
+      <div class="approval-circle" id="progressCircle"></div>
+      <div class="tick" id="tick"></div>
+      <div class="student-info" id="studentInfo"></div>
     </div>
 
     <!-- Bank Screen -->
@@ -238,63 +280,32 @@
         delay += 700;
       });
 
+      // Show circle progress
+      const progressCircle = document.getElementById('progressCircle');
+      progressCircle.style.opacity = '1';
+
+      // After 3 seconds → show tick
+      setTimeout(() => {
+        const tick = document.getElementById('tick');
+        tick.style.opacity = '1';
+        tick.style.transform = 'scale(1)';
+        tick.animate([
+          { transform: 'scale(0)', opacity: 0 },
+          { transform: 'scale(1.2)', opacity: 1 },
+          { transform: 'scale(1)', opacity: 1 }
+        ], { duration: 500, easing: 'ease-out' });
+      }, 3000);
+
+      // Show student name
+      setTimeout(() => {
+        const info = document.getElementById('studentInfo');
+        info.textContent = `${name}\n₹${parseInt(amount).toLocaleString()}`;
+        info.style.opacity = '1';
+      }, 3200);
+
       // Show money animation
       setTimeout(() => {
         const transfer = document.getElementById('transferText');
         transfer.style.opacity = '1';
         transfer.animate([
-          { transform: 'scale(0)', opacity: 0 },
-          { transform: 'scale(1.3)', opacity: 1 },
-          { transform: 'scale(1)', opacity: 1 }
-        ], { duration: 800, easing: 'ease-out' });
-      }, 2800);
-
-      // Show APPROVED stamp
-      setTimeout(() => {
-        const stamp = document.getElementById('stamp');
-        stamp.style.opacity = '1';
-        stamp.animate([
-          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(0)' },
-          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(1.2)' },
-          { transform: 'translate(-50%,-50%) rotate(-20deg) scale(1)' }
-        ], { duration: 1000, easing: 'elastic-out(1, 0.5)' });
-      }, 3200);
-
-      // Play cash sound
-      const snd = new Audio("https://www.soundjay.com/money/sound/banknote-sweep-01a.mp3");
-      snd.play().catch(() => {});
-
-      // Confetti!
-      createConfetti();
-
-      // Final alert
-      setTimeout(() => {
-        alert(`🎉 Congratulations ${name}!\n₹${parseInt(amount).toLocaleString()} has been officially credited!`);
-      }, 4000);
-    }
-
-    function createConfetti() {
-      const colors = ['#FFD700', '#00CC66', '#00CCFF', '#FF69B4', '#FF8C00'];
-      for (let i = 0; i < 150; i++) {
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.backgroundColor = colors[i % colors.length];
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = Math.random() * 100 + 'vh';
-        document.body.appendChild(confetti);
-
-        confetti.animate([
-          { transform: 'translate(0,0) rotate(0)', opacity: 1 },
-          { transform: `translate(${Math.random()*100-50}vw, ${Math.random()*100}vh) rotate(720deg)`, opacity: 0 }
-        ], {
-          duration: 3000 + Math.random() * 2000,
-          easing: 'cubic-bezier(0.1, 0.8, 0.9, 0.1)'
-        });
-
-        setTimeout(() => confetti.remove(), 5000);
-      }
-    }
-  </script>
-</body>
-
-</html>
+          { transform: 'scale(0
