@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KBC - Premium Host Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="questions.js"></script>
+  <script>
+    const socket = io();
+  </script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Scrollbar Style */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(10, 15, 35, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 215, 0, 0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 215, 0, 0.6);
+    }
+
+    body { 
+      font-family: 'Montserrat', sans-serif; 
+      background: linear-gradient(135deg, #050515 0%, #0c0e2b 50%, #150933 100%);
+      color: #eee; 
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header Styling */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 30px;
+      background: rgba(8, 10, 36, 0.85);
+      border-bottom: 2px solid rgba(255, 215, 0, 0.6);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .header-logo i {
+      color: #ffd700;
+      font-size: 1.8rem;
+      text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    }
+    header h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #ffd700, #ffaa00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    .status-badge.connected {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-badge span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      display: inline-block;
+    }
+    .status-badge.connected span {
+      animation: pulse-green 1.5s infinite alternate;
+    }
+    .back-btn {
+      color: #ffd700;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      background: rgba(255, 215, 0, 0.05);
+    }
+    .back-btn:hover {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: #ffd700;
+      box-shadow: 0 0 10px rgba(255,215,0,0.2);
+    }
+
+    /* Main Layout */
+    .dashboard-container {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      min-height: calc(100vh - 72px);
+    }
+
+    /* Sidebar Styling */
+    .sidebar {
+      background: rgba(6, 8, 30, 0.8);
+      border-right: 1px solid rgba(255, 215, 0, 0.15);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      max-height: calc(100vh - 72px);
+      overflow-y: auto;
+    }
+    .sidebar-section-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffd700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .set-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .set-item button {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #ccc;
+      text-align: left;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .set-item button:hover {
+      background: rgba(255, 215, 0, 0.08);
+      border-color: rgba(255, 215, 0, 0.3);
+      color: white;
+    }
+    .set-item.active button {
+      background: linear-gradient(135deg, #102a5f, #1f438f);
+      border-color: rgba(255, 215, 0, 0.5);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+    }
+    .set-badge {
+      background: rgba(255, 215, 0, 0.2);
+      color: #ffd700;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .set-item.active .set-badge {
+      background: #ffd700;
+      color: #0c0e2b;
+    }
+
+    /* Scoreboard Section */
+    .scoreboard-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .team-control-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 12px;
+      transition: all 0.3s;
+      position: relative;
+    }
+    .team-control-card.active {
+      border-color: rgba(255, 215, 0, 0.45);
+      background: rgba(255, 215, 0, 0.04);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+    }
+    .team-control-card.active::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 12px; bottom: 12px; width: 3px;
+      background: #ffd700;
+      border-radius: 0 4px 4px 0;
+    }
+    .team-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .team-name-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px dashed rgba(255,255,255,0.2);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      width: 140px;
+      padding: 2px 4px;
+    }
+    .team-name-input:focus {
+      outline: none;
+      border-bottom-color: #ffd700;
+      border-bottom-style: solid;
+    }
+    .active-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      color: #777;
+      transition: all 0.3s;
+    }
+    .active-toggle.active {
+      color: #ffd700;
+    }
+    .team-score-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .score-edit-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: white;
+      width: 60px;
+    }
+    .score-btns {
+      display: flex;
+      gap: 4px;
+    }
+    .score-btn {
+      padding: 4px 8px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      color: #ccc;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .score-btn:hover {
+      background: rgba(255,215,0,0.15);
+      color: white;
+      border-color: rgba(255,215,0,0.3);
+    }
+    .score-btn.neg {
+      color: #ef4444;
+    }
+    .score-btn.neg:hover {
+      background: rgba(239,68,68,0.15);
+      border-color: rgba(239,68,68,0.3);
+    }
+    .sidebar-footer-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .sidebar-footer-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+      box-shadow: 0 0 10px rgba(239,68,68,0.15);
+    }
+
+    /* Main Panel Content */
+    .main-content {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-height: calc(100vh - 72px);
+      overflow-y: auto;
+    }
+
+    /* Active Question HUD Card */
+    .hud-card {
+      background: rgba(14, 22, 54, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+    }
+    .hud-info h2 {
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffd700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hud-question-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.4;
+      color: #fff;
+    }
+    .hud-options-preview {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 15px;
+      color: #ddd;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+    .hud-options-preview span {
+      background: rgba(255,255,255,0.04);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.08);
+      display: block;
+      font-weight: 500;
+    }
+    .hud-options-preview span.is-correct {
+      color: #10b981;
+      border-color: rgba(16, 185, 129, 0.5);
+      background: rgba(16, 185, 129, 0.12);
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+    }
+    .hud-options-preview span.is-correct-subtle {
+      border-color: rgba(16, 185, 129, 0.25);
+      background: rgba(16, 185, 129, 0.05);
+      color: #ddd;
+    }
+    .hud-options-preview span.locked {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: #ffd700;
+      color: #ffd700;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+    }
+    .hud-options-preview span.correct-reveal {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #10b981;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+    .hud-options-preview span.wrong-reveal {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+    }
+    .hud-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .hud-btn {
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .hud-btn.clear {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .hud-btn.clear:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #888;
+      margin-bottom: 6px;
+    }
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat-value.gold {
+      color: #ffd700;
+    }
+
+    /* Lifelines panel */
+    .lifelines-hud {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .lifeline-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lifeline-btns-container {
+      display: flex;
+      gap: 10px;
+    }
+    .lifeline-action-btn {
+      padding: 10px 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .lifeline-action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    #btn-5050 { border-color: rgba(239, 68, 68, 0.3); color: #ef4444; }
+    #btn-5050:hover { background: rgba(239, 68, 68, 0.1); }
+    #btn-friend { border-color: rgba(59, 130, 246, 0.3); color: #3b82f6; }
+    #btn-friend:hover { background: rgba(59, 130, 246, 0.1); }
+    #btn-audience { border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
+    #btn-audience:hover { background: rgba(16, 185, 129, 0.1); }
+    
+    .lifeline-action-btn.used {
+      opacity: 0.3;
+      cursor: not-allowed;
+      text-decoration: line-through;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .lifeline-reset-btn {
+      background: transparent;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      color: #ffd700;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .lifeline-reset-btn:hover {
+      background: rgba(255,215,0,0.1);
+      border-color: #ffd700;
+    }
+
+    /* Filter & Questions List */
+    .questions-card {
+      background: rgba(14, 22, 54, 0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .questions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      gap: 20px;
+    }
+    .questions-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .search-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 400px;
+    }
+    .search-wrapper i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(8, 10, 36, 0.6);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: rgba(255, 215, 0, 0.5);
+      box-shadow: 0 0 10px rgba(255,215,0,0.15);
+    }
+
+    /* Table Styling */
+    .table-container {
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      max-height: 480px;
+      overflow-y: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(8, 10, 36, 0.3);
+      color: #ccc;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    th {
+      background: rgba(16, 24, 60, 0.85);
+      color: #ffd700;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    tr {
+      transition: all 0.2s;
+    }
+    tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    tr.sent-row {
+      background: rgba(16, 185, 129, 0.03);
+    }
+    .td-id {
+      font-weight: bold;
+      color: #777;
+      text-align: center;
+    }
+    .sent-row .td-id {
+      color: #10b981;
+    }
+    .td-question {
+      font-weight: 600;
+      color: #eee;
+      line-height: 1.4;
+      max-width: 400px;
+    }
+    .td-options {
+      font-size: 0.8rem;
+      color: #888;
+      max-width: 250px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .td-correct {
+      font-weight: 800;
+      color: #ffd700;
+      text-align: center;
+    }
+    .td-hint-btn {
+      color: #3b82f6;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.2s;
+    }
+    .td-hint-btn:hover {
+      color: #60a5fa;
+      transform: scale(1.1);
+    }
+    .send-action-btn {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      background: rgba(255, 215, 0, 0.06);
+      color: #ffd700;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .send-action-btn:hover {
+      background: #ffd700;
+      color: #0c0e2b;
+      box-shadow: 0 0 10px rgba(255,215,0,0.3);
+    }
+    .send-action-btn.sent {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+    .send-action-btn.sent:hover {
+      background: #10b981;
+      color: white;
+      box-shadow: 0 0 10px rgba(16,185,129,0.3);
+    }
+
+    /* Logs & Points bottom section */
+    .bottom-grids {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .console-card {
+      background: rgba(14, 22, 54, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      padding: 18px;
+    }
+    .console-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ffd700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logs-wrapper {
+      max-height: 120px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .log-item {
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.8rem;
+      color: #aaa;
+      display: flex;
+      justify-content: space-between;
+    }
+    .log-time {
+      color: #555;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .ladder-points-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      justify-content: center;
+      padding: 10px 0;
+    }
+    .ladder-points-display span {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ccc;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    /* Glass Modal */
+    #hint-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(3, 4, 15, 0.85);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: rgba(12, 16, 46, 0.95);
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      animation: scale-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffd700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #ddd;
+      margin-bottom: 24px;
+    }
+    .modal-close-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #102a5f, #1f438f);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .modal-close-btn:hover {
+      box-shadow: 0 0 10px rgba(255,215,0,0.2);
+      border-color: #ffd700;
+    }
+
+    @keyframes scale-up {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 2px rgba(16, 185, 129, 0.3); opacity: 0.8; }
+      100% { box-shadow: 0 0 8px rgba(16, 185, 129, 0.8); opacity: 1; }
+    }
+
+    /* Host Control Pop-up Modal */
+    .host-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(3, 4, 15, 0.85);
+      backdrop-filter: blur(10px);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .host-modal.show {
+      display: flex;
+      opacity: 1;
+    }
+    .host-modal-content {
+      background: linear-gradient(135deg, #0d1233 0%, #05071a 100%);
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 35px rgba(255, 215, 0, 0.3);
+      border-radius: 20px;
+      width: 90%;
+      max-width: 650px;
+      padding: 24px;
+      animation: scale-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .host-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .host-modal-header h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #ffd700;
+      letter-spacing: 1px;
+    }
+    .host-modal-close-x {
+      background: transparent;
+      border: none;
+      color: #aaa;
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .host-modal-close-x:hover {
+      color: #ffd700;
+    }
+    .host-modal-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+    .host-timer-circle {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 3px solid #ff3b30;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #ff3b30;
+      box-shadow: 0 0 15px rgba(255, 59, 48, 0.3);
+    }
+    .host-modal-qtext {
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.5;
+      text-align: center;
+      color: white;
+    }
+    .host-modal-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .host-modal-options span {
+      background: rgba(255,255,255,0.04);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #ddd;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+    .host-modal-options span.is-correct {
+      border-color: rgba(16, 185, 129, 0.6);
+      background: rgba(16, 185, 129, 0.12);
+      color: #10b981;
+      font-weight: 700;
+    }
+    .host-modal-options span.locked {
+      background: rgba(255, 215, 0, 0.15);
+      border-color: #ffd700;
+      color: #ffd700;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.15);
+    }
+    .host-modal-options span.correct-reveal {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: #10b981;
+      color: #10b981;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+    }
+    .host-modal-options span.wrong-reveal {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+      color: #ef4444;
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+    }
+    .host-modal-actions {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .lock-btn-group {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .lock-btn {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .lock-btn:hover:not(:disabled) {
+      background: rgba(255, 215, 0, 0.1);
+      border-color: #ffd700;
+      color: #ffd700;
+    }
+    .lock-btn.active {
+      background: linear-gradient(to bottom, #ffd700, #cc9900) !important;
+      border-color: #ffd700 !important;
+      color: #001f5b !important;
+    }
+    .host-modal-actions .reveal-btn {
+      padding: 12px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10b981;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    .host-modal-actions .reveal-btn:hover:not(:disabled) {
+      background: #10b981;
+      color: white;
+      box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+    }
+    .host-modal-actions .reveal-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .host-modal-actions .clear-btn {
+      padding: 10px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #ef4444;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+    .host-modal-actions .clear-btn:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    @media (max-width: 992px) {
+      .dashboard-container { grid-template-columns: 1fr; }
+      .sidebar { max-height: none; border-right: none; border-bottom: 1px solid rgba(255, 215, 0, 0.15); }
+      .main-content { max-height: none; }
+    }
+    @media (max-width: 768px) {
+      header { flex-direction: column; gap: 12px; padding: 12px 15px; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .bottom-grids { grid-template-columns: 1fr; }
+      .hud-card { grid-template-columns: 1fr; gap: 15px; text-align: center; }
+      .hud-options-preview { grid-template-columns: 1fr; }
+      .lifelines-hud { flex-direction: column; gap: 12px; }
+      .lifeline-btns-container { flex-direction: column; width: 100%; }
+      .lifeline-action-btn { justify-content: center; width: 100%; }
+      .questions-header { flex-direction: column; align-items: stretch; gap: 10px; }
+    }
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+      .table-container { overflow-x: auto; }
+      table { min-width: 600px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="header-logo">
+      <i class="fas fa-tv"></i>
+      <h1>KAUN BANEGA CHAMPIONS</h1>
+    </div>
+    <div class="header-controls">
+      <div id="socket-status" class="status-badge">
+        <span></span> <span id="status-text">Connecting...</span>
+      </div>
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Player Screen
+      </a>
+    </div>
+  </header>
+
+  <!-- Dashboard -->
+  <div class="dashboard-container">
+    
+    <!-- Sidebar Controls -->
+    <aside class="sidebar">
+      
+      <!-- Set Selector -->
+      <div>
+        <div class="sidebar-section-title">
+          <i class="fas fa-layer-group"></i> Quiz Sets
+        </div>
+        <ul class="set-list">
+          <li class="set-item active" id="tab-set1"><button onclick="switchSet('set1')"><span>Set 1 (FYJC)</span> <span class="set-badge" id="badge-set1">0</span></button></li>
+          <li class="set-item" id="tab-set2"><button onclick="switchSet('set2')"><span>Set 2 (FYJC)</span> <span class="set-badge" id="badge-set2">0</span></button></li>
+          <li class="set-item" id="tab-set3"><button onclick="switchSet('set3')"><span>Set 3 (FYJC)</span> <span class="set-badge" id="badge-set3">0</span></button></li>
+          <li class="set-item" id="tab-set4"><button onclick="switchSet('set4')"><span>Set 4 (FYJC)</span> <span class="set-badge" id="badge-set4">0</span></button></li>
+          <li class="set-item" id="tab-fff"><button onclick="switchSet('fff')"><span>Fastest Finger</span> <span class="set-badge" id="badge-fff">0</span></button></li>
+          <li class="set-item" id="tab-ubc"><button onclick="switchSet('ubc')"><span>UBC Quiz Set 1</span> <span class="set-badge" id="badge-ubc">0</span></button></li>
+          <li class="set-item" id="tab-original"><button onclick="switchSet('original')"><span>Original IT</span> <span class="set-badge" id="badge-original">0</span></button></li>
+        </ul>
+      </div>
+
+      <!-- Scoreboard Panel -->
+      <div>
+        <div class="sidebar-section-title">
+          <i class="fas fa-user-cog"></i> Player Scoreboard
+        </div>
+        <div class="scoreboard-panel">
+          
+          <!-- Single Player Card -->
+          <div class="team-control-card active" id="player-card">
+            <div class="team-header">
+              <input type="text" class="team-name-input" id="player-name-input" value="Player 1" onchange="renamePlayer(this.value)">
+              <div class="active-toggle active">
+                <i class="fas fa-user"></i> Active
+              </div>
+            </div>
+            <div class="team-score-row">
+              <span class="score-edit-val" id="player-score-val">0</span>
+              <div class="score-btns">
+                <button class="score-btn" onclick="adjustPlayerScore(10)">+10</button>
+                <button class="score-btn" onclick="adjustPlayerScore(20)">+20</button>
+                <button class="score-btn neg" onclick="adjustPlayerScore(-10)">-10</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div>
+        <button class="sidebar-footer-btn" onclick="resetPlayerScore()">
+          <i class="fas fa-undo-alt"></i> Reset Player Score
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Main Dashboard Body -->
+    <main class="main-content">
+      
+      <!-- Current Active Question Display -->
+      <div class="hud-card">
+        <div class="hud-info" style="display: flex; flex-direction: column; gap: 15px; width: 100%;">
+          <div>
+            <h2><i class="fas fa-desktop"></i> Active on Screen</h2>
+            <div class="hud-question-text" id="hud-q-text">No active question. Select a question below to send it to the player screen.</div>
+          </div>
+          
+          <div class="hud-options-preview" id="hud-options-wrapper" style="display:none;">
+            <span id="preview-A">A: Option A</span>
+            <span id="preview-B">B: Option B</span>
+            <span id="preview-C">C: Option C</span>
+            <span id="preview-D">D: Option D</span>
+          </div>
+
+          <!-- New controls for Host to manage options toggle, lock, reveal -->
+          <div id="hud-controls-wrapper" style="display:none; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <span style="font-weight: 700; color: #ffd700; font-size: 0.85rem; text-transform: uppercase;">Options Visibility:</span>
+              <button id="host-toggle-options-btn" class="hud-btn" style="padding: 6px 12px; background: rgba(59, 130, 246, 0.2); border: 1px solid #3b82f6; color: #3b82f6;" onclick="hostToggleOptions()">
+                <i class="fas fa-eye-slash"></i> Show Options
+              </button>
+            </div>
+            
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <span style="font-weight: 700; color: #ffd700; font-size: 0.85rem; text-transform: uppercase;">Lock Option:</span>
+              <button id="lock-btn-A" class="hud-btn lock-action-btn" style="padding: 6px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); color: white;" onclick="hostLockOption('A')">A</button>
+              <button id="lock-btn-B" class="hud-btn lock-action-btn" style="padding: 6px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); color: white;" onclick="hostLockOption('B')">B</button>
+              <button id="lock-btn-C" class="hud-btn lock-action-btn" style="padding: 6px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); color: white;" onclick="hostLockOption('C')">C</button>
+              <button id="lock-btn-D" class="hud-btn lock-action-btn" style="padding: 6px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); color: white;" onclick="hostLockOption('D')">D</button>
+            </div>
+
+            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+              <span style="font-weight: 700; color: #ffd700; font-size: 0.85rem; text-transform: uppercase;">Reveal Answer:</span>
+              <button id="reveal-answer-btn" class="hud-btn" style="padding: 8px 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; font-weight: bold;" onclick="hostRevealAnswer()" disabled>
+                <i class="fas fa-key"></i> Reveal Answer
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="hud-actions" style="margin-left: auto;">
+          <button class="hud-btn clear" onclick="clearActiveQuestion()">
+            <i class="fas fa-eraser"></i> Clear Screen
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Questions Loaded</div>
+          <div class="stat-value gold" id="stat-total-q">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Questions in Active Set</div>
+          <div class="stat-value" id="stat-active-q">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Sent in this Round</div>
+          <div class="stat-value gold" id="stat-sent-count">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Active Set Name</div>
+          <div class="stat-value" id="stat-set-name" style="font-size:1.1rem; padding-top:4px;">Set 1</div>
+        </div>
+      </div>
+
+      <!-- Lifelines Bar -->
+      <div class="lifelines-hud">
+        <div class="lifeline-title">
+          <i class="fas fa-ambulance"></i> Lifelines Controls
+        </div>
+        <div class="lifeline-btns-container">
+          <button id="btn-5050" class="lifeline-action-btn" onclick="triggerFiftyFifty()">
+            <i class="fas fa-percentage"></i> 50:50
+          </button>
+          <button id="btn-friend" class="lifeline-action-btn" onclick="forceLifeline('Ask Friend')">
+            <i class="fas fa-phone-alt"></i> Ask Friend
+          </button>
+          <button id="btn-audience" class="lifeline-action-btn" onclick="forceLifeline('Ask Audience')">
+            <i class="fas fa-users"></i> Ask Audience
+          </button>
+        </div>
+        <button class="lifeline-reset-btn" onclick="resetLifelines()">
+          <i class="fas fa-sync-alt"></i> Reset Lifelines
+        </button>
+      </div>
+
+      <!-- Questions List Card -->
+      <div class="questions-card">
+        <div class="questions-header">
+          <div class="questions-card-title">Questions Directory</div>
+          <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" class="search-input" id="search-input" placeholder="Search questions or hints..." onkeyup="searchQuestions()">
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 50px; text-align: center;">ID</th>
+                <th>Question</th>
+                <th>Options Preview</th>
+                <th style="width: 70px; text-align: center;">Ans</th>
+                <th style="width: 70px; text-align: center;">Hint</th>
+                <th style="width: 120px; text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Dynamically rendered -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bottom Consoles Grid -->
+      <div class="bottom-grids">
+        
+        <!-- Live Request console -->
+        <div class="console-card">
+          <div class="console-title">
+            <i class="fas fa-bell"></i> Real-time System Logs
+          </div>
+          <div class="logs-wrapper" id="logs-list">
+            <div class="log-item"><span>System initialized</span> <span class="log-time" id="system-time">00:00:00</span></div>
+          </div>
+        </div>
+
+        <!-- Points Ladder -->
+        <div class="console-card" style="text-align:center;">
+          <div class="console-title" style="justify-content:center;">
+            <i class="fas fa-sort-amount-up"></i> Score Ladder Reference
+          </div>
+          <div class="ladder-points-display">
+            <span>0</span>
+            <span>20</span>
+            <span>40</span>
+            <span>60</span>
+            <span>80</span>
+            <span>100</span>
+            <span>120</span>
+            <span>140</span>
+            <span>160</span>
+            <span>180</span>
+            <span>200</span>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- Hint Detail Overlay Modal -->
+  <div id="hint-modal">
+    <div class="modal-content">
+      <div class="modal-title">
+        <i class="fas fa-info-circle"></i> <span id="modal-title-text">Question Explanation</span>
+      </div>
+      <div class="modal-text" id="modal-text-content">Explanation description text goes here.</div>
+      <button class="modal-close-btn" onclick="closeModal()">Got it</button>
+    </div>
+  </div>
+
+  <!-- Host Active Question Modal (Pop-up when question is sent) -->
+  <div id="host-active-modal" class="host-modal">
+    <div class="host-modal-content">
+      <div class="host-modal-header">
+        <h3><i class="fas fa-desktop"></i> ACTIVE QUESTION CONTROLLER</h3>
+        <button class="host-modal-close-x" onclick="closeHostActiveModal()">&times;</button>
+      </div>
+      <div class="host-modal-body">
+        <!-- Active Lifeline Banner -->
+        <div id="host-modal-lifeline-alert" style="display: none; width: 100%; padding: 10px; background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; border-radius: 8px; color: #60a5fa; font-weight: 700; text-align: center; margin-top: -10px; margin-bottom: 10px;">
+          <i class="fas fa-bell"></i> Active Lifeline: <span id="host-modal-lifeline-type">None</span>
+        </div>
+        <div class="host-timer-circle">
+          <span id="host-timer-val">30</span>
+        </div>
+        <div class="host-modal-qtext" id="host-modal-qtext">Question Text...</div>
+        
+        <div class="host-modal-options" id="host-modal-options-wrapper">
+          <span id="host-preview-A" onclick="hostLockOption('A')">A: Option A</span>
+          <span id="host-preview-B" onclick="hostLockOption('B')">B: Option B</span>
+          <span id="host-preview-C" onclick="hostLockOption('C')">C: Option C</span>
+          <span id="host-preview-D" onclick="hostLockOption('D')">D: Option D</span>
+        </div>
+
+        <div class="host-modal-actions">
+          <div class="lock-btn-group">
+            <button id="host-lock-A" class="lock-btn" onclick="hostLockOption('A')">Lock A</button>
+            <button id="host-lock-B" class="lock-btn" onclick="hostLockOption('B')">Lock B</button>
+            <button id="host-lock-C" class="lock-btn" onclick="hostLockOption('C')">Lock C</button>
+            <button id="host-lock-D" class="lock-btn" onclick="hostLockOption('D')">Lock D</button>
+          </div>
+          
+          <button id="host-reveal-btn" class="reveal-btn" onclick="hostRevealAnswer()" disabled>
+            <i class="fas fa-key"></i> Reveal Answer
+          </button>
+
+          <!-- Modal Lifelines Trigger Section -->
+          <div class="modal-lifelines-section" style="width: 100%; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-top: 5px;">
+            <div style="font-weight: 700; color: #ffd700; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 8px; text-align: center;">Trigger Lifelines</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%;">
+              <button id="modal-btn-5050" class="lock-btn" onclick="triggerFiftyFifty()" style="border-color: rgba(59, 130, 246, 0.4); color: #3b82f6;">
+                <i class="fas fa-percentage"></i> 50:50
+              </button>
+              <button id="modal-btn-friend" class="lock-btn" onclick="forceLifeline('Ask Friend')" style="border-color: rgba(59, 130, 246, 0.4); color: #3b82f6;">
+                <i class="fas fa-phone-alt"></i> Friend
+              </button>
+              <button id="modal-btn-audience" class="lock-btn" onclick="forceLifeline('Ask Audience')" style="border-color: rgba(59, 130, 246, 0.4); color: #3b82f6;">
+                <i class="fas fa-users"></i> Audience
+              </button>
+            </div>
+          </div>
+          
+          <button class="clear-btn" onclick="hostClearQuestion()">
+            <i class="fas fa-eraser"></i> Clear Screen & Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    window.isHost = true;
+    let currentSet = 'set1';
+    let sentQuestions = new Set();
+    let currentQuestionData = null;
+    const usedLifelines = new Set();
+    
+    // Player Score State
+    let player = { name: "Player 1", score: 0 };
+
+    // Load question counts and set badges
+    function initStats() {
+      if (!window.quizSets) {
+        console.error("Questions database failed to load!");
+        return;
+      }
+      
+      let total = 0;
+      Object.keys(window.quizSets).forEach(key => {
+        const count = window.quizSets[key].length;
+        total += count;
+        const badge = document.getElementById(`badge-${key}`);
+        if (badge) badge.textContent = count;
+      });
+
+      document.getElementById('stat-total-q').textContent = total;
+      updateActiveSetStats();
+    }
+
+    function updateActiveSetStats() {
+      const qList = window.quizSets[currentSet] || [];
+      document.getElementById('stat-active-q').textContent = qList.length;
+      
+      const setNames = {
+        'set1': 'Set 1 (FYJC)',
+        'set2': 'Set 2 (FYJC)',
+        'set3': 'Set 3 (FYJC)',
+        'set4': 'Set 4 (FYJC)',
+        'fff': 'Fastest Finger First',
+        'ubc': 'UBC Quiz Set 1',
+        'original': 'Original IT Quiz'
+      };
+      document.getElementById('stat-set-name').textContent = setNames[currentSet] || currentSet;
+    }
+
+    // Switch active question set
+    function switchSet(setName) {
+      if (!window.quizSets[setName]) return;
+      currentSet = setName;
+      
+      // Update Tab CSS
+      document.querySelectorAll('.set-item').forEach(el => el.classList.remove('active'));
+      const activeTab = document.getElementById(`tab-${setName}`);
+      if (activeTab) activeTab.classList.add('active');
+
+      updateActiveSetStats();
+      renderTable();
+      addLog(`Switched to set: ${setName.toUpperCase()}`);
+    }
+
+    // Render Table questions
+    function renderTable(qs = null) {
+      if (!qs) {
+        qs = window.quizSets[currentSet] || [];
+      }
+      
+      const tbody = document.getElementById('table-body');
+      tbody.innerHTML = '';
+
+      if (qs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #666;">No questions found</td></tr>`;
+        return;
+      }
+
+      qs.forEach(q => {
+        const optionsStr = `A: ${q.options.A} | B: ${q.options.B} | C: ${q.options.C} | D: ${q.options.D}`;
+        const isSent = sentQuestions.has(q.id);
+        const row = document.createElement('tr');
+        if (isSent) row.className = 'sent-row';
+
+        row.innerHTML = `
+          <td class="td-id">${q.id}</td>
+          <td class="td-question">${q.text}</td>
+          <td class="td-options" title="${optionsStr}">${optionsStr}</td>
+          <td class="td-correct">${q.correct}</td>
+          <td style="text-align:center;">
+            <i class="fas fa-info-circle td-hint-btn" onclick="showFullHint(${q.id}, '${q.correct}')"></i>
+          </td>
+          <td style="text-align:center; display: flex; justify-content: center;">
+            <button class="send-action-btn ${isSent ? 'sent' : ''}" onclick="sendQuestion(${q.id})">
+              <i class="fas ${isSent ? 'fa-check-circle' : 'fa-paper-plane'}"></i>
+              <span>${isSent ? 'Sent' : 'Send'}</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // Send a question to the Player/Audience Screen
+    function sendQuestion(qId) {
+      const qList = window.quizSets[currentSet] || [];
+      const q = qList.find(item => item.id === qId);
+      if (!q) return;
+
+      currentQuestionData = q;
+      
+      // We pass the index relative to current set
+      const index = qList.indexOf(q);
+      socket.emit('send-question', { ...q, index });
+      
+      sentQuestions.add(qId);
+      renderTable();
+      
+      // Update stats and active display
+      document.getElementById('stat-sent-count').textContent = sentQuestions.size;
+      updateActiveHUD(q);
+
+      // Play sound locally
+      const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3");
+      snd.play().catch(e => console.log("Bell sound failed:", e));
+
+      addLog(`Sent Question ID ${qId}: "${q.text.substring(0, 30)}..."`);
+    }
+
+    // Host active state management
+    let lockedOption = null;
+    let isRevealed = false;
+    let optionsVisible = false;
+    let hostTimerInterval = null;
+    let hostTimeLeft = 30;
+
+    // Clear active question from the player screen
+    function clearActiveQuestion() {
+      socket.emit('clear-question');
+      currentQuestionData = null;
+      lockedOption = null;
+      isRevealed = false;
+      optionsVisible = false;
+      clearInterval(hostTimerInterval);
+      
+      document.getElementById('hud-q-text').textContent = "No active question. Select a question below to send it to the player screen.";
+      document.getElementById('hud-options-wrapper').style.display = 'none';
+      document.getElementById('hud-controls-wrapper').style.display = 'none';
+      
+      const alertEl = document.getElementById('host-modal-lifeline-alert');
+      if (alertEl) alertEl.style.display = 'none';
+      
+      closeHostActiveModal();
+      addLog("Cleared question display screen.");
+    }
+
+    // Host Clear Question and close modal helper
+    function hostClearQuestion() {
+      clearActiveQuestion();
+    }
+
+    function closeHostActiveModal() {
+      document.getElementById('host-active-modal').classList.remove('show');
+      clearInterval(hostTimerInterval);
+    }
+
+    // Update active HUD widget and open pop-up controller modal
+    function updateActiveHUD(q) {
+      // 1. Update standard HUD card (inline)
+      document.getElementById('hud-q-text').textContent = q.text;
+      
+      const wrap = document.getElementById('hud-options-wrapper');
+      wrap.style.display = 'grid'; // Display as grid
+      
+      const controlsWrap = document.getElementById('hud-controls-wrapper');
+      controlsWrap.style.display = 'flex';
+      
+      const optA = document.getElementById('preview-A');
+      const optB = document.getElementById('preview-B');
+      const optC = document.getElementById('preview-C');
+      const optD = document.getElementById('preview-D');
+
+      optA.textContent = `A: ${q.options.A}`;
+      optB.textContent = `B: ${q.options.B}`;
+      optC.textContent = `C: ${q.options.C}`;
+      optD.textContent = `D: ${q.options.D}`;
+
+      // Reset inline preview span classes
+      [optA, optB, optC, optD].forEach(el => {
+        el.className = '';
+        el.style.opacity = '';
+        el.style.filter = '';
+      });
+      const correctEl = document.getElementById(`preview-${q.correct}`);
+      if (correctEl) correctEl.className = 'is-correct';
+
+      // Reset inline control buttons style
+      const toggleBtn = document.getElementById('host-toggle-options-btn');
+      if (toggleBtn) {
+        toggleBtn.removeAttribute('disabled');
+        toggleBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Show Options';
+        toggleBtn.style.background = 'rgba(59, 130, 246, 0.2)';
+        toggleBtn.style.borderColor = '#3b82f6';
+        toggleBtn.style.color = '#3b82f6';
+      }
+
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`lock-btn-${key}`);
+        if (btn) {
+          btn.removeAttribute('disabled');
+          btn.style.opacity = '';
+          btn.style.background = 'rgba(255, 255, 255, 0.05)';
+          btn.style.borderColor = 'rgba(255,255,255,0.2)';
+          btn.style.color = 'white';
+          btn.style.fontWeight = 'normal';
+        }
+      });
+
+      const revealBtn = document.getElementById('reveal-answer-btn');
+      if (revealBtn) revealBtn.setAttribute('disabled', 'true');
+
+      // 2. Open and populate the active question controller Pop-up Modal
+      const modal = document.getElementById('host-active-modal');
+      modal.classList.add('show');
+
+      const alertEl = document.getElementById('host-modal-lifeline-alert');
+      if (alertEl) alertEl.style.display = 'none';
+
+      document.getElementById('host-modal-qtext').textContent = q.text;
+      
+      const hostOptA = document.getElementById('host-preview-A');
+      const hostOptB = document.getElementById('host-preview-B');
+      const hostOptC = document.getElementById('host-preview-C');
+      const hostOptD = document.getElementById('host-preview-D');
+
+      hostOptA.textContent = `A: ${q.options.A}`;
+      hostOptB.textContent = `B: ${q.options.B}`;
+      hostOptC.textContent = `C: ${q.options.C}`;
+      hostOptD.textContent = `D: ${q.options.D}`;
+
+      // Reset classes inside modal options preview (subtly highlight correct answer for host guidance)
+      [hostOptA, hostOptB, hostOptC, hostOptD].forEach(el => {
+        el.className = '';
+        el.style.opacity = '';
+        el.style.filter = '';
+        el.style.pointerEvents = '';
+      });
+      const hostCorrectEl = document.getElementById(`host-preview-${q.correct}`);
+      if (hostCorrectEl) hostCorrectEl.className = 'is-correct';
+
+      // Reset modal control buttons style
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`host-lock-${key}`);
+        if (btn) {
+          btn.removeAttribute('disabled');
+          btn.style.opacity = '';
+          btn.className = 'lock-btn';
+        }
+      });
+
+      const hostRevealBtn = document.getElementById('host-reveal-btn');
+      if (hostRevealBtn) hostRevealBtn.setAttribute('disabled', 'true');
+
+      // Reset host state
+      lockedOption = null;
+      isRevealed = false;
+      optionsVisible = false;
+
+      // Start Countdown Timer on Host Pop-up
+      hostTimeLeft = 30;
+      document.getElementById('host-timer-val').textContent = hostTimeLeft;
+      clearInterval(hostTimerInterval);
+      hostTimerInterval = setInterval(() => {
+        hostTimeLeft--;
+        if (hostTimeLeft < 0) {
+          clearInterval(hostTimerInterval);
+          document.getElementById('host-timer-val').textContent = "⏰";
+          addLog("⏰ Host timer: Time's Up!");
+          // Disable lock buttons
+          ['A', 'B', 'C', 'D'].forEach(key => {
+            const btn = document.getElementById(`host-lock-${key}`);
+            if (btn) btn.setAttribute('disabled', 'true');
+          });
+        } else {
+          document.getElementById('host-timer-val').textContent = hostTimeLeft;
+        }
+      }, 1000);
+
+      // Reset or set lifeline buttons state inside modal
+      ['50:50', 'Ask Friend', 'Ask Audience'].forEach(type => {
+        let modalBtnId = '';
+        if (type === '50:50') modalBtnId = 'modal-btn-5050';
+        else if (type === 'Ask Friend') modalBtnId = 'modal-btn-friend';
+        else if (type === 'Ask Audience') modalBtnId = 'modal-btn-audience';
+
+        const btn = document.getElementById(modalBtnId);
+        if (btn) {
+          if (usedLifelines.has(type)) {
+            btn.classList.add('active');
+            btn.style.opacity = '0.5';
+            btn.style.pointerEvents = 'none';
+          } else {
+            btn.classList.remove('active');
+            btn.style.opacity = '1';
+            btn.style.pointerEvents = 'auto';
+          }
+        }
+      });
+    }
+
+    function hostToggleOptions() {
+      if (!currentQuestionData) return;
+      optionsVisible = !optionsVisible;
+      socket.emit('toggle-options', { visible: optionsVisible });
+      
+      const btn = document.getElementById('host-toggle-options-btn');
+      if (optionsVisible) {
+        btn.innerHTML = '<i class="fas fa-eye"></i> Hide Options';
+        btn.style.background = 'rgba(239, 68, 68, 0.2)';
+        btn.style.borderColor = '#ef4444';
+        btn.style.color = '#ef4444';
+        addLog("Host showed options on player screen.");
+      } else {
+        btn.innerHTML = '<i class="fas fa-eye-slash"></i> Show Options';
+        btn.style.background = 'rgba(59, 130, 246, 0.2)';
+        btn.style.borderColor = '#3b82f6';
+        btn.style.color = '#3b82f6';
+        addLog("Host hid options on player screen.");
+      }
+    }
+
+    function hostLockOption(opt) {
+      if (!currentQuestionData || isRevealed) return;
+      
+      lockedOption = opt;
+      clearInterval(hostTimerInterval); // Freeze host local countdown
+      socket.emit('lock-option', { option: opt });
+      
+      // Update Lock Buttons style in inline HUD
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`lock-btn-${key}`);
+        if (btn) {
+          if (key === opt) {
+            btn.style.background = 'linear-gradient(to bottom, #ffd700, #cc9900)';
+            btn.style.borderColor = '#ffd700';
+            btn.style.color = '#001f5b';
+            btn.style.fontWeight = 'bold';
+          } else {
+            btn.style.background = 'rgba(255, 255, 255, 0.05)';
+            btn.style.borderColor = 'rgba(255,255,255,0.2)';
+            btn.style.color = 'white';
+            btn.style.fontWeight = 'normal';
+          }
+        }
+      });
+
+      // Update Lock Buttons style in pop-up controller modal
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`host-lock-${key}`);
+        if (btn) {
+          if (key === opt) {
+            btn.className = 'lock-btn active';
+          } else {
+            btn.className = 'lock-btn';
+          }
+        }
+      });
+
+      // Highlight the locked option on the inline HUD preview spans
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const span = document.getElementById(`preview-${key}`);
+        if (span) {
+          span.className = '';
+          if (key === opt) {
+            span.className = 'locked';
+          } else if (key === currentQuestionData.correct) {
+            span.className = 'is-correct-subtle';
+          }
+        }
+      });
+
+      // Highlight the locked option on the pop-up modal preview spans
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const span = document.getElementById(`host-preview-${key}`);
+        if (span) {
+          span.className = '';
+          if (key === opt) {
+            span.className = 'locked';
+          } else if (key === currentQuestionData.correct) {
+            span.className = 'is-correct-subtle';
+          }
+        }
+      });
+      
+      // Enable reveal buttons
+      const inlineRevealBtn = document.getElementById('reveal-answer-btn');
+      if (inlineRevealBtn) inlineRevealBtn.removeAttribute('disabled');
+
+      const modalRevealBtn = document.getElementById('host-reveal-btn');
+      if (modalRevealBtn) modalRevealBtn.removeAttribute('disabled');
+
+      addLog(`Host locked Option ${opt}.`);
+    }
+
+    function hostRevealAnswer() {
+      if (!currentQuestionData || !lockedOption || isRevealed) return;
+      
+      isRevealed = true;
+      clearInterval(hostTimerInterval); // Just in case
+      socket.emit('reveal-answer');
+      
+      const correct = currentQuestionData.correct;
+      
+      // Update inline HUD Options preview spans
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const span = document.getElementById(`preview-${key}`);
+        if (span) {
+          span.className = '';
+          if (key === correct) {
+            span.className = 'correct-reveal';
+          } else if (key === lockedOption && lockedOption !== correct) {
+            span.className = 'wrong-reveal';
+          }
+        }
+      });
+
+      // Update modal options preview spans
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const span = document.getElementById(`host-preview-${key}`);
+        if (span) {
+          span.className = '';
+          if (key === correct) {
+            span.className = 'correct-reveal';
+          } else if (key === lockedOption && lockedOption !== correct) {
+            span.className = 'wrong-reveal';
+          }
+        }
+      });
+
+      // Disable lock and reveal controls in inline HUD
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`lock-btn-${key}`);
+        if (btn) btn.setAttribute('disabled', 'true');
+      });
+      const inlineRevealBtn = document.getElementById('reveal-answer-btn');
+      if (inlineRevealBtn) inlineRevealBtn.setAttribute('disabled', 'true');
+      
+      const inlineToggleBtn = document.getElementById('host-toggle-options-btn');
+      if (inlineToggleBtn) inlineToggleBtn.setAttribute('disabled', 'true');
+
+      // Disable lock and reveal controls in modal
+      ['A', 'B', 'C', 'D'].forEach(key => {
+        const btn = document.getElementById(`host-lock-${key}`);
+        if (btn) btn.setAttribute('disabled', 'true');
+      });
+      const modalRevealBtn = document.getElementById('host-reveal-btn');
+      if (modalRevealBtn) modalRevealBtn.setAttribute('disabled', 'true');
+      
+      const isCorrect = lockedOption === correct;
+      if (isCorrect) {
+        addLog(`Revealed answer: CORRECT! (Locked: ${lockedOption}, Correct: ${correct})`);
+        adjustPlayerScore(20);
+      } else {
+        addLog(`Revealed answer: WRONG! (Locked: ${lockedOption}, Correct: ${correct})`);
+      }
+    }
+
+    // Show full hint popup modal
+    function showFullHint(qId, correctVal) {
+      const qList = window.quizSets[currentSet] || [];
+      const q = qList.find(item => item.id === qId);
+      if (!q) return;
+
+      document.getElementById('modal-title-text').textContent = `Question ${q.id} explanation (Ans: ${correctVal})`;
+      document.getElementById('modal-text-content').innerHTML = q.description.replace(/\n/g, '<br>');
+      document.getElementById('hint-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('hint-modal').style.display = 'none';
+    }
+
+    // Lifeline triggers
+    function forceLifeline(type) {
+      if (usedLifelines.has(type)) {
+        alert(`❌ "${type}" already marked as used!`);
+        return;
+      }
+      socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
+      markLifelineUsed(type);
+      
+      const alertEl = document.getElementById('host-modal-lifeline-alert');
+      const typeEl = document.getElementById('host-modal-lifeline-type');
+      if (alertEl && typeEl) {
+        typeEl.textContent = type;
+        alertEl.style.display = 'block';
+      }
+      
+      addLog(`Host triggered lifeline: ${type}`);
+    }
+
+    function triggerFiftyFifty() {
+      if (!currentQuestionData) {
+        alert("⚠️ There is no active question currently sent!");
+        return;
+      }
+      if (usedLifelines.has('50:50')) {
+        alert("❌ 50:50 already used!");
+        return;
+      }
+
+      const correct = currentQuestionData.correct;
+      const wrong = ['A','B','C','D'].filter(opt => opt !== correct);
+      // Randomly choose two wrong options to remove
+      const toRemove = wrong.sort(() => 0.5 - Math.random()).slice(0, 2);
+
+      socket.emit('fifty-fifty', { remove: toRemove });
+      markLifelineUsed('50:50');
+      
+      const alertEl = document.getElementById('host-modal-lifeline-alert');
+      const typeEl = document.getElementById('host-modal-lifeline-type');
+      if (alertEl && typeEl) {
+        typeEl.textContent = '50:50';
+        alertEl.style.display = 'block';
+      }
+      
+      // Remove same options visually on host side too
+      removeFiftyFiftyOptions(toRemove);
+      
+      addLog(`Host triggered 50:50. Removed options: ${toRemove.join(', ')}`);
+    }
+
+    function removeFiftyFiftyOptions(toRemove) {
+      toRemove.forEach(opt => {
+        // Modal Preview Span
+        const modalSpan = document.getElementById(`host-preview-${opt}`);
+        if (modalSpan) {
+          modalSpan.style.opacity = '0.15';
+          modalSpan.style.filter = 'blur(4px)';
+          modalSpan.style.pointerEvents = 'none';
+        }
+        // Modal Lock Button
+        const modalLockBtn = document.getElementById(`host-lock-${opt}`);
+        if (modalLockBtn) {
+          modalLockBtn.setAttribute('disabled', 'true');
+          modalLockBtn.style.opacity = '0.3';
+        }
+        
+        // HUD Preview Span
+        const hudSpan = document.getElementById(`preview-${opt}`);
+        if (hudSpan) {
+          hudSpan.style.opacity = '0.15';
+          hudSpan.style.filter = 'blur(4px)';
+        }
+        // HUD Lock Button
+        const hudLockBtn = document.getElementById(`lock-btn-${opt}`);
+        if (hudLockBtn) {
+          hudLockBtn.setAttribute('disabled', 'true');
+          hudLockBtn.style.opacity = '0.3';
+        }
+      });
+    }
+
+    function markLifelineUsed(type) {
+      usedLifelines.add(type);
+      let btnId = '';
+      let modalBtnId = '';
+      if (type === '50:50') {
+        btnId = 'btn-5050';
+        modalBtnId = 'modal-btn-5050';
+      } else if (type === 'Ask Friend') {
+        btnId = 'btn-friend';
+        modalBtnId = 'modal-btn-friend';
+      } else if (type === 'Ask Audience') {
+        btnId = 'btn-audience';
+        modalBtnId = 'modal-btn-audience';
+      }
+
+      const btn = document.getElementById(btnId);
+      if (btn) btn.classList.add('used');
+
+      const modalBtn = document.getElementById(modalBtnId);
+      if (modalBtn) {
+        modalBtn.classList.add('active');
+        modalBtn.style.opacity = '0.5';
+        modalBtn.style.pointerEvents = 'none';
+      }
+    }
+
+    function resetLifelines() {
+      usedLifelines.clear();
+      ['btn-5050', 'btn-friend', 'btn-audience'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove('used');
+      });
+      ['modal-btn-5050', 'modal-btn-friend', 'modal-btn-audience'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.classList.remove('active');
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        }
+      });
+      addLog("All lifelines have been reset.");
+      alert("✅ All lifelines reset for this round!");
+    }
+
+    // Scoreboard operations
+    function adjustPlayerScore(delta) {
+      player.score = Math.max(0, player.score + delta);
+      document.getElementById('player-score-val').textContent = player.score;
+      broadcastScores();
+    }
+
+    function renamePlayer(newName) {
+      if (newName.trim() === '') return;
+      player.name = newName.trim();
+      broadcastScores();
+    }
+
+    function resetPlayerScore() {
+      if (!confirm("Are you sure you want to reset the player score?")) return;
+      player.score = 0;
+      document.getElementById('player-score-val').textContent = 0;
+      broadcastScores();
+      addLog("Reset player score to zero.");
+    }
+
+    function broadcastScores() {
+      socket.emit('update-scores', { player });
+      console.log("Broadcasting player score:", player);
+    }
+
+    // Search input filtering
+    function searchQuestions() {
+      const term = document.getElementById('search-input').value.toLowerCase();
+      const currentQuestions = window.quizSets[currentSet] || [];
+      
+      const filtered = currentQuestions.filter(q => 
+        q.text.toLowerCase().includes(term) || 
+        q.description.toLowerCase().includes(term) || 
+        q.id.toString().includes(term)
+      );
+      
+      renderTable(filtered);
+    }
+
+    // System Logging helpers
+    function addLog(text) {
+      const list = document.getElementById('logs-list');
+      const time = new Date().toTimeString().split(' ')[0];
+      const log = document.createElement('div');
+      log.className = 'log-item';
+      log.innerHTML = `<span>${text}</span> <span class="log-time">${time}</span>`;
+      list.appendChild(log);
+      list.scrollTop = list.scrollHeight;
+    }
+
+    // Page Load
+    window.onload = () => {
+      // Socket connections listeners
+      socket.on('connect', () => {
+        socket.emit('join-host');
+        const badge = document.getElementById('socket-status');
+        badge.className = 'status-badge connected';
+        document.getElementById('status-text').textContent = 'Connected';
+        addLog("Host connected to websocket server.");
+        
+        // Push initial player score
+        broadcastScores();
+      });
+
+      socket.on('disconnect', () => {
+        const badge = document.getElementById('socket-status');
+        badge.className = 'status-badge';
+        document.getElementById('status-text').textContent = 'Disconnected';
+        addLog("Host disconnected from websocket server.");
+      });
+
+      socket.on('lifeline-request', (data) => {
+        addLog(`🛎️ Player requested lifeline: ${data.type}`);
+        markLifelineUsed(data.type);
+        
+        // Show in host active modal alert banner
+        const alertEl = document.getElementById('host-modal-lifeline-alert');
+        const typeEl = document.getElementById('host-modal-lifeline-type');
+        if (alertEl && typeEl) {
+          typeEl.textContent = data.type;
+          alertEl.style.display = 'block';
+        }
+        
+        // Highlight lifeline buttons or play alert sound
+        const snd = new Audio("https://www.soundjay.com/misc/sounds/bell-ringing-04.mp3");
+        snd.play().catch(e => console.log("Alert sound failed:", e));
+      });
+
+      // Set system clock time on first log
+      document.getElementById('system-time').textContent = new Date().toTimeString().split(' ')[0];
+
+      // Initialize database questions
+      initStats();
+      renderTable();
+    };
+  </script>
+
+</body>
+</html>
