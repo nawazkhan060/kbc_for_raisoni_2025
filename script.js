@@ -78,7 +78,11 @@ if (!window.isHost) {
       const btn = document.createElement('button');
       btn.className = 'option-btn';
       btn.dataset.option = key;
-      btn.innerHTML = `<span class="option-key">${key}</span> ${q.options[key]}`;
+      const keySpan = document.createElement('span');
+      keySpan.className = 'option-key';
+      keySpan.textContent = key;
+      btn.appendChild(keySpan);
+      btn.appendChild(document.createTextNode(' ' + q.options[key]));
       // No btn.onclick! The player cannot select options themselves.
       container.appendChild(btn);
     });

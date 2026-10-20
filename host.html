@@ -704,6 +704,81 @@
       box-shadow: 0 0 10px rgba(16,185,129,0.3);
     }
 
+    /* Badges for Level and Topic */
+    .level-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+    .level-easy {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+    .level-medium {
+      background: rgba(234, 179, 8, 0.15);
+      color: #facc15;
+      border: 1px solid rgba(234, 179, 8, 0.4);
+    }
+    .level-hard {
+      background: rgba(249, 115, 22, 0.15);
+      color: #fb923c;
+      border: 1px solid rgba(249, 115, 22, 0.4);
+    }
+    .level-tiebreaker {
+      background: rgba(168, 85, 247, 0.18);
+      color: #c084fc;
+      border: 1px solid rgba(168, 85, 247, 0.45);
+    }
+
+    .topic-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .topic-cpp {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+    .topic-rdbms {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .topic-bollywood {
+      background: rgba(236, 72, 153, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+    }
+    .topic-hollywood {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .topic-gaming {
+      background: rgba(139, 92, 246, 0.15);
+      color: #a78bfa;
+      border: 1px solid rgba(139, 92, 246, 0.4);
+    }
+    .ans-badge {
+      display: inline-block;
+      font-weight: 800;
+      color: #ffd700;
+      background: rgba(255, 215, 0, 0.1);
+      padding: 3px 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+
     /* Logs & Points bottom section */
     .bottom-grids {
       display: grid;
@@ -1079,16 +1154,15 @@
       <!-- Set Selector -->
       <div>
         <div class="sidebar-section-title">
-          <i class="fas fa-layer-group"></i> Quiz Sets
+          <i class="fas fa-users"></i> Contestant Rounds
         </div>
         <ul class="set-list">
-          <li class="set-item active" id="tab-set1"><button onclick="switchSet('set1')"><span>Set 1 (FYJC)</span> <span class="set-badge" id="badge-set1">0</span></button></li>
-          <li class="set-item" id="tab-set2"><button onclick="switchSet('set2')"><span>Set 2 (FYJC)</span> <span class="set-badge" id="badge-set2">0</span></button></li>
-          <li class="set-item" id="tab-set3"><button onclick="switchSet('set3')"><span>Set 3 (FYJC)</span> <span class="set-badge" id="badge-set3">0</span></button></li>
-          <li class="set-item" id="tab-set4"><button onclick="switchSet('set4')"><span>Set 4 (FYJC)</span> <span class="set-badge" id="badge-set4">0</span></button></li>
-          <li class="set-item" id="tab-fff"><button onclick="switchSet('fff')"><span>Fastest Finger</span> <span class="set-badge" id="badge-fff">0</span></button></li>
-          <li class="set-item" id="tab-ubc"><button onclick="switchSet('ubc')"><span>UBC Quiz Set 1</span> <span class="set-badge" id="badge-ubc">0</span></button></li>
-          <li class="set-item" id="tab-original"><button onclick="switchSet('original')"><span>Original IT</span> <span class="set-badge" id="badge-original">0</span></button></li>
+          <li class="set-item active" id="tab-c1"><button onclick="switchSet('c1')"><span>Contestant 1</span> <span class="set-badge" id="badge-c1">10</span></button></li>
+          <li class="set-item" id="tab-c2"><button onclick="switchSet('c2')"><span>Contestant 2</span> <span class="set-badge" id="badge-c2">10</span></button></li>
+          <li class="set-item" id="tab-c3"><button onclick="switchSet('c3')"><span>Contestant 3</span> <span class="set-badge" id="badge-c3">10</span></button></li>
+          <li class="set-item" id="tab-c4"><button onclick="switchSet('c4')"><span>Contestant 4</span> <span class="set-badge" id="badge-c4">10</span></button></li>
+          <li class="set-item" id="tab-c5"><button onclick="switchSet('c5')"><span>Contestant 5</span> <span class="set-badge" id="badge-c5">10</span></button></li>
+          <li class="set-item" id="tab-all"><button onclick="switchSet('all')"><span>All 50 Questions</span> <span class="set-badge" id="badge-all">50</span></button></li>
         </ul>
       </div>
 
@@ -1235,11 +1309,13 @@
             <thead>
               <tr>
                 <th style="width: 50px; text-align: center;">ID</th>
+                <th style="width: 60px; text-align: center;">Lvl</th>
+                <th style="width: 95px; text-align: center;">Topic</th>
                 <th>Question</th>
                 <th>Options Preview</th>
-                <th style="width: 70px; text-align: center;">Ans</th>
-                <th style="width: 70px; text-align: center;">Hint</th>
-                <th style="width: 120px; text-align: center;">Action</th>
+                <th style="width: 60px; text-align: center;">Ans</th>
+                <th style="width: 60px; text-align: center;">Info</th>
+                <th style="width: 110px; text-align: center;">Action</th>
               </tr>
             </thead>
             <tbody id="table-body">
@@ -1362,13 +1438,24 @@
   <!-- JavaScript -->
   <script>
     window.isHost = true;
-    let currentSet = 'set1';
+    let currentSet = 'c1';
     let sentQuestions = new Set();
     let currentQuestionData = null;
     const usedLifelines = new Set();
     
     // Player Score State
-    let player = { name: "Player 1", score: 0 };
+    let player = { name: "Contestant 1", score: 0 };
+
+    // HTML escape helper
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
 
     // Load question counts and set badges
     function initStats() {
@@ -1377,13 +1464,16 @@
         return;
       }
       
+      const contestantKeys = ['c1', 'c2', 'c3', 'c4', 'c5'];
       let total = 0;
-      Object.keys(window.quizSets).forEach(key => {
-        const count = window.quizSets[key].length;
+      contestantKeys.forEach(key => {
+        const count = window.quizSets[key] ? window.quizSets[key].length : 0;
         total += count;
         const badge = document.getElementById(`badge-${key}`);
         if (badge) badge.textContent = count;
       });
+      const badgeAll = document.getElementById('badge-all');
+      if (badgeAll) badgeAll.textContent = window.quizSets.all ? window.quizSets.all.length : total;
 
       document.getElementById('stat-total-q').textContent = total;
       updateActiveSetStats();
@@ -1394,13 +1484,17 @@
       document.getElementById('stat-active-q').textContent = qList.length;
       
       const setNames = {
-        'set1': 'Set 1 (FYJC)',
-        'set2': 'Set 2 (FYJC)',
-        'set3': 'Set 3 (FYJC)',
-        'set4': 'Set 4 (FYJC)',
-        'fff': 'Fastest Finger First',
-        'ubc': 'UBC Quiz Set 1',
-        'original': 'Original IT Quiz'
+        'c1': 'Contestant 1 (10 Qs)',
+        'c2': 'Contestant 2 (10 Qs)',
+        'c3': 'Contestant 3 (10 Qs)',
+        'c4': 'Contestant 4 (10 Qs)',
+        'c5': 'Contestant 5 (10 Qs)',
+        'all': 'All 50 Questions',
+        'set1': 'Contestant 1',
+        'set2': 'Contestant 2',
+        'set3': 'Contestant 3',
+        'set4': 'Contestant 4',
+        'set5': 'Contestant 5'
       };
       document.getElementById('stat-set-name').textContent = setNames[currentSet] || currentSet;
     }
@@ -1414,6 +1508,21 @@
       document.querySelectorAll('.set-item').forEach(el => el.classList.remove('active'));
       const activeTab = document.getElementById(`tab-${setName}`);
       if (activeTab) activeTab.classList.add('active');
+
+      const contestantNames = {
+        'c1': 'Contestant 1',
+        'c2': 'Contestant 2',
+        'c3': 'Contestant 3',
+        'c4': 'Contestant 4',
+        'c5': 'Contestant 5'
+      };
+      if (contestantNames[setName]) {
+        const nameInput = document.getElementById('player-name-input');
+        if (nameInput) {
+          nameInput.value = contestantNames[setName];
+          renamePlayer(contestantNames[setName]);
+        }
+      }
 
       updateActiveSetStats();
       renderTable();
@@ -1430,7 +1539,7 @@
       tbody.innerHTML = '';
 
       if (qs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px; color: #666;">No questions found</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 20px; color: #666;">No questions found</td></tr>`;
         return;
       }
 
@@ -1440,13 +1549,25 @@
         const row = document.createElement('tr');
         if (isSent) row.className = 'sent-row';
 
+        // Level badge class (Levels 1-3 easy, 4-6 medium, 7-8 hard, 9-10 tiebreaker)
+        let levelClass = 'level-easy';
+        if (q.level >= 9) levelClass = 'level-tiebreaker';
+        else if (q.level >= 7) levelClass = 'level-hard';
+        else if (q.level >= 4) levelClass = 'level-medium';
+
+        // Topic badge class
+        const topicKey = (q.topic || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const topicClass = `topic-${topicKey}`;
+
         row.innerHTML = `
           <td class="td-id">${q.id}</td>
-          <td class="td-question">${q.text}</td>
-          <td class="td-options" title="${optionsStr}">${optionsStr}</td>
-          <td class="td-correct">${q.correct}</td>
+          <td style="text-align:center;"><span class="level-badge ${levelClass}">L${q.level || '-'}</span></td>
+          <td style="text-align:center;"><span class="topic-badge ${topicClass}">${escapeHtml(q.topic || 'General')}</span></td>
+          <td class="td-question">${escapeHtml(q.text)}</td>
+          <td class="td-options" title="${escapeHtml(optionsStr)}">${escapeHtml(optionsStr)}</td>
+          <td class="td-correct"><span class="ans-badge">${q.correct}</span></td>
           <td style="text-align:center;">
-            <i class="fas fa-info-circle td-hint-btn" onclick="showFullHint(${q.id}, '${q.correct}')"></i>
+            <i class="fas fa-info-circle td-hint-btn" title="View Info & Backstory" onclick="showFullHint(${q.id}, '${q.correct}')"></i>
           </td>
           <td style="text-align:center; display: flex; justify-content: center;">
             <button class="send-action-btn ${isSent ? 'sent' : ''}" onclick="sendQuestion(${q.id})">
@@ -1995,9 +2116,11 @@
       const currentQuestions = window.quizSets[currentSet] || [];
       
       const filtered = currentQuestions.filter(q => 
-        q.text.toLowerCase().includes(term) || 
-        q.description.toLowerCase().includes(term) || 
-        q.id.toString().includes(term)
+        (q.text && q.text.toLowerCase().includes(term)) || 
+        (q.topic && q.topic.toLowerCase().includes(term)) ||
+        (q.level && ('l' + q.level).includes(term)) ||
+        (q.description && q.description.toLowerCase().includes(term)) || 
+        (q.id && q.id.toString().includes(term))
       );
       
       renderTable(filtered);

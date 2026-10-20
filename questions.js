@@ -1,141 +1,911 @@
+// 50 Questions Bank: 5 Contestants × 10 Questions = 50 Total
+// Levels 1 to 10 with rotating topics: C++, RDBMS, Bollywood, Hollywood, Gaming
+
 const quizSets = {
-  set1: [
-    {id: 101, text: "What is the full form of AI?", options: {A: "Artificial Intelligence", B: "Automatic Intelligence", C: "Artificial Information", D: "Automated Interface"}, correct: "A", description: "AI stands for Artificial Intelligence, which refers to the simulation of human intelligence in machines."},
-    {id: 102, text: "Audio Round: Play 'Vande Mataram'. Who wrote it?", options: {A: "Rabindranath Tagore", B: "Bankim Chandra Chattopadhyay", C: "Sarojini Naidu", D: "Muhammad Iqbal"}, correct: "B", description: "'Vande Mataram' was composed by Bankim Chandra Chattopadhyay in the 1870s and was published in his novel Anandamath."},
-    {id: 103, text: "What is the value of sin 60?", options: {A: "1/2", B: "√3/2", C: "1/√2", D: "1"}, correct: "B", description: "The value of sin 60° is √3/2 (approx. 0.866)."},
-    {id: 104, text: "Which is the capital of Gujarat?", options: {A: "Ahmedabad", B: "Surat", C: "Gandhinagar", D: "Vadodara"}, correct: "C", description: "Gandhinagar is the capital city of Gujarat, named after Mahatma Gandhi."},
-    {id: 105, text: "Who gave the slogan 'Do or Die'?", options: {A: "Jawaharlal Nehru", B: "Mahatma Gandhi", C: "Subhash Chandra Bose", D: "Bal Gangadhar Tilak"}, correct: "B", description: "Mahatma Gandhi gave the famous 'Do or Die' (Karo ya Maro) slogan during the launch of the Quit India Movement in 1942."},
-    {id: 106, text: "Which Indian mission successfully landed on the Moon in 2023?", options: {A: "Chandrayaan-1", B: "Mangalyaan", C: "Chandrayaan-3", D: "Gaganyaan"}, correct: "C", description: "Chandrayaan-3 was India's third lunar exploration mission, which successfully landed near the Moon's south pole on August 23, 2023."},
-    {id: 107, text: "Visual Round: Identify this movie featuring three engineering students.", options: {A: "Chhichhore", B: "Munna Bhai M.B.B.S.", C: "3 Idiots", D: "PK"}, correct: "C", description: "3 Idiots is a 2009 Bollywood movie directed by Rajkumar Hirani, starring Aamir Khan, R. Madhavan, and Sharman Joshi as engineering students."},
-    {id: 108, text: "Which river is called the Ganga of South India?", options: {A: "Krishna", B: "Kaveri", C: "Godavari", D: "Narmada"}, correct: "C", description: "The Godavari River is known as the 'Dakshin Ganga' or the Ganga of the South due to its large size and length."},
-    {id: 109, text: "What is the SI unit of Force?", options: {A: "Joule", B: "Newton", C: "Pascal", D: "Watt"}, correct: "B", description: "The SI unit of force is the Newton (N), named after Sir Isaac Newton."},
-    {id: 110, text: "Which city hosted the G20 Summit in India in 2023?", options: {A: "Mumbai", B: "New Delhi", C: "Hyderabad", D: "Bengaluru"}, correct: "B", description: "The 18th G20 Summit was held in the Bharat Mandapam Convention Centre in New Delhi in September 2023."}
+  c1: [
+    {
+      id: 101,
+      contestant: 1,
+      level: 1,
+      topic: "C++",
+      text: "Which header file is required to use cout?",
+      question: "Which header file is required to use cout?",
+      options: {
+        A: "<stdio.h>",
+        B: "<iostream>",
+        C: "<string.h>",
+        D: "<math.h>"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 1 | C++\nAnswer: B (<iostream>)\nIn C++, the <iostream> header file defines standard input/output stream objects like cout and cin."
+    },
+    {
+      id: 102,
+      contestant: 1,
+      level: 2,
+      topic: "RDBMS",
+      text: "Which SQL command is used to retrieve data from a table?",
+      question: "Which SQL command is used to retrieve data from a table?",
+      options: {
+        A: "GET",
+        B: "FETCH",
+        C: "SELECT",
+        D: "EXTRACT"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 2 | RDBMS\nAnswer: C (SELECT)\nThe SELECT command in SQL is used to query and fetch records from database tables."
+    },
+    {
+      id: 103,
+      contestant: 1,
+      level: 3,
+      topic: "Bollywood",
+      text: "Who plays Bunny (Kabir) in Yeh Jawaani Hai Deewani (YJHD)?",
+      question: "Who plays Bunny (Kabir) in Yeh Jawaani Hai Deewani (YJHD)?",
+      options: {
+        A: "Ranbir Kapoor",
+        B: "Ranveer Singh",
+        C: "Hrithik Roshan",
+        D: "Varun Dhawan"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 3 | Bollywood\nAnswer: A (Ranbir Kapoor)\nRanbir Kapoor starred as Kabir 'Bunny' Thapar alongside Deepika Padukone in Yeh Jawaani Hai Deewani (2013)."
+    },
+    {
+      id: 104,
+      contestant: 1,
+      level: 4,
+      topic: "Hollywood",
+      text: "Which Avenger wields the hammer Mjolnir?",
+      question: "Which Avenger wields the hammer Mjolnir?",
+      options: {
+        A: "Iron Man",
+        B: "Captain America",
+        C: "Thor",
+        D: "Black Panther"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 4 | Hollywood\nAnswer: C (Thor)\nThor Odinson, the Norse God of Thunder in the Marvel Cinematic Universe, is the true wielder of Mjolnir."
+    },
+    {
+      id: 105,
+      contestant: 1,
+      level: 5,
+      topic: "Gaming",
+      text: "Which is Dhalsim's signature fireball move?",
+      question: "Which is Dhalsim's signature fireball move?",
+      options: {
+        A: "Hadoken",
+        B: "Sonic Boom",
+        C: "Yoga Fire",
+        D: "Tiger Shot"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 5 | Gaming\nAnswer: C (Yoga Fire)\nYoga Fire is Dhalsim's iconic fireball attack in the Street Fighter series."
+    },
+    {
+      id: 106,
+      contestant: 1,
+      level: 6,
+      topic: "C++",
+      text: "What does the new operator do?",
+      question: "What does the new operator do?",
+      options: {
+        A: "Declares a variable",
+        B: "Allocates memory dynamically",
+        C: "Deletes an object",
+        D: "Creates a namespace"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 6 | C++\nAnswer: B (Allocates memory dynamically)\nThe 'new' operator in C++ dynamically allocates memory from the free store (heap) and returns a pointer."
+    },
+    {
+      id: 107,
+      contestant: 1,
+      level: 7,
+      topic: "RDBMS",
+      text: "Which join returns all rows from the left table and matching rows from the right?",
+      question: "Which join returns all rows from the left table and matching rows from the right?",
+      options: {
+        A: "INNER JOIN",
+        B: "RIGHT JOIN",
+        C: "LEFT JOIN",
+        D: "CROSS JOIN"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 7 | RDBMS\nAnswer: C (LEFT JOIN)\nA LEFT JOIN (or LEFT OUTER JOIN) returns all rows from the left table, with matched rows from the right table (NULL if no match)."
+    },
+    {
+      id: 108,
+      contestant: 1,
+      level: 8,
+      topic: "Bollywood",
+      text: "Who composed the music of YJHD?",
+      question: "Who composed the music of YJHD?",
+      options: {
+        A: "A.R. Rahman",
+        B: "Pritam",
+        C: "Vishal-Shekhar",
+        D: "Amit Trivedi"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 8 | Bollywood\nAnswer: B (Pritam)\nPritam Chakraborty composed the soundtrack of Yeh Jawaani Hai Deewani, featuring hits like 'Badtameez Dil', 'Ilahi', and 'Balam Pichkari'."
+    },
+    {
+      id: 109,
+      contestant: 1,
+      level: 9,
+      topic: "Hollywood",
+      text: "Who composed the music score of Titanic?",
+      question: "Who composed the music score of Titanic?",
+      options: {
+        A: "Hans Zimmer",
+        B: "John Williams",
+        C: "James Horner",
+        D: "Alan Silvestri"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 9 | Hollywood\nAnswer: C (James Horner)\nJames Horner composed Titanic's Oscar-winning score and co-wrote Celine Dion's 'My Heart Will Go On'."
+    },
+    {
+      id: 110,
+      contestant: 1,
+      level: 10,
+      topic: "Gaming",
+      text: "According to Street Fighter lore, why does Dhalsim fight?",
+      question: "According to Street Fighter lore, why does Dhalsim fight?",
+      options: {
+        A: "To become world champion",
+        B: "To avenge his master",
+        C: "To raise money for his poor village",
+        D: "To destroy Shadaloo"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 10 | Gaming\nAnswer: C (To raise money for his poor village)\nStreet Fighter Lore: Dhalsim is a pacifist yoga master who enters martial arts tournaments solely to raise money to help his impoverished village."
+    }
   ],
-  set2: [
-    {id: 201, text: "Which planet is known as the Red Planet?", options: {A: "Venus", B: "Mercury", C: "Mars", D: "Jupiter"}, correct: "C", description: "Mars is known as the Red Planet because of the iron oxide (rust) on its surface, which gives it a reddish appearance."},
-    {id: 202, text: "Play 'Saare Jahan Se Achha'. Who wrote it?", options: {A: "Bankim Chandra Chattopadhyay", B: "Muhammad Iqbal", C: "Sarojini Naidu", D: "Rabindranath Tagore"}, correct: "B", description: "'Saare Jahan Se Achha' (formally Tarana-e-Hindi) is an Urdu patriotic poem written by poet Muhammad Iqbal."},
-    {id: 203, text: "The sum of the angles of a triangle is:", options: {A: "360°", B: "140°", C: "180°", D: "120°"}, correct: "C", description: "The sum of the interior angles of a triangle is always 180 degrees."},
-    {id: 204, text: "Which is the smallest state in India by area?", options: {A: "Sikkim", B: "Goa", C: "Tripura", D: "Manipur"}, correct: "B", description: "Goa is the smallest state in India by area, covering approximately 3,702 square kilometers."},
-    {id: 205, text: "Who built the Red Fort?", options: {A: "Akbar", B: "Humayun", C: "Shah Jahan", D: "Aurangzeb"}, correct: "C", description: "The Red Fort (Lal Qila) in Delhi was constructed by the Mughal Emperor Shah Jahan in 1638."},
-    {id: 206, text: "Who is the President of India?", options: {A: "Narendra Modi", B: "Droupadi Murmu", C: "Jagdeep Dhankhar", D: "Amit Shah"}, correct: "B", description: "Droupadi Murmu is the 15th and current President of India, serving since July 2022."},
-    {id: 207, text: "What is the S.I unit of frequency?", options: {A: "Seconds", B: "Watts", C: "Hertz", D: "Joule"}, correct: "C", description: "The SI unit of frequency is the Hertz (Hz), defined as one cycle per second."},
-    {id: 208, text: "Which country shares the longest border with India?", options: {A: "Nepal", B: "Pakistan", C: "China", D: "Bangladesh"}, correct: "D", description: "India shares its longest land border with Bangladesh, which is about 4,096 kilometers long."},
-    {id: 209, text: "What is the full form of PDF?", options: {A: "Portable Document Format", B: "Personal Document File", C: "Portable Data File", D: "Personal Data Format"}, correct: "A", description: "PDF stands for Portable Document Format, created by Adobe in 1992 to present documents consistently across systems."},
-    {id: 210, text: "Which country hosted the FIFA World Cup 2022?", options: {A: "France", B: "Qatar", C: "Russia", D: "Brazil"}, correct: "B", description: "The 2022 FIFA World Cup was hosted by Qatar, marking the first World Cup held in the Arab world."}
+
+  c2: [
+    {
+      id: 201,
+      contestant: 2,
+      level: 1,
+      topic: "RDBMS",
+      text: "What does SQL stand for?",
+      question: "What does SQL stand for?",
+      options: {
+        A: "Structured Query Language",
+        B: "Simple Query Logic",
+        C: "Sequential Query Language",
+        D: "Standard Queue List"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 1 | RDBMS\nAnswer: A (Structured Query Language)\nSQL stands for Structured Query Language, the standard programming language for managing relational databases."
+    },
+    {
+      id: 202,
+      contestant: 2,
+      level: 2,
+      topic: "Bollywood",
+      text: "Who plays the female lead in Dilwale Dulhania Le Jayenge (DDLJ)?",
+      question: "Who plays the female lead in Dilwale Dulhania Le Jayenge (DDLJ)?",
+      options: {
+        A: "Kajol",
+        B: "Madhuri Dixit",
+        C: "Rani Mukerji",
+        D: "Preity Zinta"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 2 | Bollywood\nAnswer: A (Kajol)\nKajol played the iconic role of Simran Singh opposite Shah Rukh Khan's Raj Malhotra in DDLJ (1995)."
+    },
+    {
+      id: 203,
+      contestant: 2,
+      level: 3,
+      topic: "Hollywood",
+      text: "Who directed Titanic (1997)?",
+      question: "Who directed Titanic (1997)?",
+      options: {
+        A: "Steven Spielberg",
+        B: "James Cameron",
+        C: "Christopher Nolan",
+        D: "Ridley Scott"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 3 | Hollywood\nAnswer: B (James Cameron)\nJames Cameron directed, wrote, co-produced, and co-edited Titanic (1997)."
+    },
+    {
+      id: 204,
+      contestant: 2,
+      level: 4,
+      topic: "Gaming",
+      text: "Which company developed Street Fighter?",
+      question: "Which company developed Street Fighter?",
+      options: {
+        A: "Capcom",
+        B: "Konami",
+        C: "Namco",
+        D: "Square Enix"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 4 | Gaming\nAnswer: A (Capcom)\nStreet Fighter is developed and published by Capcom, first released in arcades in 1987."
+    },
+    {
+      id: 205,
+      contestant: 2,
+      level: 5,
+      topic: "C++",
+      text: "What is the default access specifier for members of a class?",
+      question: "What is the default access specifier for members of a class?",
+      options: {
+        A: "public",
+        B: "private",
+        C: "protected",
+        D: "friend"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 5 | C++\nAnswer: B (private)\nIn C++, all members of a class default to private access, unlike structs where members default to public."
+    },
+    {
+      id: 206,
+      contestant: 2,
+      level: 6,
+      topic: "RDBMS",
+      text: "Which normal form removes partial dependency?",
+      question: "Which normal form removes partial dependency?",
+      options: {
+        A: "1NF",
+        B: "2NF",
+        C: "3NF",
+        D: "BCNF"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 6 | RDBMS\nAnswer: B (2NF)\nSecond Normal Form (2NF) requires a relation to be in 1NF with no partial dependencies (no non-prime attribute dependent on a proper subset of candidate key)."
+    },
+    {
+      id: 207,
+      contestant: 2,
+      level: 7,
+      topic: "Bollywood",
+      text: "Who directed YJHD?",
+      question: "Who directed YJHD?",
+      options: {
+        A: "Karan Johar",
+        B: "Ayan Mukerji",
+        C: "Zoya Akhtar",
+        D: "Imtiaz Ali"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 7 | Bollywood\nAnswer: B (Ayan Mukerji)\nAyan Mukerji directed Yeh Jawaani Hai Deewani (2013), his second feature film after Wake Up Sid."
+    },
+    {
+      id: 208,
+      contestant: 2,
+      level: 8,
+      topic: "Hollywood",
+      text: "Which Infinity Stone powers Vision?",
+      question: "Which Infinity Stone powers Vision?",
+      options: {
+        A: "Soul Stone",
+        B: "Time Stone",
+        C: "Mind Stone",
+        D: "Reality Stone"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 8 | Hollywood\nAnswer: C (Mind Stone)\nVision is brought to life and powered by the yellow Mind Stone embedded in his forehead."
+    },
+    {
+      id: 209,
+      contestant: 2,
+      level: 9,
+      topic: "Gaming",
+      text: "Which game first introduced the Super Combo gauge in the Street Fighter series?",
+      question: "Which game first introduced the Super Combo gauge in the Street Fighter series?",
+      options: {
+        A: "Street Fighter II: Champion Edition",
+        B: "Super Street Fighter II",
+        C: "Super Street Fighter II Turbo",
+        D: "Street Fighter Alpha"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 9 | Gaming\nAnswer: C (Super Street Fighter II Turbo)\nSuper Street Fighter II Turbo (1994) introduced Super Combos and the Super Combo meter to fighting games."
+    },
+    {
+      id: 210,
+      contestant: 2,
+      level: 10,
+      topic: "C++",
+      text: "What is the size of an empty class object (class A {};) in C++?",
+      question: "What is the size of an empty class object (class A {};) in C++?",
+      options: {
+        A: "0 bytes",
+        B: "1 byte",
+        C: "4 bytes",
+        D: "8 bytes"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 10 | C++\nAnswer: B (1 byte)\nIn C++, sizeof(empty_class) is guaranteed to be non-zero (typically 1 byte) to ensure each object instance possesses a unique memory address."
+    }
   ],
-  set3: [
-    {id: 301, text: "Which is the largest ocean in the world?", options: {A: "Atlantic Ocean", B: "Indian Ocean", C: "Arctic Ocean", D: "Pacific Ocean"}, correct: "D", description: "The Pacific Ocean is the largest and deepest of Earth's oceanic divisions, covering about 30% of the Earth's surface."},
-    {id: 302, text: "Which species is the natural host of “Nipah Virus” that was reported in Kerala?", options: {A: "Ant", B: "Fruit bat", C: "Mosquito", D: "Housefly"}, correct: "B", description: "Fruit bats of the Pteropodidae family are the natural hosts/reservoirs of the Nipah virus."},
-    {id: 303, text: "What is the square of 15?", options: {A: "205", B: "215", C: "225", D: "235"}, correct: "C", description: "The square of 15 is 15 × 15 = 225."},
-    {id: 304, text: "What is the capital of Assam?", options: {A: "Guwahati", B: "Dispur", C: "Shillong", D: "Itanagar"}, correct: "B", description: "Dispur has been the capital of Assam since 1973, when it moved from Shillong."},
-    {id: 305, text: "Who discovered the sea route to India?", options: {A: "Columbus", B: "Marco Polo", C: "Vasco da Gama", D: "Magellan"}, correct: "C", description: "Portuguese explorer Vasco da Gama discovered the sea route to India, arriving in Calicut in 1498."},
-    {id: 306, text: "What is the full form of PAN?", options: {A: "Permanent Account Number", B: "Personal Account Number", C: "Public Account Number", D: "Permanent Audit Number"}, correct: "A", description: "PAN stands for Permanent Account Number, a unique 10-character alphanumeric identifier issued by the Income Tax Department."},
-    {id: 307, text: "Visual Round: Complete the pattern 2, 4, 8, 16, ?", options: {A: "20", B: "24", C: "30", D: "32"}, correct: "D", description: "Each number in the sequence is multiplied by 2 (doubled). Therefore, 16 × 2 = 32."},
-    {id: 308, text: "Which is the highest mountain peak in the world?", options: {A: "K2", B: "Kangchenjunga", C: "Mount Everest", D: "Nanda Devi"}, correct: "C", description: "Mount Everest is the highest mountain peak in the world above sea level, located in the Himalayas."},
-    {id: 309, text: "Which Mughal emperor built the Taj Mahal?", options: {A: "Akbar", B: "Jahangir", C: "Shah Jahan", D: "Babur"}, correct: "C", description: "Taj Mahal was built in Agra by Mughal Emperor Shah Jahan in memory of his favorite wife Mumtaz Mahal."},
-    {id: 310, text: "Which Indian state has the highest population?", options: {A: "Bihar", B: "Maharashtra", C: "Uttar Pradesh", D: "West Bengal"}, correct: "C", description: "Uttar Pradesh is the most populous state in India, with a population exceeding 200 million."}
+
+  c3: [
+    {
+      id: 301,
+      contestant: 3,
+      level: 1,
+      topic: "Bollywood",
+      text: "Which actor is called the \"Baadshah of Bollywood\"?",
+      question: "Which actor is called the \"Baadshah of Bollywood\"?",
+      options: {
+        A: "Salman Khan",
+        B: "Aamir Khan",
+        C: "Shah Rukh Khan",
+        D: "Akshay Kumar"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 1 | Bollywood\nAnswer: C (Shah Rukh Khan)\nShah Rukh Khan is affectionately known as 'King Khan' and the 'Baadshah of Bollywood'."
+    },
+    {
+      id: 302,
+      contestant: 3,
+      level: 2,
+      topic: "Hollywood",
+      text: "Which Avengers member turns into a giant green creature when angry?",
+      question: "Which Avengers member turns into a giant green creature when angry?",
+      options: {
+        A: "Thor",
+        B: "Hulk",
+        C: "Hawkeye",
+        D: "Vision"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 2 | Hollywood\nAnswer: B (Hulk)\nDr. Bruce Banner transforms into the monstrous green superhero Hulk when agitated or enraged."
+    },
+    {
+      id: 303,
+      contestant: 3,
+      level: 3,
+      topic: "Gaming",
+      text: "Which Street Fighter character is famous for the Hadoken?",
+      question: "Which Street Fighter character is famous for the Hadoken?",
+      options: {
+        A: "Ryu",
+        B: "Dhalsim",
+        C: "Blanka",
+        D: "Guile"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 3 | Gaming\nAnswer: A (Ryu)\nRyu is the iconic master of the Hadoken wave motion fist. (Note: Ken also uses it, but Ryu is the option)."
+    },
+    {
+      id: 304,
+      contestant: 3,
+      level: 4,
+      topic: "C++",
+      text: "What is the output of: int a = 10; cout << a / 3;",
+      question: "What is the output of: int a = 10; cout << a / 3;",
+      options: {
+        A: "3.33",
+        B: "3",
+        C: "4",
+        D: "3.0"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 4 | C++\nAnswer: B (3)\nInteger division in C++ truncates any fractional decimal part, so 10 / 3 evaluates to 3."
+    },
+    {
+      id: 305,
+      contestant: 3,
+      level: 5,
+      topic: "RDBMS",
+      text: "Which command removes a table's structure and data completely?",
+      question: "Which command removes a table's structure and data completely?",
+      options: {
+        A: "DELETE",
+        B: "REMOVE",
+        C: "DROP",
+        D: "CLEAR"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 5 | RDBMS\nAnswer: C (DROP)\nDROP TABLE completely erases the table schema, constraints, data, and indexes from the database."
+    },
+    {
+      id: 306,
+      contestant: 3,
+      level: 6,
+      topic: "Bollywood",
+      text: "In which year was DDLJ released?",
+      question: "In which year was DDLJ released?",
+      options: {
+        A: "1993",
+        B: "1995",
+        C: "1997",
+        D: "1999"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 6 | Bollywood\nAnswer: B (1995)\nDilwale Dulhania Le Jayenge premiered on 20 October 1995."
+    },
+    {
+      id: 307,
+      contestant: 3,
+      level: 7,
+      topic: "Hollywood",
+      text: "How many Academy Awards did Titanic win?",
+      question: "How many Academy Awards did Titanic win?",
+      options: {
+        A: "7",
+        B: "9",
+        C: "11",
+        D: "14"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 7 | Hollywood\nAnswer: C (11)\nTitanic won 11 Oscars out of 14 nominations, tying Ben-Hur (and later joined by LOTR: Return of the King)."
+    },
+    {
+      id: 308,
+      contestant: 3,
+      level: 8,
+      topic: "Gaming",
+      text: "What is the name of Dhalsim's wife in Street Fighter lore?",
+      question: "What is the name of Dhalsim's wife in Street Fighter lore?",
+      options: {
+        A: "Sally",
+        B: "Sakura",
+        C: "Cammy",
+        D: "Rose"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 8 | Gaming\nAnswer: A (Sally)\nIn official Capcom lore, Dhalsim's wife is Sally (Sari), who often appears cheering in his background stages."
+    },
+    {
+      id: 309,
+      contestant: 3,
+      level: 9,
+      topic: "C++",
+      text: "What is the output of: int a[5] = {1, 2, 3}; cout << a[4];",
+      question: "What is the output of: int a[5] = {1, 2, 3}; cout << a[4];",
+      options: {
+        A: "0",
+        B: "3",
+        C: "Garbage value",
+        D: "Compile error"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 9 | C++\nAnswer: A (0)\nIn C++, when an array initializer provides fewer elements than the array size, all uninitialized elements are set to zero."
+    },
+    {
+      id: 310,
+      contestant: 3,
+      level: 10,
+      topic: "RDBMS",
+      text: "Which isolation level prevents dirty reads but still allows non-repeatable reads?",
+      question: "Which isolation level prevents dirty reads but still allows non-repeatable reads?",
+      options: {
+        A: "Read Uncommitted",
+        B: "Read Committed",
+        C: "Repeatable Read",
+        D: "Serializable"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 10 | RDBMS\nAnswer: B (Read Committed)\nRead Committed prevents dirty reads (reading uncommitted changes) but permits non-repeatable reads (re-reading a row may return different values)."
+    }
   ],
-  set4: [
-    {id: 401, text: "What is the full form of GST?", options: {A: "Goods and Sales Tax", B: "Goods and Service Tax", C: "General Sales Tax", D: "Government Service Tax"}, correct: "B", description: "GST stands for Goods and Services Tax, an indirect tax implemented in India in 2017."},
-    {id: 402, text: "Audio Round: Identify the sound of rain and thunder.", options: {A: "Waterfall", B: "Sea Waves", C: "Rain and Thunderstorm", D: "Windstorm"}, correct: "C", description: "The sound features the characteristic patter of rain accompanied by the rumbling and crackling of thunder."},
-    {id: 403, text: "Find 18 × 9.", options: {A: "152", B: "162", C: "172", D: "182"}, correct: "B", description: "18 multiplied by 9 is 162."},
-    {id: 404, text: "Which Indian state is known as the Spice Garden of India?", options: {A: "Karnataka", B: "Tamil Nadu", C: "Kerala", D: "Goa"}, correct: "C", description: "Kerala is known as the Spice Garden of India because of the variety and quality of spices grown there, like black pepper and cardamom."},
-    {id: 405, text: "Who gave the slogan 'Jai Jawan, Jai Kisan'?", options: {A: "Mahatma Gandhi", B: "Lal Bahadur Shastri", C: "Indira Gandhi", D: "Jawaharlal Nehru"}, correct: "B", description: "Lal Bahadur Shastri, the second Prime Minister of India, gave this slogan in 1965 at a public rally."},
-    {id: 406, text: "What is the full form of Wi-Fi?", options: {A: "Wireless Fidelity", B: "Wireless File", C: "Wide Fidelity", D: "Wired File"}, correct: "A", description: "Wi-Fi is commonly known as Wireless Fidelity, a technology for wireless local area networking."},
-    {id: 407, text: "What is the full form of AI?", options: {A: "Artificial Intelligence", B: "Automatic Intelligence", C: "Artificial Information", D: "Automated Interface"}, correct: "A", description: "AI stands for Artificial Intelligence."},
-    {id: 408, text: "Which desert is the largest in the world?", options: {A: "Sahara Desert", B: "Gobi Desert", C: "Thar Desert", D: "Kalahari Desert"}, correct: "A", description: "The Sahara Desert is the largest hot desert in the world, covering much of North Africa."},
-    {id: 409, text: "Who was the first Prime Minister of Independent India?", options: {A: "Sardar Patel", B: "Dr. Rajendra Prasad", C: "Jawaharlal Nehru", D: "Lal Bahadur Shastri"}, correct: "C", description: "Jawaharlal Nehru served as the first Prime Minister of Independent India from 1947 to 1964."},
-    {id: 410, text: "Which Indian city is known as the Silicon Valley of India?", options: {A: "Hyderabad", B: "Pune", C: "Chennai", D: "Bengaluru"}, correct: "D", description: "Bengaluru is known as the Silicon Valley of India because of its role as the nation's leading information technology exporter."}
+
+  c4: [
+    {
+      id: 401,
+      contestant: 4,
+      level: 1,
+      topic: "Hollywood",
+      text: "In Titanic, what does the ship hit?",
+      question: "In Titanic, what does the ship hit?",
+      options: {
+        A: "A rock",
+        B: "An iceberg",
+        C: "A whale",
+        D: "Another ship"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 1 | Hollywood\nAnswer: B (An iceberg)\nThe RMS Titanic collided with an iceberg in the North Atlantic on April 14, 1912."
+    },
+    {
+      id: 402,
+      contestant: 4,
+      level: 2,
+      topic: "Gaming",
+      text: "Which company created Super Mario?",
+      question: "Which company created Super Mario?",
+      options: {
+        A: "Sega",
+        B: "Sony",
+        C: "Nintendo",
+        D: "Atari"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 2 | Gaming\nAnswer: C (Nintendo)\nSuper Mario was created by Shigeru Miyamoto and published worldwide by Nintendo."
+    },
+    {
+      id: 403,
+      contestant: 4,
+      level: 3,
+      topic: "C++",
+      text: "Which data type stores single-precision decimal numbers?",
+      question: "Which data type stores single-precision decimal numbers?",
+      options: {
+        A: "int",
+        B: "float",
+        C: "char",
+        D: "bool"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 3 | C++\nAnswer: B (float)\nIn C++, 'float' represents a 32-bit single-precision floating point number, whereas 'double' provides double-precision."
+    },
+    {
+      id: 404,
+      contestant: 4,
+      level: 4,
+      topic: "RDBMS",
+      text: "Which SQL clause filters rows based on a condition?",
+      question: "Which SQL clause filters rows based on a condition?",
+      options: {
+        A: "ORDER BY",
+        B: "GROUP BY",
+        C: "WHERE",
+        D: "HAVING"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 4 | RDBMS\nAnswer: C (WHERE)\nThe WHERE clause filters rows from a query according to the provided Boolean condition."
+    },
+    {
+      id: 405,
+      contestant: 4,
+      level: 5,
+      topic: "Bollywood",
+      text: "In YJHD, the friends go on a trek to which hill destination?",
+      question: "In YJHD, the friends go on a trek to which hill destination?",
+      options: {
+        A: "Shimla",
+        B: "Manali",
+        C: "Ooty",
+        D: "Darjeeling"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 5 | Bollywood\nAnswer: B (Manali)\nIn Yeh Jawaani Hai Deewani, the group of friends heads to Manali, Himachal Pradesh for their adventurous trek."
+    },
+    {
+      id: 406,
+      contestant: 4,
+      level: 6,
+      topic: "Hollywood",
+      text: "Who is the main villain of The Avengers (2012)?",
+      question: "Who is the main villain of The Avengers (2012)?",
+      options: {
+        A: "Thanos",
+        B: "Ultron",
+        C: "Loki",
+        D: "Red Skull"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 6 | Hollywood\nAnswer: C (Loki)\nLoki, the God of Mischief, acts as the primary antagonist invading Earth with the Chitauri army."
+    },
+    {
+      id: 407,
+      contestant: 4,
+      level: 7,
+      topic: "Gaming",
+      text: "Which Street Fighter character is a sumo wrestler from Japan?",
+      question: "Which Street Fighter character is a sumo wrestler from Japan?",
+      options: {
+        A: "Zangief",
+        B: "E. Honda",
+        C: "Balrog",
+        D: "Sagat"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 7 | Gaming\nAnswer: B (E. Honda)\nEdmond Honda is a Japanese professional sumo wrestler famous for the Hundred Hand Slap."
+    },
+    {
+      id: 408,
+      contestant: 4,
+      level: 8,
+      topic: "C++",
+      text: "What is the output of: int x = 5; int &r = x; r = 10; cout << x;",
+      question: "What is the output of: int x = 5; int &r = x; r = 10; cout << x;",
+      options: {
+        A: "5",
+        B: "10",
+        C: "Garbage value",
+        D: "Compile error"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 8 | C++\nAnswer: B (10)\nBecause 'r' is a reference (alias) to 'x', assigning r = 10 directly modifies x, printing 10."
+    },
+    {
+      id: 409,
+      contestant: 4,
+      level: 9,
+      topic: "RDBMS",
+      text: "Which normal form requires every determinant to be a candidate key?",
+      question: "Which normal form requires every determinant to be a candidate key?",
+      options: {
+        A: "2NF",
+        B: "3NF",
+        C: "BCNF",
+        D: "4NF"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 9 | RDBMS\nAnswer: C (BCNF)\nBoyce-Codd Normal Form (BCNF) requires that for every functional dependency X -> Y, X must be a superkey/candidate key."
+    },
+    {
+      id: 410,
+      contestant: 4,
+      level: 10,
+      topic: "Bollywood",
+      text: "Which Mumbai theatre ran DDLJ continuously for over 20 years?",
+      question: "Which Mumbai theatre ran DDLJ continuously for over 20 years?",
+      options: {
+        A: "Liberty Cinema",
+        B: "Regal Cinema",
+        C: "Maratha Mandir",
+        D: "Gaiety Galaxy"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 10 | Bollywood\nAnswer: C (Maratha Mandir)\nMaratha Mandir theatre near Mumbai Central achieved a global cinematic milestone by screening DDLJ daily for over 25 years."
+    }
   ],
-  fff: [
-    {id: 501, text: "Fastest Finger: Arrange the following abbreviations alphabetically: 1. ATM, 2. GST, 3. PAN, 4. RBI", options: {A: "ATM → GST → PAN → RBI", B: "GST → ATM → RBI → PAN", C: "PAN → RBI → GST → ATM", D: "RBI → PAN → GST → ATM"}, correct: "A", description: "Correct order: ATM -> GST -> PAN -> RBI."},
-    {id: 502, text: "Fastest Finger: Arrange the following days of the week in chronological order: 1. Monday, 2. Wednesday, 3. Friday, 4. Sunday", options: {A: "Monday → Sunday → Wednesday → Friday", B: "Monday → Wednesday → Friday → Sunday", C: "Sunday → Friday → Wednesday → Monday", D: "Wednesday → Monday → Friday → Sunday"}, correct: "B", description: "Correct order: Monday -> Wednesday -> Friday -> Sunday."},
-    {id: 503, text: "Fastest Finger: Arrange the following months in calendar order: 1. January, 2. April, 3. August, 4. December", options: {A: "January → April → August → December", B: "April → January → August → December", C: "August → April → January → December", D: "December → August → April → January"}, correct: "A", description: "Correct order: January -> April -> August -> December."},
-    {id: 504, text: "Fastest Finger: Arrange the following numbers in ascending order: 1. 75, 2. 25, 3. 100, 4. 50", options: {A: "100 → 75 → 50 → 25", B: "25 → 50 → 75 → 100", C: "25 → 75 → 50 → 100", D: "50 → 25 → 75 → 100"}, correct: "B", description: "Correct order: 25 -> 50 -> 75 -> 100."},
-    {id: 505, text: "Fastest Finger: Arrange the following colours in the order they appear in a rainbow: 1. Red, 2. Yellow, 3. Green, 4. Blue", options: {A: "Red → Yellow → Green → Blue", B: "Blue → Green → Yellow → Red", C: "Red → Green → Yellow → Blue", D: "Yellow → Red → Green → Blue"}, correct: "A", description: "Correct order (from outer side): Red -> Yellow -> Green -> Blue."}
-  ],
-  ubc: [
-    {id: 601, text: "Which is the national animal of India?", options: {A: "Lion", B: "Tiger", C: "Leopard", D: "Elephant"}, correct: "B", description: "The Tiger is the national animal of India."},
-    {id: 602, text: "Audio Round: Play 'Vande Mataram'. Who wrote it?", options: {A: "Rabindranath Tagore", B: "Bankim Chandra Chattopadhyay", C: "Sarojini Naidu", D: "Muhammad Iqbal"}, correct: "B", description: "'Vande Mataram' was written by Bankim Chandra Chattopadhyay."},
-    {id: 603, text: "What is 25 × 4?", options: {A: "80", B: "90", C: "100", D: "120"}, correct: "C", description: "25 multiplied by 4 is 100."},
-    {id: 604, text: "Which is the capital of Rajasthan?", options: {A: "Jaipur", B: "Jodhpur", C: "Udaipur", D: "Kota"}, correct: "A", description: "Jaipur is the capital of Rajasthan."},
-    {id: 605, text: "Who was known as the Iron Man of India?", options: {A: "Sardar Vallabhbhai Patel", B: "Subhash Chandra Bose", C: "Lal Bahadur Shastri", D: "Bhagat Singh"}, correct: "A", description: "Sardar Vallabhbhai Patel is known as the Iron Man of India."},
-    {id: 606, text: "Who is the current Chief Justice of India?", options: {A: "Sanjiv Khanna", B: "B. R. Gavai", C: "D. Y. Chandrachud", D: "Hima Kohli"}, correct: "B", description: "As per the quiz keys, B. R. Gavai is the answer."},
-    {id: 607, text: "Which desert is located in India?", options: {A: "Sahara Desert", B: "Thar Desert", C: "Gobi Desert", D: "Kalahari Desert"}, correct: "B", description: "The Thar Desert is located in northwestern India."},
-    {id: 608, text: "Which movement was started by Mahatma Gandhi in 1942?", options: {A: "Non-Cooperation Movement", B: "Civil Disobedience Movement", C: "Quit India Movement", D: "Salt Satyagraha"}, correct: "C", description: "The Quit India Movement was started in 1942."},
-    {id: 609, text: "Which city hosted the G20 Summit in India in 2023?", options: {A: "Mumbai", B: "New Delhi", C: "Bengaluru", D: "Chennai"}, correct: "B", description: "New Delhi hosted the G20 Summit in 2023."},
-    {id: 610, text: "Which planet is called the Red Planet?", options: {A: "Venus", B: "Mercury", C: "Mars", D: "Jupiter"}, correct: "C", description: "Mars is the Red Planet."},
-    {id: 611, text: "Audio Round: Play 'Saare Jahan Se Achha'. Who wrote it?", options: {A: "Bankim Chandra Chattopadhyay", B: "Muhammad Iqbal", C: "Rabindranath Tagore", D: "Sarojini Naidu"}, correct: "B", description: "'Saare Jahan Se Achha' was written by Muhammad Iqbal."},
-    {id: 612, text: "Find 144 ÷ 12.", options: {A: "10", B: "11", C: "12", D: "14"}, correct: "C", description: "144 divided by 12 is 12."},
-    {id: 613, text: "Which river is called the Sorrow of Bihar?", options: {A: "Ganga", B: "Kosi River", C: "Gandak", D: "Sone"}, correct: "B", description: "The Kosi River is known as the Sorrow of Bihar."},
-    {id: 614, text: "Who built the Red Fort?", options: {A: "Akbar", B: "Shah Jahan", C: "Jahangir", D: "Sher Shah Suri"}, correct: "B", description: "The Red Fort was built by Shah Jahan."},
-    {id: 615, text: "Which state launched the 'Ladki Bahin' scheme?", options: {A: "Madhya Pradesh", B: "Maharashtra", C: "Uttar Pradesh", D: "Rajasthan"}, correct: "B", description: "The scheme was launched by the government of Maharashtra."},
-    {id: 616, text: "Visual Round: Count the triangles in the given figure.", options: {A: "6", B: "8", C: "10", D: "12"}, correct: "B", description: "The figure contains exactly 8 triangles."},
-    {id: 617, text: "Which country shares the longest border with India?", options: {A: "China", B: "Pakistan", C: "Bangladesh", D: "Nepal"}, correct: "C", description: "Bangladesh shares the longest border with India (4,096 km)."},
-    {id: 618, text: "Who was the first Governor-General of Independent India?", options: {A: "C. Rajagopalachari", B: "Lord Mountbatten", C: "Dr. Rajendra Prasad", D: "Lord Canning"}, correct: "B", description: "Lord Mountbatten was the first Governor-General of Independent India."},
-    {id: 619, text: "Which country hosted the FIFA World Cup 2022?", options: {A: "Qatar", B: "France", C: "Brazil", D: "Argentina"}, correct: "A", description: "Qatar hosted the 2022 FIFA World Cup."},
-    {id: 620, text: "Which is the largest ocean in the world?", options: {A: "Atlantic Ocean", B: "Indian Ocean", C: "Pacific Ocean", D: "Arctic Ocean"}, correct: "C", description: "The Pacific Ocean is the largest ocean."},
-    {id: 621, text: "Audio Round: Identify the sound of a train whistle.", options: {A: "Ship Horn", B: "Train Whistle", C: "Car Horn", D: "Airplane Engine"}, correct: "B", description: "The sound is of a train whistle."},
-    {id: 622, text: "What is the square of 15?", options: {A: "215", B: "225", C: "235", D: "245"}, correct: "B", description: "15 squared is 225."},
-    {id: 623, text: "What is the capital of Assam?", options: {A: "Guwahati", B: "Dispur", C: "Shillong", D: "Tezpur"}, correct: "B", description: "Dispur is the capital of Assam."},
-    {id: 624, text: "Who discovered the sea route to India?", options: {A: "Columbus", B: "Vasco da Gama", C: "Marco Polo", D: "Magellan"}, correct: "B", description: "Vasco da Gama discovered the sea route to India in 1498."},
-    {id: 625, text: "Who is the current Governor of RBI?", options: {A: "Shaktikanta Das", B: "Sanjay Malhotra", C: "Urjit Patel", D: "Raghuram Rajan"}, correct: "B", description: "Sanjay Malhotra is the RBI Governor in this quiz key."},
-    {id: 626, text: "Visual Round: Complete the pattern 2, 4, 8, 16, ?", options: {A: "24", B: "30", C: "32", D: "36"}, correct: "C", description: "The next term in the doubling pattern (2^x) is 32."},
-    {id: 627, text: "Which is the smallest state in India by area?", options: {A: "Goa", B: "Sikkim", C: "Tripura", D: "Manipur"}, correct: "A", description: "Goa is the smallest Indian state by area."},
-    {id: 628, text: "Which Mughal emperor built the Taj Mahal?", options: {A: "Akbar", B: "Jahangir", C: "Shah Jahan", D: "Aurangzeb"}, correct: "C", description: "The Taj Mahal was built by Shah Jahan."},
-    {id: 629, text: "Which Indian state has the highest population?", options: {A: "Maharashtra", B: "Bihar", C: "Uttar Pradesh", D: "West Bengal"}, correct: "C", description: "Uttar Pradesh is the most populous state in India."},
-    {id: 630, text: "Which is the largest mammal on Earth?", options: {A: "Elephant", B: "Blue Whale", C: "Giraffe", D: "Colossal Squid"}, correct: "B", description: "The Blue Whale is the largest mammal on Earth."},
-    {id: 631, text: "Audio Round: Identify the sound of rainfall and thunder.", options: {A: "Waterfall", B: "Rain/Thunderstorm", C: "Waves", D: "Wind"}, correct: "B", description: "The sound represents a rain and thunderstorm."},
-    {id: 632, text: "Find 18 × 9.", options: {A: "152", B: "162", C: "172", D: "182"}, correct: "B", description: "18 times 9 is 162."},
-    {id: 633, text: "Which is the highest mountain peak in the world?", options: {A: "K2", B: "Mount Everest", C: "Kangchenjunga", D: "Lhotse"}, correct: "B", description: "Mount Everest is the highest mountain peak (8,848.86 m)."},
-    {id: 634, text: "Who gave the slogan 'Jai Jawan, Jai Kisan'?", options: {A: "Mahatma Gandhi", B: "Lal Bahadur Shastri", C: "Jawaharlal Nehru", D: "Subhash Chandra Bose"}, correct: "B", description: "Lal Bahadur Shastri coined this slogan in 1965."},
-    {id: 635, text: "Name India's Chandrayaan-3 landing site.", options: {A: "Tiranga Point", B: "Shiv Shakti Point", C: "Vikram Point", D: "Jawahar Point"}, correct: "B", description: "The landing site of Chandrayaan-3 is named Shiv Shakti Point."},
-    {id: 636, text: "Visual Round: Complete the star pattern.", options: {A: "3 stars", B: "4 stars", C: "5 stars", D: "6 stars"}, correct: "B", description: "The next shape in the star pattern has 4 stars."},
-    {id: 637, text: "Which Indian state is known as the Spice Garden of India?", options: {A: "Karnataka", B: "Tamil Nadu", C: "Kerala", D: "Goa"}, correct: "C", description: "Kerala is the Spice Garden of India."},
-    {id: 638, text: "Who founded the Maurya Empire?", options: {A: "Ashoka", B: "Chandragupta Maurya", C: "Bindusara", D: "Chandragupta I"}, correct: "B", description: "Chandragupta Maurya founded the Maurya Empire in 322 BCE."}
-  ],
-  original: [
-    {id: 1, text: "What is the binary equivalent of decimal number 10?", options: {A: "1110", B: "1100", C: "1010", D: "1001"}, correct: "C", description: "The binary equivalent of decimal 10 is 1010. (8 + 2 = 10)"},
-    {id: 2, text: "Which type of memory is non-volatile and retains data even when power is off?", options: {A: "RAM", B: "Cache", C: "ROM", D: "Register"}, correct: "C", description: "ROM (Read-Only Memory) is permanent storage and does not lose data when power is switched off."},
-    {id: 3, text: "Which is not an example of an operating system?", options: {A: "Windows", B: "Linux", C: "MS Word", D: "MacOS"}, correct: "C", description: "MS Word is an application software, not an OS. An OS manages hardware and software resources."},
-    {id: 4, text: "What is a class in C++?", options: {A: "Data Type", B: "Function", C: "User Defined Data Type", D: "Variable"}, correct: "C", description: "A class in C++ is a user-defined data type that encapsulates data and functions into a single unit. It forms the basis of object-oriented programming."},
-    {id: 5, text: "In the movie 'PK', Aamir Khan uses a device to communicate with his spaceship. Which IT technology is closest to this concept?", options: {A: "Satellite Communication", B: "Fiber Optics", C: "Bluetooth", D: "LAN Networking"}, correct: "A", description: "The movie depicts wireless communication over long distances using electromagnetic waves, similar to satellite communication systems used for space-to-earth messaging."},
-    {id: 6, text: "In 2018, which Indian airline suffered a data breach that exposed personal data of 4.5 million passengers?", options: {A: "IndiGo", B: "Air India", C: "SpiceJet", D: "Jet Airways"}, correct: "B", description: "2018 में Air India के IT सिस्टम पर बड़ा साइबर हमला हुआ था। इस ब्रिच में लगभग 45 लाख यात्रियों का डाटा लीक हो गया था, जिसमें पासपोर्ट, क्रेडिट कार्ड और यात्रा की जानकारी शामिल थी। यह घटना दर्शाता है कि Aviation Sector में भी Cyber Security कितनी महत्वपूर्ण है।"},
-    {id: 7, text: "What is the full form of GUI?", options: {A: "Graphical User Interaction", B: "General User Interface", C: "Graphical User Interface", D: "Global User Input"}, correct: "C", description: "GUI allows users to interact with computers using icons and menus."},
-    {id: 8, text: "Which is the fastest memory in a computer?", options: {A: "RAM", B: "Cache", C: "ROM", D: "Hard Disk"}, correct: "B", description: "Cache memory is closer to the CPU and faster than RAM."},
-    {id: 9, text: "What is the full form of VPN?", options: {A: "Virtual Private Network", B: "Variable Processing Network", C: "Virtual Process Node", D: "Verified Public Network"}, correct: "A", description: "VPN creates a secure tunnel for data over public networks."},
-    {id: 10, text: "Which is not a programming language?", options: {A: "Java", B: "Python", C: "Oracle", D: "C++"}, correct: "C", description: "Oracle is a database, not a programming language."},
-    {id: 11, text: "Which of these is an example of Artificial Intelligence in daily life?", options: {A: "Online Calculator", B: "Google Maps Navigation", C: "Notepad", D: "MS Paint"}, correct: "B", description: "Google Maps uses AI to predict traffic, find shortest routes, and provide real-time directions."},
-    {id: 12, text: "Which of the following is a secondary storage device?", options: {A: "RAM", B: "Hard Disk", C: "Cache Memory", D: "Register"}, correct: "B", description: "Hard disks are non-volatile and used for long-term data storage. RAM and cache are primary memory."},
-    {id: 13, text: "The speed of an internet connection is usually measured in:", options: {A: "MB", B: "Mbps", C: "Hz", D: "GB"}, correct: "B", description: "Internet speed is measured in megabits per second (Mbps), while MB and GB refer to data size, not speed."},
-    {id: 14, text: "In 'Koi Mil Gaya', Movie Rohit receives instruction from outer space on his computer. Which IT application is being depicted?", options: {A: "Database Management", B: "Networking", C: "Signal Processing", D: "Cyber security"}, correct: "C", description: "The movie shows signal decoding and processing, where radio signals are captured, decoded, and interpreted by computer systems."},
-    {id: 15, text: "What does HTTP stand for in computer networking?", options: {A: "Hyper Transfer Text Protocol", B: "Hyper Text Transmission Program", C: "Hyper Text Transfer Protocol", D: "High Text Transmission Protocol"}, correct: "C", description: "HTTP is the foundation of data communication on the World Wide Web. It defines how messages are formatted and transmitted, and how web servers and browsers respond to commands."},
-    {id: 16, text: "Which of the following is an example of cloud computing service model?", options: {A: "SaaS, PaaS, IaaS", B: "LAN, MAN, WAN", C: "HTTP, FTP, SMTP", D: "Excel, Word, PowerPoint"}, correct: "A", description: "• SaaS (Software as a Service): Software delivered via the internet (e.g., Gmail, Google Docs). • PaaS (Platform as a Service): Provides a platform for developers (e.g., Google App Engine). • IaaS (Infrastructure as a Service): Provides virtualized computing resources (e.g., AWS, Microsoft Azure)."},
-    {id: 17, text: "In cyber security, phishing refers to:", options: {A: "Unauthorized access to physical servers", B: "Sending fraud emails to steal sensitive information", C: "Monitoring network packets for analysis", D: "Encrypting data for secure communication"}, correct: "B", description: "Phishing एक प्रकार का cyber attack है जिसमें नकली ईमेल, मैसेज या वेबसाइट बनाकर यूज़र से पासवर्ड, बैंक डिटेल्स और क्रेडिट कार्ड नंबर जैसी संवेदनशील जानकारी चुराई जाती है।"},
-    {id: 18, text: "Which protocol is used to send emails?", options: {A: "FTP", B: "SMTP", C: "HTTP", D: "SNMP"}, correct: "B", description: "SMTP (Simple Mail Transfer Protocol) इंटरनेट पर ईमेल भेजने का मानक प्रोटोकॉल है।"},
-    {id: 19, text: "Which Indian bank lost ₹94 crore in a cyberattack in 2018 through SWIFT system hacking?", options: {A: "Punjab National Bank (PNB)", B: "Cosmos Bank", C: "ICICI Bank", D: "Yes Bank"}, correct: "B", description: "2018 में पुणे स्थित Cosmos Bank के सर्वर पर साइबर हमला हुआ। हैकर्स ने SWIFT International Payment System को हैक कर ₹94 करोड़ चुरा लिए। इस घटना ने दिखाया कि banking sector साइबर अपराधियों का बड़ा टारगेट है।"},
-    {id: 20, text: "Which storage device is non-volatile?", options: {A: "RAM", B: "Cache memory", C: "Hard Disk", D: "Registers"}, correct: "C", description: "Non-volatile storage वह होती है जहाँ बिजली बंद होने पर भी डेटा सुरक्षित रहता है। Hard Disk में डेटा स्थायी रूप से स्टोर होता है।"},
-    {id: 21, text: "Which generation of computers used Integrated Circuits (ICs)?", options: {A: "First Generation", B: "Second Generation", C: "Third Generation", D: "Fourth Generation"}, correct: "C", description: "Third-generation computers (1965–1971) used ICs, making them smaller, faster, and more reliable."},
-    {id: 22, text: "Which technology is used in chat bots like Chat GPT?", options: {A: "Machine Learning", B: "Data Mining", C: "Cloud Storage", D: "Cryptography"}, correct: "A", description: "Chatbots use machine learning and natural language processing (NLP) to understand and respond to human language."},
-    {id: 23, text: "Which component of a computer executes instructions from programs?", options: {A: "Hard Disk", B: "RAM", C: "CPU", D: "GPU"}, correct: "C", description: "The CPU (Central Processing Unit) is the brain of the computer that executes program instructions."},
-    {id: 24, text: "Which of the following is NOT a programming language?", options: {A: "Python", B: "Java", C: "HTML", D: "C++"}, correct: "C", description: "HTML (Hyper Text Markup Language) प्रोग्रामिंग भाषा नहीं बल्कि एक Markup Language है जिसका उपयोग वेब पेज डिज़ाइन करने में होता है।"},
-    {id: 25, text: "Which of the following is an example of system software?", options: {A: "MS Excel", B: "VLC Player", C: "Operating System", D: "Photoshop"}, correct: "C", description: "System software वह होता है जो हार्डवेयर और एप्लीकेशन के बीच काम करता है। Operating System इसका मुख्य उदाहरण है।"},
-    {id: 26, text: "In the movie 'Mohan Joshi Hazir Ho!' (1984), computer technology was shown as a tool for?", options: {A: "Legal Case Filing", B: "Medical Surgery", C: "Online Shopping", D: "Banking"}, correct: "A", description: "इस मूवी में दिखाया गया था कि कैसे कंप्यूटर का उपयोग कोर्ट और कानूनी मामलों में डॉक्यूमेंटेशन और केस फाइलिंग के लिए किया जा सकता है।"},
-    {id: 27, text: "Which technology is used in contactless payment?", options: {A: "NFC", B: "Bluetooth", C: "Wi-Fi", D: "QR Code"}, correct: "A", description: "NFC (Near Field Communication) का प्रयोग Contactless Payment जैसे Google Pay, PhonePe Tap & Pay में किया जाता है।"},
-    {id: 28, text: "Which Bollywood movie showed the misuse of hacking and cybercrime?", options: {A: "Koi Mil Gaya", B: "Ungli", C: "A Wednesday", D: "Mickey Virus"}, correct: "D", description: "Mickey Virus (2013) एक कॉमेडी थ्रिलर फ़िल्म है जिसमें मुख्य किरदार एक ethical hacker होता है। इस मूवी में हैकिंग, साइबर क्राइम और साइबर सिक्योरिटी का महत्व दिखाया गया है।"},
-    {id: 29, text: "The college server was hacked and student records were leaked. Which type of cyber attack does this represent?", options: {A: "Phishing", B: "Data Breach", C: "Denial of Service", D: "Spoofing"}, correct: "B", description: "जब Unauthorized Access से गोपनीय डाटा लीक हो जाता है तो उसे Data Breach कहा जाता है।"},
-    {id: 30, text: "Raisoni group of Institution Mangalwari branch use biometric systems for employee attendance. Which IT concept does this represent?", options: {A: "Authentication", B: "Debugging", C: "Cloud Storage", D: "Data Encryption"}, correct: "A", description: "Biometric System (Fingerprint/Face ID) Authentication का तरीका है, जिससे कर्मचारियों की पहचान सत्यापित होती है।"},
-    {id: 31, text: "A student in the college accidentally deleted an important project file. Which feature of an operating system helps to recover it from the Recycle Bin?", options: {A: "Multitasking", B: "File Management", C: "Memory Management", D: "Device Management"}, correct: "B", description: "Operating System का File Management काम करता है फाइल को स्टोर, डिलीट और रिकवर करने का। Recycle Bin इसी का हिस्सा है।"},
-    {id: 32, text: "During a seminar, the Wi-Fi stopped working in the college auditorium. Which network device needs to be checked first?", options: {A: "Router", B: "Printer", C: "Scanner", D: "Projector"}, correct: "A", description: "Router Wi-Fi नेटवर्क को प्रबंधित करता है। अगर Wi-Fi बंद हो जाए तो सबसे पहले Router की जाँच की जाती है।"},
-    {id: 33, text: "A student wants to give a presentation using a projector. Which type of cable is usually used to connect a laptop to a projector?", options: {A: "HDMI/VGA", B: "USB", C: "LAN", D: "Power Cable"}, correct: "A", description: "Laptop को प्रोजेक्टर से जोड़ने के लिए HDMI या VGA cable का उपयोग किया जाता है।"},
-    {id: 34, text: "In the movie 'Ra.One', the villain is actually a ______?", options: {A: "Computer Hacker", B: "Video Game Character", C: "Artificial Human", D: "Robot"}, correct: "B", description: "फिल्म Ra.One में villain \"Ra.One\" एक video game character है जो AI और Virtual Reality से real world में आ जाता है।"},
-    {id: 35, text: "A client reported a bug in the company’s software. Which step should the software testing team perform first?", options: {A: "Debugging", B: "Deployment", C: "Documentation", D: "Encryption"}, correct: "A", description: "जब सॉफ्टवेयर में कोई Bug मिलता है तो सबसे पहले Developer उसे Debugging करके Error को ढूँढते और ठीक करते हैं।"},
-    {id: 36, text: "A client asked for a mobile app that should run on both Android and iOS. Which type of development should the company prefer?", options: {A: "Native App Development", B: "Web Development", C: "Cross-platform Development", D: "Assembly Language Programming"}, correct: "C", description: "Cross-platform Development में एक ही Codebase से App दोनों Platforms (Android & iOS) पर चल सकती है (जैसे Flutter, React Native)।"},
-    {id: 37, text: "Nagpur Metro launched a mobile app for online ticket booking. This is an example of which IT concept?", options: {A: "Artificial Intelligence", B: "E-Governance", C: "Cyber security", D: "Cloud Computing"}, correct: "B", description: "E-Governance का मतलब है सरकारी सेवाओं को डिजिटल माध्यम से उपलब्ध कराना। Nagpur Metro App इसी का उदाहरण है।"},
-    {id: 38, text: "Rashtrasant Tukadoji Maharaj Nagpur University introduced an online exam system. Which IT technology is mainly used here?", options: {A: "Virtual Reality", B: "Online Assessment System", C: "Cloud Gaming", D: "Compiler"}, correct: "B", description: "Online Assessment System का उपयोग छात्रों के लिए ऑनलाइन परीक्षा आयोजित करने और उसका मूल्यांकन करने में होता है।"},
-    {id: 39, text: "Nagpur colleges conduct online admissions through a centralized system. Which IT concept is this?", options: {A: "Database & Cloud Integration", B: "Operating System", C: "Cybersecurity Threat", D: "Virtual Machine"}, correct: "A", description: "Online Admission System Central Database और Cloud पर आधारित है, जिससे सभी कॉलेज एक ही पोर्टल से Manage होते हैं।"}
+
+  c5: [
+    {
+      id: 501,
+      contestant: 5,
+      level: 1,
+      topic: "Gaming",
+      text: "Dhalsim from Street Fighter represents which country?",
+      question: "Dhalsim from Street Fighter represents which country?",
+      options: {
+        A: "Japan",
+        B: "China",
+        C: "India",
+        D: "Brazil"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 1 | Gaming\nAnswer: C (India)\nDhalsim is an Indian ascetic yoga master and one of the original World Warriors in Street Fighter II."
+    },
+    {
+      id: 502,
+      contestant: 5,
+      level: 2,
+      topic: "C++",
+      text: "Which operator is used with cout to print output?",
+      question: "Which operator is used with cout to print output?",
+      options: {
+        A: ">>",
+        B: "<<",
+        C: "==",
+        D: "=>"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 2 | C++\nAnswer: B (<<)\nThe stream insertion operator '<<' is used with std::cout to send formatted data to standard output."
+    },
+    {
+      id: 503,
+      contestant: 5,
+      level: 3,
+      topic: "RDBMS",
+      text: "What does a primary key do?",
+      question: "What does a primary key do?",
+      options: {
+        A: "Allows duplicate rows",
+        B: "Uniquely identifies each row",
+        C: "Always stores NULL",
+        D: "Links two databases"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 3 | RDBMS\nAnswer: B (Uniquely identifies each row)\nA primary key uniquely identifies every record in a table and cannot contain duplicate or NULL values."
+    },
+    {
+      id: 504,
+      contestant: 5,
+      level: 4,
+      topic: "Bollywood",
+      text: "What is the name of Kajol's character in DDLJ?",
+      question: "What is the name of Kajol's character in DDLJ?",
+      options: {
+        A: "Anjali",
+        B: "Tina",
+        C: "Simran",
+        D: "Pooja"
+      },
+      correct: "C",
+      answer: "C",
+      description: "Level 4 | Bollywood\nAnswer: C (Simran)\nKajol played Simran Singh in Dilwale Dulhania Le Jayenge (1995)."
+    },
+    {
+      id: 505,
+      contestant: 5,
+      level: 5,
+      topic: "Hollywood",
+      text: "What is Jack's surname in Titanic?",
+      question: "What is Jack's surname in Titanic?",
+      options: {
+        A: "Dawson",
+        B: "Hockley",
+        C: "Calvert",
+        D: "Murdoch"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 5 | Hollywood\nAnswer: A (Dawson)\nLeonardo DiCaprio plays Jack Dawson, a free-spirited third-class artist aboard the RMS Titanic."
+    },
+    {
+      id: 506,
+      contestant: 5,
+      level: 6,
+      topic: "Gaming",
+      text: "Street Fighter II was first released in arcades in which year?",
+      question: "Street Fighter II was first released in arcades in which year?",
+      options: {
+        A: "1987",
+        B: "1991",
+        C: "1995",
+        D: "1999"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 6 | Gaming\nAnswer: B (1991)\nStreet Fighter II: The World Warrior revolutionized arcade fighting games upon its 1991 release."
+    },
+    {
+      id: 507,
+      contestant: 5,
+      level: 7,
+      topic: "C++",
+      text: "Using the same function name with different parameter lists is called:",
+      question: "Using the same function name with different parameter lists is called:",
+      options: {
+        A: "Overriding",
+        B: "Overloading",
+        C: "Inheritance",
+        D: "Encapsulation"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 7 | C++\nAnswer: B (Overloading)\nFunction overloading is compile-time polymorphism where functions share the same identifier with distinct parameter types or counts."
+    },
+    {
+      id: 508,
+      contestant: 5,
+      level: 8,
+      topic: "RDBMS",
+      text: "Which ACID property ensures a transaction is \"all or nothing\"?",
+      question: "Which ACID property ensures a transaction is \"all or nothing\"?",
+      options: {
+        A: "Atomicity",
+        B: "Consistency",
+        C: "Isolation",
+        D: "Durability"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 8 | RDBMS\nAnswer: A (Atomicity)\nAtomicity guarantees that all SQL operations within a database transaction succeed or the entire transaction is rolled back."
+    },
+    {
+      id: 509,
+      contestant: 5,
+      level: 9,
+      topic: "Bollywood",
+      text: "Who played Chaudhry Baldev Singh in DDLJ?",
+      question: "Who played Chaudhry Baldev Singh in DDLJ?",
+      options: {
+        A: "Anupam Kher",
+        B: "Amrish Puri",
+        C: "Om Puri",
+        D: "Pran"
+      },
+      correct: "B",
+      answer: "B",
+      description: "Level 9 | Bollywood\nAnswer: B (Amrish Puri)\nVeteran actor Amrish Puri delivered an indelible portrayal of Simran's stern father Chaudhry Baldev Singh."
+    },
+    {
+      id: 510,
+      contestant: 5,
+      level: 10,
+      topic: "Hollywood",
+      text: "Who directed The Avengers (2012)?",
+      question: "Who directed The Avengers (2012)?",
+      options: {
+        A: "Joss Whedon",
+        B: "Anthony and Joe Russo",
+        C: "Jon Favreau",
+        D: "Kenneth Branagh"
+      },
+      correct: "A",
+      answer: "A",
+      description: "Level 10 | Hollywood\nAnswer: A (Joss Whedon)\nJoss Whedon directed the ground-breaking ensemble superhero film Marvel's The Avengers (2012)."
+    }
   ]
 };
+
+// Combine all 50 questions
+quizSets.all = [
+  ...quizSets.c1,
+  ...quizSets.c2,
+  ...quizSets.c3,
+  ...quizSets.c4,
+  ...quizSets.c5
+];
+
+// Compatibility aliases
+quizSets.contestant1 = quizSets.c1;
+quizSets.contestant2 = quizSets.c2;
+quizSets.contestant3 = quizSets.c3;
+quizSets.contestant4 = quizSets.c4;
+quizSets.contestant5 = quizSets.c5;
+quizSets.set1 = quizSets.c1;
+quizSets.set2 = quizSets.c2;
+quizSets.set3 = quizSets.c3;
+quizSets.set4 = quizSets.c4;
+quizSets.set5 = quizSets.c5;
+
+// Answer key mapping
+quizSets.answerKey = {
+  contestant_1: ["B", "C", "A", "C", "C", "B", "C", "B", "C", "C"],
+  contestant_2: ["A", "A", "B", "A", "B", "B", "B", "C", "C", "B"],
+  contestant_3: ["C", "B", "A", "B", "C", "B", "C", "A", "A", "B"],
+  contestant_4: ["B", "C", "B", "C", "B", "C", "B", "B", "C", "C"],
+  contestant_5: ["C", "B", "B", "C", "A", "B", "B", "A", "B", "A"]
+};
+
+// Quizmaster Notes
+quizSets.quizmasterNotes = [
+  "Topic order per contestant rotates (C1 starts C++, C2 RDBMS, C3 Bollywood, C4 Hollywood, C5 Gaming), so each gets 2 questions per topic.",
+  "Levels 1-3 easy, 4-6 medium, 7-8 hard, 9-10 tiebreaker-grade.",
+  "Contestant 3 Level 3: Ken also uses the Hadoken but is not in the options.",
+  "Contestant 3 Level 7: Titanic tied Ben-Hur for 11 Oscars; The Return of the King later matched it.",
+  "Contestant 3 Level 8 and Contestant 1 Level 10 depend on official Street Fighter backstory."
+];
 
 // Export or assign to window for browser access
 if (typeof window !== 'undefined') {
