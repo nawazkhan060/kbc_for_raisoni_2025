@@ -965,9 +965,11 @@
       gap: 18px;
     }
     .host-timer-circle {
-      width: 70px;
+      min-width: 70px;
+      width: auto;
       height: 70px;
-      border-radius: 50%;
+      padding: 0 14px;
+      border-radius: 35px;
       border: 3px solid #ff3b30;
       display: flex;
       justify-content: center;
@@ -1182,11 +1184,11 @@
               </div>
             </div>
             <div class="team-score-row">
-              <span class="score-edit-val" id="player-score-val">0</span>
+              <span class="score-edit-val" id="player-score-val">₹0</span>
               <div class="score-btns">
-                <button class="score-btn" onclick="adjustPlayerScore(10)">+10</button>
-                <button class="score-btn" onclick="adjustPlayerScore(20)">+20</button>
-                <button class="score-btn neg" onclick="adjustPlayerScore(-10)">-10</button>
+                <button class="score-btn" onclick="adjustPlayerScore(100)">+100</button>
+                <button class="score-btn" onclick="adjustPlayerScore(500)">+500</button>
+                <button class="score-btn neg" onclick="adjustPlayerScore(-100)">-100</button>
               </div>
             </div>
           </div>
@@ -1341,20 +1343,20 @@
         <!-- Points Ladder -->
         <div class="console-card" style="text-align:center;">
           <div class="console-title" style="justify-content:center;">
-            <i class="fas fa-sort-amount-up"></i> Score Ladder Reference
+            <i class="fas fa-sort-amount-up"></i> Prize Stages Reference
           </div>
           <div class="ladder-points-display">
-            <span>0</span>
-            <span>20</span>
-            <span>40</span>
-            <span>60</span>
-            <span>80</span>
-            <span>100</span>
-            <span>120</span>
-            <span>140</span>
-            <span>160</span>
-            <span>180</span>
-            <span>200</span>
+            <span>Start: ₹0</span>
+            <span>Q1: ₹100</span>
+            <span>Q2: ₹200</span>
+            <span>Q3: ₹300</span>
+            <span>Q4: ₹500</span>
+            <span>Q5: ₹700</span>
+            <span>Q6: ₹1,000</span>
+            <span>Q7: ₹1,500</span>
+            <span>Q8: ₹2,000</span>
+            <span>Q9: ₹2,500</span>
+            <span>Q10: ₹3,000</span>
           </div>
         </div>
 
@@ -1745,25 +1747,44 @@
       isRevealed = false;
       optionsVisible = false;
 
-      // Start Countdown Timer on Host Pop-up
-      hostTimeLeft = 30;
-      document.getElementById('host-timer-val').textContent = hostTimeLeft;
+      // Start Countdown Timer on Host Pop-up (Only first 3 questions have 30s timer, rest unlimited)
+      const isTimed = (currentQuestionData && currentQuestionData.level !== undefined && currentQuestionData.level !== null)
+        ? Number(currentQuestionData.level) <= 3
+        : (currentQuestionData && window.quizSets[currentSet] ? window.quizSets[currentSet].indexOf(currentQuestionData) < 3 : true);
+
       clearInterval(hostTimerInterval);
-      hostTimerInterval = setInterval(() => {
-        hostTimeLeft--;
-        if (hostTimeLeft < 0) {
-          clearInterval(hostTimerInterval);
-          document.getElementById('host-timer-val').textContent = "⏰";
-          addLog("⏰ Host timer: Time's Up!");
-          // Disable lock buttons
-          ['A', 'B', 'C', 'D'].forEach(key => {
-            const btn = document.getElementById(`host-lock-${key}`);
-            if (btn) btn.setAttribute('disabled', 'true');
-          });
-        } else {
-          document.getElementById('host-timer-val').textContent = hostTimeLeft;
+      const hostTimerVal = document.getElementById('host-timer-val');
+      if (isTimed) {
+        hostTimeLeft = 30;
+        if (hostTimerVal) {
+          hostTimerVal.textContent = hostTimeLeft;
+          hostTimerVal.style.fontSize = '1.8rem';
+          hostTimerVal.parentElement.style.borderColor = '#ff3b30';
+          hostTimerVal.style.color = '#ff3b30';
         }
-      }, 1000);
+        hostTimerInterval = setInterval(() => {
+          hostTimeLeft--;
+          if (hostTimeLeft < 0) {
+            clearInterval(hostTimerInterval);
+            if (hostTimerVal) hostTimerVal.textContent = "Time's Up";
+            addLog("Host timer: Time's Up!");
+            // Disable lock buttons
+            ['A', 'B', 'C', 'D'].forEach(key => {
+              const btn = document.getElementById(`host-lock-${key}`);
+              if (btn) btn.setAttribute('disabled', 'true');
+            });
+          } else {
+            if (hostTimerVal) hostTimerVal.textContent = hostTimeLeft;
+          }
+        }, 1000);
+      } else {
+        if (hostTimerVal) {
+          hostTimerVal.innerHTML = '<span style="font-size:0.95rem; font-weight:700;">Unlimited</span>';
+          hostTimerVal.parentElement.style.borderColor = 'gold';
+          hostTimerVal.style.color = 'gold';
+        }
+        addLog(`Question ${currentQuestionData ? currentQuestionData.id : ''} (Level ${currentQuestionData ? (currentQuestionData.level || '4+') : '4+'}) started: Unlimited Time.`);
+      }
 
       // Reset or set lifeline buttons state inside modal
       ['50:50', 'Ask Friend', 'Ask Audience'].forEach(type => {
@@ -1938,7 +1959,15 @@
       const isCorrect = lockedOption === correct;
       if (isCorrect) {
         addLog(`Revealed answer: CORRECT! (Locked: ${lockedOption}, Correct: ${correct})`);
-        adjustPlayerScore(20);
+        const stagePrize = [0, 100, 200, 300, 500, 700, 1000, 1500, 2000, 2500, 3000];
+        const nextPrize = currentQuestionData && currentQuestionData.level ? stagePrize[currentQuestionData.level] : null;
+        if (nextPrize !== null && nextPrize !== undefined) {
+          player.score = nextPrize;
+          document.getElementById('player-score-val').textContent = '₹' + player.score.toLocaleString();
+          broadcastScores();
+        } else {
+          adjustPlayerScore(100);
+        }
       } else {
         addLog(`Revealed answer: WRONG! (Locked: ${lockedOption}, Correct: ${correct})`);
       }
@@ -1962,7 +1991,7 @@
     // Lifeline triggers
     function forceLifeline(type) {
       if (usedLifelines.has(type)) {
-        alert(`❌ "${type}" already marked as used!`);
+        alert(`"${type}" already marked as used!`);
         return;
       }
       socket.emit('use-lifeline', { type, time: new Date().toLocaleTimeString() });
@@ -1980,11 +2009,11 @@
 
     function triggerFiftyFifty() {
       if (!currentQuestionData) {
-        alert("⚠️ There is no active question currently sent!");
+        alert("There is no active question currently sent!");
         return;
       }
       if (usedLifelines.has('50:50')) {
-        alert("❌ 50:50 already used!");
+        alert("50:50 already used!");
         return;
       }
 
@@ -2081,13 +2110,13 @@
         }
       });
       addLog("All lifelines have been reset.");
-      alert("✅ All lifelines reset for this round!");
+      alert("All lifelines reset for this round!");
     }
 
     // Scoreboard operations
     function adjustPlayerScore(delta) {
       player.score = Math.max(0, player.score + delta);
-      document.getElementById('player-score-val').textContent = player.score;
+      document.getElementById('player-score-val').textContent = '₹' + player.score.toLocaleString();
       broadcastScores();
     }
 
@@ -2100,9 +2129,9 @@
     function resetPlayerScore() {
       if (!confirm("Are you sure you want to reset the player score?")) return;
       player.score = 0;
-      document.getElementById('player-score-val').textContent = 0;
+      document.getElementById('player-score-val').textContent = '₹0';
       broadcastScores();
-      addLog("Reset player score to zero.");
+      addLog("Reset player prize/score to zero.");
     }
 
     function broadcastScores() {
@@ -2159,7 +2188,7 @@
       });
 
       socket.on('lifeline-request', (data) => {
-        addLog(`🛎️ Player requested lifeline: ${data.type}`);
+        addLog(`Player requested lifeline: ${data.type}`);
         markLifelineUsed(data.type);
         
         // Show in host active modal alert banner

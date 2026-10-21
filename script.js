@@ -2,10 +2,22 @@
 let correctCount = 0;
 let currentQuestionIndex = null;
 let currentQuestionCorrect = null;
+let currentQuestionObj = null;
 let lockedOption = null;
 let timerInterval = null;
 let timeLeft = 30;
 let timerEnded = false;
+
+function isTimedQuestion(q) {
+  if (!q) return false;
+  if (q.level !== undefined && q.level !== null) {
+    return Number(q.level) <= 3;
+  }
+  if (q.index !== undefined && q.index !== null) {
+    return Number(q.index) < 3;
+  }
+  return false;
+}
 
 if (!window.isHost) {
   // Audio helpers
@@ -63,9 +75,10 @@ if (!window.isHost) {
 
   // Listen for new question
   socket.on('new-question', (q) => {
-    console.log("🎯 Received question:", q);
+    console.log("Received question:", q);
 
     resetGame();
+    currentQuestionObj = q;
     currentQuestionIndex = q.index;
     currentQuestionCorrect = q.correct;
     document.getElementById('question-text').textContent = q.text;
@@ -87,14 +100,18 @@ if (!window.isHost) {
       container.appendChild(btn);
     });
 
-    // Start timer immediately and play question/suspense audio
-    if (q.index !== null && q.index < 3) {
-      document.querySelector('.timer').style.display = 'block';
+    // Start timer for first 3 questions; remaining questions have unlimited time
+    const timerEl = document.querySelector('.timer');
+    if (isTimedQuestion(q)) {
+      timerEl.style.display = 'block';
+      timerEl.textContent = '30';
       startTimer();
       playQuestionAudio(q.index);
     } else {
-      document.querySelector('.timer').style.display = 'none';
+      timerEl.style.display = 'block';
+      timerEl.innerHTML = '<span class="unlimited-timer"><i class="fas fa-infinity"></i> Unlimited</span>';
       clearInterval(timerInterval);
+      timerInterval = null;
       playQuestionAudio(q.index);
     }
   });
@@ -105,7 +122,7 @@ if (!window.isHost) {
     if (container) {
       if (data.visible) {
         container.style.display = 'grid';
-        if (currentQuestionIndex !== null && currentQuestionIndex < 3) {
+        if (isTimedQuestion(currentQuestionObj)) {
           startTimer();
         }
       } else {
@@ -159,13 +176,13 @@ if (!window.isHost) {
 
     if (isCorrect) {
       playCorrectAudio();
-      resultDiv.innerHTML = '<p style="color:#5cb85c; font-size:2.2rem; font-weight:bold; text-shadow: 0 0 10px rgba(92,184,92,0.4)">✅ CORRECT!</p>';
+      resultDiv.innerHTML = '<p style="color:#5cb85c; font-size:2.2rem; font-weight:bold; text-shadow: 0 0 10px rgba(92,184,92,0.4)">CORRECT!</p>';
       correctCount++;
       updatePointsLadder();
 
       if (correctCount >= 10) {
         setTimeout(() => {
-          alert("🎉 CONGRATULATIONS!\nYou've earned 200 points!");
+          alert("CONGRATULATIONS!\nYou've won ₹3,000!");
         }, 600);
       }
     } else {
@@ -205,7 +222,7 @@ if (!window.isHost) {
 
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        timerEl.textContent = "⏰ Time's Up!";
+        timerEl.textContent = "Time's Up!";
         const buttons = document.querySelectorAll('.option-btn');
         buttons.forEach(btn => btn.disabled = true);
         
@@ -252,6 +269,11 @@ if (!window.isHost) {
     }
   }
 
+  const prizeStages = [
+    "₹0", "₹100", "₹200", "₹300", "₹500", "₹700",
+    "₹1,000", "₹1,500", "₹2,000", "₹2,500", "₹3,000"
+  ];
+
   function showLossModal(message) {
     const modal = document.getElementById('loss-modal');
     const msgEl = document.getElementById('loss-modal-message');
@@ -259,7 +281,7 @@ if (!window.isHost) {
     
     if (modal && msgEl && scoreEl) {
       msgEl.textContent = message;
-      scoreEl.textContent = correctCount * 20;
+      scoreEl.textContent = prizeStages[correctCount] || "₹0";
       modal.classList.add('show');
     }
   }
@@ -289,12 +311,12 @@ if (!window.isHost) {
   }
 
   socket.on('connect', () => {
-    console.log('🟢 Connected to server');
+    console.log('Connected to server');
     socket.emit('join-player');
   });
   
   socket.on('connect_error', (err) => {
-    console.error('🔴 Connection failed:', err.message);
+    console.error('Connection failed:', err.message);
   });
 
   // Handle audio unlock overlay to satisfy browser autoplay policies

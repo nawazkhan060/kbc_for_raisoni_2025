@@ -2,16 +2,21 @@
 body { background: linear-gradient(135deg, #060b23, #19053e); font-family: 'Montserrat', sans-serif; color: white; overflow: hidden; height: 100vh; }
 
 .kbc-container { display: flex; min-height: 100vh; }
-.prize-ladder { width: 220px; background: linear-gradient(180deg, #041138, #10285d); border-right: 3px solid gold; padding: 20px 10px; text-align: right; display: flex; flex-direction: column; justify-content: flex-start; }
+.prize-ladder { width: 230px; background: linear-gradient(180deg, #041138, #10285d); border-right: 3px solid gold; padding: 20px 10px; text-align: right; display: flex; flex-direction: column; justify-content: flex-start; }
 .prize-ladder h3 { color: gold; font-size: 1.1rem; margin-bottom: 16px; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
-#points-tree { list-style: none; margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
-#points-tree li { padding: 10px 12px; font-size: 1rem; color: #d9e5ff; opacity: 0.8; transition: all 0.3s; border-radius: 999px; text-align: center; }
-#points-tree li.current { background: linear-gradient(to right, gold, orange); color: #001f5b; font-weight: 900; box-shadow: 0 0 12px rgba(255,215,0,0.45); }
+#points-tree { list-style: none; margin-top: auto; display: flex; flex-direction: column; gap: 7px; }
+#points-tree li { padding: 8px 14px; font-size: 0.95rem; color: #d9e5ff; opacity: 0.85; transition: all 0.3s; border-radius: 999px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.03); }
+#points-tree li .q-stage { font-weight: 700; color: #ffd700; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; }
+#points-tree li .q-amount { font-weight: 700; color: #ffffff; }
+#points-tree li.current { background: linear-gradient(to right, gold, orange); color: #001f5b; font-weight: 900; box-shadow: 0 0 14px rgba(255,215,0,0.55); border-color: gold; transform: scale(1.03); }
+#points-tree li.current .q-stage { color: #001f5b; }
+#points-tree li.current .q-amount { color: #001f5b; font-weight: 900; }
 
 .game-area { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 24px 20px 30px; overflow-y: auto; }
 .header { width: 100%; max-width: 900px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; }
 .header img { max-height: 180px; object-fit: contain; }
 .timer { font-size: 3rem; font-weight: 900; color: #ff3b30; text-shadow: 0 0 12px rgba(0,0,0,0.65); margin-bottom: 10px; }
+.unlimited-timer { font-size: 1.5rem; color: #ffd700; font-weight: 700; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 215, 0, 0.12); padding: 8px 22px; border-radius: 999px; border: 1.5px solid rgba(255, 215, 0, 0.4); text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
 .question-box { width: 100%; max-width: 900px; background: rgba(0,0,0,0.7); border: 2px solid #ffd700; border-radius: 16px; padding: 22px; margin-bottom: 24px; text-align: center; font-size: 1.4rem; line-height: 1.6; color: white; font-family: 'Orbitron', sans-serif; box-shadow: 0 4px 20px rgba(0,0,0,0.25); }
 .options-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; width: 100%; max-width: 900px; margin-bottom: 24px; }
 .option-btn { background: linear-gradient(to bottom, #1e5799, #203a81); border: 2px solid #ffd700; border-radius: 14px; padding: 16px; font-size: 1.2rem; color: white; cursor: pointer; transition: all 0.25s ease; text-align: left; display: flex; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
@@ -23,8 +28,8 @@ body { background: linear-gradient(135deg, #060b23, #19053e); font-family: 'Mont
 @media (max-width: 900px) {
   .kbc-container { flex-direction: column; }
   .prize-ladder { width: 100%; border-right: none; border-bottom: 3px solid gold; padding: 12px; }
-  #points-tree { flex-direction: row; flex-wrap: wrap; justify-content: center; }
-  #points-tree li { min-width: 60px; padding: 8px 10px; }
+  #points-tree { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 6px; }
+  #points-tree li { min-width: 75px; padding: 6px 10px; font-size: 0.8rem; gap: 4px; }
   .game-area { padding: 20px; }
   .timer { font-size: 2.3rem; }
   .options-grid { grid-template-columns: 1fr; }
