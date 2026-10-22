@@ -1,5 +1,5 @@
-// 50 Questions Bank: 5 Contestants × 10 Questions = 50 Total
-// Levels 1 to 10 with rotating topics: C++, RDBMS, Bollywood, Hollywood, Gaming
+// 50 Questions Bank (EASY EDITION): 5 Contestants x 10 Questions = 50 Total
+// Levels 1 to 10 (easy, rising gently) with rotating topics: C++ Basics, India GK, Movies, Dialogue Fill-in, Meme Fill-in
 
 const quizSets = {
   c1: [
@@ -7,171 +7,171 @@ const quizSets = {
       id: 101,
       contestant: 1,
       level: 1,
-      topic: "C++",
-      text: "Which header file is required to use cout?",
-      question: "Which header file is required to use cout?",
+      topic: "C++ Basics",
+      text: "Which symbol is used to end most C++ statements?",
+      question: "Which symbol is used to end most C++ statements?",
       options: {
-        A: "<stdio.h>",
-        B: "<iostream>",
-        C: "<string.h>",
-        D: "<math.h>"
+        A: ":",
+        B: ";",
+        C: ".",
+        D: ","
       },
       correct: "B",
       answer: "B",
-      description: "Level 1 | C++\nAnswer: B (<iostream>)\nIn C++, the <iostream> header file defines standard input/output stream objects like cout and cin."
+      description: "Level 1 | C++ Basics\nAnswer: B (;)\nIn C++, a semicolon marks the end of a statement."
     },
     {
       id: 102,
       contestant: 1,
       level: 2,
-      topic: "RDBMS",
-      text: "Which SQL command is used to retrieve data from a table?",
-      question: "Which SQL command is used to retrieve data from a table?",
+      topic: "India GK",
+      text: "Which is the national animal of India?",
+      question: "Which is the national animal of India?",
       options: {
-        A: "GET",
-        B: "FETCH",
-        C: "SELECT",
-        D: "EXTRACT"
+        A: "Lion",
+        B: "Elephant",
+        C: "Tiger",
+        D: "Leopard"
       },
       correct: "C",
       answer: "C",
-      description: "Level 2 | RDBMS\nAnswer: C (SELECT)\nThe SELECT command in SQL is used to query and fetch records from database tables."
+      description: "Level 2 | India GK\nAnswer: C (Tiger)\nThe Bengal tiger is India's national animal."
     },
     {
       id: 103,
       contestant: 1,
       level: 3,
-      topic: "Bollywood",
-      text: "Who plays Bunny (Kabir) in Yeh Jawaani Hai Deewani (YJHD)?",
-      question: "Who plays Bunny (Kabir) in Yeh Jawaani Hai Deewani (YJHD)?",
+      topic: "Movies",
+      text: "In The Lion King, which lion cub grows up to be king?",
+      question: "In The Lion King, which lion cub grows up to be king?",
       options: {
-        A: "Ranbir Kapoor",
-        B: "Ranveer Singh",
-        C: "Hrithik Roshan",
-        D: "Varun Dhawan"
+        A: "Mufasa",
+        B: "Scar",
+        C: "Simba",
+        D: "Timon"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 3 | Bollywood\nAnswer: A (Ranbir Kapoor)\nRanbir Kapoor starred as Kabir 'Bunny' Thapar alongside Deepika Padukone in Yeh Jawaani Hai Deewani (2013)."
+      correct: "C",
+      answer: "C",
+      description: "Level 3 | Movies\nAnswer: C (Simba)\nSimba is the lion cub who grows up to become king in The Lion King."
     },
     {
       id: 104,
       contestant: 1,
       level: 4,
-      topic: "Hollywood",
-      text: "Which Avenger wields the hammer Mjolnir?",
-      question: "Which Avenger wields the hammer Mjolnir?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Mr. India): \"Mogambo ___ hua!\"",
+      question: "Fill in the blank (Mr. India): \"Mogambo ___ hua!\"",
       options: {
-        A: "Iron Man",
-        B: "Captain America",
-        C: "Thor",
-        D: "Black Panther"
+        A: "naraz",
+        B: "pareshan",
+        C: "udaas",
+        D: "khush"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 4 | Hollywood\nAnswer: C (Thor)\nThor Odinson, the Norse God of Thunder in the Marvel Cinematic Universe, is the true wielder of Mjolnir."
+      correct: "D",
+      answer: "D",
+      description: "Level 4 | Dialogue Fill-in\nAnswer: D (khush)\nAmrish Puri's famous line as Mogambo in Mr. India: \"Mogambo khush hua\"."
     },
     {
       id: 105,
       contestant: 1,
       level: 5,
-      topic: "Gaming",
-      text: "Which is Dhalsim's signature fireball move?",
-      question: "Which is Dhalsim's signature fireball move?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Dekh raha hai ___!\"",
+      question: "Fill in the meme: \"Dekh raha hai ___!\"",
       options: {
-        A: "Hadoken",
-        B: "Sonic Boom",
-        C: "Yoga Fire",
-        D: "Tiger Shot"
+        A: "Rahul",
+        B: "Rohan",
+        C: "Binod",
+        D: "Mohan"
       },
       correct: "C",
       answer: "C",
-      description: "Level 5 | Gaming\nAnswer: C (Yoga Fire)\nYoga Fire is Dhalsim's iconic fireball attack in the Street Fighter series."
+      description: "Level 5 | Meme Fill-in\nAnswer: C (Binod)\n\"Dekh raha hai Binod\" is a viral Indian comment meme."
     },
     {
       id: 106,
       contestant: 1,
       level: 6,
-      topic: "C++",
-      text: "What does the new operator do?",
-      question: "What does the new operator do?",
+      topic: "C++ Basics",
+      text: "Which data type is used to store whole numbers?",
+      question: "Which data type is used to store whole numbers?",
       options: {
-        A: "Declares a variable",
-        B: "Allocates memory dynamically",
-        C: "Deletes an object",
-        D: "Creates a namespace"
+        A: "float",
+        B: "char",
+        C: "int",
+        D: "string"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 6 | C++\nAnswer: B (Allocates memory dynamically)\nThe 'new' operator in C++ dynamically allocates memory from the free store (heap) and returns a pointer."
+      correct: "C",
+      answer: "C",
+      description: "Level 6 | C++ Basics\nAnswer: C (int)\nThe int data type stores whole numbers such as 5 or -20."
     },
     {
       id: 107,
       contestant: 1,
       level: 7,
-      topic: "RDBMS",
-      text: "Which join returns all rows from the left table and matching rows from the right?",
-      question: "Which join returns all rows from the left table and matching rows from the right?",
+      topic: "India GK",
+      text: "The Taj Mahal is located in which state?",
+      question: "The Taj Mahal is located in which state?",
       options: {
-        A: "INNER JOIN",
-        B: "RIGHT JOIN",
-        C: "LEFT JOIN",
-        D: "CROSS JOIN"
+        A: "Delhi",
+        B: "Uttar Pradesh",
+        C: "Rajasthan",
+        D: "Bihar"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 7 | RDBMS\nAnswer: C (LEFT JOIN)\nA LEFT JOIN (or LEFT OUTER JOIN) returns all rows from the left table, with matched rows from the right table (NULL if no match)."
+      correct: "B",
+      answer: "B",
+      description: "Level 7 | India GK\nAnswer: B (Uttar Pradesh)\nThe Taj Mahal is in Agra, Uttar Pradesh."
     },
     {
       id: 108,
       contestant: 1,
       level: 8,
-      topic: "Bollywood",
-      text: "Who composed the music of YJHD?",
-      question: "Who composed the music of YJHD?",
+      topic: "Movies",
+      text: "Who plays Chulbul Pandey in Dabangg?",
+      question: "Who plays Chulbul Pandey in Dabangg?",
       options: {
-        A: "A.R. Rahman",
-        B: "Pritam",
-        C: "Vishal-Shekhar",
-        D: "Amit Trivedi"
+        A: "Ajay Devgn",
+        B: "Akshay Kumar",
+        C: "Sunny Deol",
+        D: "Salman Khan"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 8 | Bollywood\nAnswer: B (Pritam)\nPritam Chakraborty composed the soundtrack of Yeh Jawaani Hai Deewani, featuring hits like 'Badtameez Dil', 'Ilahi', and 'Balam Pichkari'."
+      correct: "D",
+      answer: "D",
+      description: "Level 8 | Movies\nAnswer: D (Salman Khan)\nSalman Khan plays Chulbul Pandey in Dabangg (2010)."
     },
     {
       id: 109,
       contestant: 1,
       level: 9,
-      topic: "Hollywood",
-      text: "Who composed the music score of Titanic?",
-      question: "Who composed the music score of Titanic?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Dabangg): \"Thappad se darr nahi lagta sahab, ___ se lagta hai.\"",
+      question: "Fill in the blank (Dabangg): \"Thappad se darr nahi lagta sahab, ___ se lagta hai.\"",
       options: {
-        A: "Hans Zimmer",
-        B: "John Williams",
-        C: "James Horner",
-        D: "Alan Silvestri"
+        A: "gussa",
+        B: "police",
+        C: "pyaar",
+        D: "bhookh"
       },
       correct: "C",
       answer: "C",
-      description: "Level 9 | Hollywood\nAnswer: C (James Horner)\nJames Horner composed Titanic's Oscar-winning score and co-wrote Celine Dion's 'My Heart Will Go On'."
+      description: "Level 9 | Dialogue Fill-in\nAnswer: C (pyaar)\nSalman Khan's line in Dabangg: \"Thappad se darr nahi lagta sahab, pyaar se lagta hai\"."
     },
     {
       id: 110,
       contestant: 1,
       level: 10,
-      topic: "Gaming",
-      text: "According to Street Fighter lore, why does Dhalsim fight?",
-      question: "According to Street Fighter lore, why does Dhalsim fight?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme (Among Us): \"That's kinda ___.\"",
+      question: "Fill in the meme (Among Us): \"That's kinda ___.\"",
       options: {
-        A: "To become world champion",
-        B: "To avenge his master",
-        C: "To raise money for his poor village",
-        D: "To destroy Shadaloo"
+        A: "sad",
+        B: "cool",
+        C: "funny",
+        D: "sus"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 10 | Gaming\nAnswer: C (To raise money for his poor village)\nStreet Fighter Lore: Dhalsim is a pacifist yoga master who enters martial arts tournaments solely to raise money to help his impoverished village."
+      correct: "D",
+      answer: "D",
+      description: "Level 10 | Meme Fill-in\nAnswer: D (sus)\n\"Sus\" is short for suspicious, popularised by the game Among Us."
     }
   ],
 
@@ -180,171 +180,171 @@ const quizSets = {
       id: 201,
       contestant: 2,
       level: 1,
-      topic: "RDBMS",
-      text: "What does SQL stand for?",
-      question: "What does SQL stand for?",
+      topic: "India GK",
+      text: "What is the capital of India?",
+      question: "What is the capital of India?",
       options: {
-        A: "Structured Query Language",
-        B: "Simple Query Logic",
-        C: "Sequential Query Language",
-        D: "Standard Queue List"
+        A: "Mumbai",
+        B: "New Delhi",
+        C: "Kolkata",
+        D: "Chennai"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 1 | RDBMS\nAnswer: A (Structured Query Language)\nSQL stands for Structured Query Language, the standard programming language for managing relational databases."
+      correct: "B",
+      answer: "B",
+      description: "Level 1 | India GK\nAnswer: B (New Delhi)\nNew Delhi is the capital of India."
     },
     {
       id: 202,
       contestant: 2,
       level: 2,
-      topic: "Bollywood",
-      text: "Who plays the female lead in Dilwale Dulhania Le Jayenge (DDLJ)?",
-      question: "Who plays the female lead in Dilwale Dulhania Le Jayenge (DDLJ)?",
+      topic: "Movies",
+      text: "In Frozen, what is the name of the snowman?",
+      question: "In Frozen, what is the name of the snowman?",
       options: {
-        A: "Kajol",
-        B: "Madhuri Dixit",
-        C: "Rani Mukerji",
-        D: "Preity Zinta"
+        A: "Olaf",
+        B: "Sven",
+        C: "Kristoff",
+        D: "Hans"
       },
       correct: "A",
       answer: "A",
-      description: "Level 2 | Bollywood\nAnswer: A (Kajol)\nKajol played the iconic role of Simran Singh opposite Shah Rukh Khan's Raj Malhotra in DDLJ (1995)."
+      description: "Level 2 | Movies\nAnswer: A (Olaf)\nOlaf is the friendly snowman in Frozen."
     },
     {
       id: 203,
       contestant: 2,
       level: 3,
-      topic: "Hollywood",
-      text: "Who directed Titanic (1997)?",
-      question: "Who directed Titanic (1997)?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Sholay): \"Kitne ___ the?\"",
+      question: "Fill in the blank (Sholay): \"Kitne ___ the?\"",
       options: {
-        A: "Steven Spielberg",
-        B: "James Cameron",
-        C: "Christopher Nolan",
-        D: "Ridley Scott"
+        A: "log",
+        B: "aadmi",
+        C: "dost",
+        D: "ladke"
       },
       correct: "B",
       answer: "B",
-      description: "Level 3 | Hollywood\nAnswer: B (James Cameron)\nJames Cameron directed, wrote, co-produced, and co-edited Titanic (1997)."
+      description: "Level 3 | Dialogue Fill-in\nAnswer: B (aadmi)\nGabbar Singh's famous line from Sholay: \"Kitne aadmi the?\""
     },
     {
       id: 204,
       contestant: 2,
       level: 4,
-      topic: "Gaming",
-      text: "Which company developed Street Fighter?",
-      question: "Which company developed Street Fighter?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme (Hera Pheri): \"Utha le re ___, utha le!\"",
+      question: "Fill in the meme (Hera Pheri): \"Utha le re ___, utha le!\"",
       options: {
-        A: "Capcom",
-        B: "Konami",
-        C: "Namco",
-        D: "Square Enix"
+        A: "bhai",
+        B: "baba",
+        C: "mama",
+        D: "kaka"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 4 | Gaming\nAnswer: A (Capcom)\nStreet Fighter is developed and published by Capcom, first released in arcades in 1987."
+      correct: "B",
+      answer: "B",
+      description: "Level 4 | Meme Fill-in\nAnswer: B (baba)\n\"Utha le re baba\" is a Hera Pheri line that became a popular meme."
     },
     {
       id: 205,
       contestant: 2,
       level: 5,
-      topic: "C++",
-      text: "What is the default access specifier for members of a class?",
-      question: "What is the default access specifier for members of a class?",
+      topic: "C++ Basics",
+      text: "Every C++ program starts executing from which function?",
+      question: "Every C++ program starts executing from which function?",
       options: {
-        A: "public",
-        B: "private",
-        C: "protected",
-        D: "friend"
+        A: "start()",
+        B: "begin()",
+        C: "run()",
+        D: "main()"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 5 | C++\nAnswer: B (private)\nIn C++, all members of a class default to private access, unlike structs where members default to public."
+      correct: "D",
+      answer: "D",
+      description: "Level 5 | C++ Basics\nAnswer: D (main())\nEvery C++ program starts executing from the main() function."
     },
     {
       id: 206,
       contestant: 2,
       level: 6,
-      topic: "RDBMS",
-      text: "Which normal form removes partial dependency?",
-      question: "Which normal form removes partial dependency?",
+      topic: "India GK",
+      text: "What is the capital of Rajasthan?",
+      question: "What is the capital of Rajasthan?",
       options: {
-        A: "1NF",
-        B: "2NF",
-        C: "3NF",
-        D: "BCNF"
+        A: "Jodhpur",
+        B: "Udaipur",
+        C: "Jaipur",
+        D: "Ajmer"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 6 | RDBMS\nAnswer: B (2NF)\nSecond Normal Form (2NF) requires a relation to be in 1NF with no partial dependencies (no non-prime attribute dependent on a proper subset of candidate key)."
+      correct: "C",
+      answer: "C",
+      description: "Level 6 | India GK\nAnswer: C (Jaipur)\nJaipur, the Pink City, is the capital of Rajasthan."
     },
     {
       id: 207,
       contestant: 2,
       level: 7,
-      topic: "Bollywood",
-      text: "Who directed YJHD?",
-      question: "Who directed YJHD?",
+      topic: "Movies",
+      text: "Lagaan is based on which sport?",
+      question: "Lagaan is based on which sport?",
       options: {
-        A: "Karan Johar",
-        B: "Ayan Mukerji",
-        C: "Zoya Akhtar",
-        D: "Imtiaz Ali"
+        A: "Football",
+        B: "Cricket",
+        C: "Kabaddi",
+        D: "Hockey"
       },
       correct: "B",
       answer: "B",
-      description: "Level 7 | Bollywood\nAnswer: B (Ayan Mukerji)\nAyan Mukerji directed Yeh Jawaani Hai Deewani (2013), his second feature film after Wake Up Sid."
+      description: "Level 7 | Movies\nAnswer: B (Cricket)\nLagaan (2001) is about a cricket match against British officers."
     },
     {
       id: 208,
       contestant: 2,
       level: 8,
-      topic: "Hollywood",
-      text: "Which Infinity Stone powers Vision?",
-      question: "Which Infinity Stone powers Vision?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Jab We Met): \"Main apni ___ hoon!\"",
+      question: "Fill in the blank (Jab We Met): \"Main apni ___ hoon!\"",
       options: {
-        A: "Soul Stone",
-        B: "Time Stone",
-        C: "Mind Stone",
-        D: "Reality Stone"
+        A: "favourite",
+        B: "queen",
+        C: "hero",
+        D: "boss"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 8 | Hollywood\nAnswer: C (Mind Stone)\nVision is brought to life and powered by the yellow Mind Stone embedded in his forehead."
+      correct: "A",
+      answer: "A",
+      description: "Level 8 | Dialogue Fill-in\nAnswer: A (favourite)\nKareena Kapoor's line as Geet in Jab We Met: \"Main apni favourite hoon\"."
     },
     {
       id: 209,
       contestant: 2,
       level: 9,
-      topic: "Gaming",
-      text: "Which game first introduced the Super Combo gauge in the Street Fighter series?",
-      question: "Which game first introduced the Super Combo gauge in the Street Fighter series?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Thala for a ___\"",
+      question: "Fill in the meme: \"Thala for a ___\"",
       options: {
-        A: "Street Fighter II: Champion Edition",
-        B: "Super Street Fighter II",
-        C: "Super Street Fighter II Turbo",
-        D: "Street Fighter Alpha"
+        A: "season",
+        B: "reason",
+        C: "reaction",
+        D: "region"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 9 | Gaming\nAnswer: C (Super Street Fighter II Turbo)\nSuper Street Fighter II Turbo (1994) introduced Super Combos and the Super Combo meter to fighting games."
+      correct: "B",
+      answer: "B",
+      description: "Level 9 | Meme Fill-in\nAnswer: B (reason)\n\"Thala for a reason\" is a meme about MS Dhoni, called Thala by CSK fans."
     },
     {
       id: 210,
       contestant: 2,
       level: 10,
-      topic: "C++",
-      text: "What is the size of an empty class object (class A {};) in C++?",
-      question: "What is the size of an empty class object (class A {};) in C++?",
+      topic: "C++ Basics",
+      text: "What is the output of: cout << 10 % 3;",
+      question: "What is the output of: cout << 10 % 3;",
       options: {
-        A: "0 bytes",
-        B: "1 byte",
-        C: "4 bytes",
-        D: "8 bytes"
+        A: "3",
+        B: "0",
+        C: "1",
+        D: "3.33"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 10 | C++\nAnswer: B (1 byte)\nIn C++, sizeof(empty_class) is guaranteed to be non-zero (typically 1 byte) to ensure each object instance possesses a unique memory address."
+      correct: "C",
+      answer: "C",
+      description: "Level 10 | C++ Basics\nAnswer: C (1)\nThe % operator gives the remainder: 10 divided by 3 leaves 1."
     }
   ],
 
@@ -353,171 +353,171 @@ const quizSets = {
       id: 301,
       contestant: 3,
       level: 1,
-      topic: "Bollywood",
-      text: "Which actor is called the \"Baadshah of Bollywood\"?",
-      question: "Which actor is called the \"Baadshah of Bollywood\"?",
+      topic: "Movies",
+      text: "Who is called the \"King Khan\" of Bollywood?",
+      question: "Who is called the \"King Khan\" of Bollywood?",
       options: {
         A: "Salman Khan",
-        B: "Aamir Khan",
-        C: "Shah Rukh Khan",
-        D: "Akshay Kumar"
+        B: "Shah Rukh Khan",
+        C: "Aamir Khan",
+        D: "Saif Ali Khan"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 1 | Bollywood\nAnswer: C (Shah Rukh Khan)\nShah Rukh Khan is affectionately known as 'King Khan' and the 'Baadshah of Bollywood'."
+      correct: "B",
+      answer: "B",
+      description: "Level 1 | Movies\nAnswer: B (Shah Rukh Khan)\nShah Rukh Khan is known as King Khan and the Baadshah of Bollywood."
     },
     {
       id: 302,
       contestant: 3,
       level: 2,
-      topic: "Hollywood",
-      text: "Which Avengers member turns into a giant green creature when angry?",
-      question: "Which Avengers member turns into a giant green creature when angry?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Deewar): \"Mere paas ___ hai.\"",
+      question: "Fill in the blank (Deewar): \"Mere paas ___ hai.\"",
       options: {
-        A: "Thor",
-        B: "Hulk",
-        C: "Hawkeye",
-        D: "Vision"
+        A: "Paisa",
+        B: "Gaadi",
+        C: "Maa",
+        D: "Bangla"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 2 | Hollywood\nAnswer: B (Hulk)\nDr. Bruce Banner transforms into the monstrous green superhero Hulk when agitated or enraged."
+      correct: "C",
+      answer: "C",
+      description: "Level 2 | Dialogue Fill-in\nAnswer: C (Maa)\nFamous line from Deewar (1975): \"Mere paas maa hai\"."
     },
     {
       id: 303,
       contestant: 3,
       level: 3,
-      topic: "Gaming",
-      text: "Which Street Fighter character is famous for the Hadoken?",
-      question: "Which Street Fighter character is famous for the Hadoken?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Keep calm and ___ on.\"",
+      question: "Fill in the meme: \"Keep calm and ___ on.\"",
       options: {
-        A: "Ryu",
-        B: "Dhalsim",
-        C: "Blanka",
-        D: "Guile"
+        A: "go",
+        B: "stay",
+        C: "carry",
+        D: "move"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 3 | Gaming\nAnswer: A (Ryu)\nRyu is the iconic master of the Hadoken wave motion fist. (Note: Ken also uses it, but Ryu is the option)."
+      correct: "C",
+      answer: "C",
+      description: "Level 3 | Meme Fill-in\nAnswer: C (carry)\n\"Keep Calm and Carry On\" is a famous poster slogan turned meme template."
     },
     {
       id: 304,
       contestant: 3,
       level: 4,
-      topic: "C++",
-      text: "What is the output of: int a = 10; cout << a / 3;",
-      question: "What is the output of: int a = 10; cout << a / 3;",
+      topic: "C++ Basics",
+      text: "Which one is used to take input from the keyboard?",
+      question: "Which one is used to take input from the keyboard?",
       options: {
-        A: "3.33",
-        B: "3",
-        C: "4",
-        D: "3.0"
+        A: "cout",
+        B: "cin",
+        C: "print",
+        D: "scan"
       },
       correct: "B",
       answer: "B",
-      description: "Level 4 | C++\nAnswer: B (3)\nInteger division in C++ truncates any fractional decimal part, so 10 / 3 evaluates to 3."
+      description: "Level 4 | C++ Basics\nAnswer: B (cin)\ncin reads input from the keyboard and is used with the >> operator."
     },
     {
       id: 305,
       contestant: 3,
       level: 5,
-      topic: "RDBMS",
-      text: "Which command removes a table's structure and data completely?",
-      question: "Which command removes a table's structure and data completely?",
+      topic: "India GK",
+      text: "Which state is known as \"God's Own Country\"?",
+      question: "Which state is known as \"God's Own Country\"?",
       options: {
-        A: "DELETE",
-        B: "REMOVE",
-        C: "DROP",
-        D: "CLEAR"
+        A: "Kerala",
+        B: "Goa",
+        C: "Sikkim",
+        D: "Punjab"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 5 | RDBMS\nAnswer: C (DROP)\nDROP TABLE completely erases the table schema, constraints, data, and indexes from the database."
+      correct: "A",
+      answer: "A",
+      description: "Level 5 | India GK\nAnswer: A (Kerala)\nKerala is famously called God's Own Country."
     },
     {
       id: 306,
       contestant: 3,
       level: 6,
-      topic: "Bollywood",
-      text: "In which year was DDLJ released?",
-      question: "In which year was DDLJ released?",
+      topic: "Movies",
+      text: "Dangal is a movie about which sport?",
+      question: "Dangal is a movie about which sport?",
       options: {
-        A: "1993",
-        B: "1995",
-        C: "1997",
-        D: "1999"
+        A: "Cricket",
+        B: "Boxing",
+        C: "Wrestling",
+        D: "Hockey"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 6 | Bollywood\nAnswer: B (1995)\nDilwale Dulhania Le Jayenge premiered on 20 October 1995."
+      correct: "C",
+      answer: "C",
+      description: "Level 6 | Movies\nAnswer: C (Wrestling)\nDangal (2016) is about wrestler Mahavir Singh Phogat and his daughters."
     },
     {
       id: 307,
       contestant: 3,
       level: 7,
-      topic: "Hollywood",
-      text: "How many Academy Awards did Titanic win?",
-      question: "How many Academy Awards did Titanic win?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Munna Bhai M.B.B.S.): \"Jadu ki ___!\"",
+      question: "Fill in the blank (Munna Bhai M.B.B.S.): \"Jadu ki ___!\"",
       options: {
-        A: "7",
-        B: "9",
-        C: "11",
-        D: "14"
+        A: "pappi",
+        B: "jhappi",
+        C: "taali",
+        D: "goli"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 7 | Hollywood\nAnswer: C (11)\nTitanic won 11 Oscars out of 14 nominations, tying Ben-Hur (and later joined by LOTR: Return of the King)."
+      correct: "B",
+      answer: "B",
+      description: "Level 7 | Dialogue Fill-in\nAnswer: B (jhappi)\nSanjay Dutt's \"Jadu ki jhappi\" from Munna Bhai M.B.B.S."
     },
     {
       id: 308,
       contestant: 3,
       level: 8,
-      topic: "Gaming",
-      text: "What is the name of Dhalsim's wife in Street Fighter lore?",
-      question: "What is the name of Dhalsim's wife in Street Fighter lore?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme (Saath Nibhana Saathiya): \"___ mein kaun tha?\"",
+      question: "Fill in the meme (Saath Nibhana Saathiya): \"___ mein kaun tha?\"",
       options: {
-        A: "Sally",
-        B: "Sakura",
-        C: "Cammy",
-        D: "Rose"
+        A: "Bathroom",
+        B: "Bedroom",
+        C: "Rasode",
+        D: "Chhat"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 8 | Gaming\nAnswer: A (Sally)\nIn official Capcom lore, Dhalsim's wife is Sally (Sari), who often appears cheering in his background stages."
+      correct: "C",
+      answer: "C",
+      description: "Level 8 | Meme Fill-in\nAnswer: C (Rasode)\n\"Rasode mein kaun tha?\" went viral from a Saath Nibhana Saathiya scene."
     },
     {
       id: 309,
       contestant: 3,
       level: 9,
-      topic: "C++",
-      text: "What is the output of: int a[5] = {1, 2, 3}; cout << a[4];",
-      question: "What is the output of: int a[5] = {1, 2, 3}; cout << a[4];",
+      topic: "C++ Basics",
+      text: "Which of these is a valid variable name?",
+      question: "Which of these is a valid variable name?",
       options: {
-        A: "0",
-        B: "3",
-        C: "Garbage value",
-        D: "Compile error"
+        A: "2num",
+        B: "int",
+        C: "my-num",
+        D: "my_num"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 9 | C++\nAnswer: A (0)\nIn C++, when an array initializer provides fewer elements than the array size, all uninitialized elements are set to zero."
+      correct: "D",
+      answer: "D",
+      description: "Level 9 | C++ Basics\nAnswer: D (my_num)\nVariable names can use letters, digits and underscores, but cannot start with a digit or be a keyword."
     },
     {
       id: 310,
       contestant: 3,
       level: 10,
-      topic: "RDBMS",
-      text: "Which isolation level prevents dirty reads but still allows non-repeatable reads?",
-      question: "Which isolation level prevents dirty reads but still allows non-repeatable reads?",
+      topic: "India GK",
+      text: "Which is the largest Indian state by area?",
+      question: "Which is the largest Indian state by area?",
       options: {
-        A: "Read Uncommitted",
-        B: "Read Committed",
-        C: "Repeatable Read",
-        D: "Serializable"
+        A: "Madhya Pradesh",
+        B: "Maharashtra",
+        C: "Rajasthan",
+        D: "Uttar Pradesh"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 10 | RDBMS\nAnswer: B (Read Committed)\nRead Committed prevents dirty reads (reading uncommitted changes) but permits non-repeatable reads (re-reading a row may return different values)."
+      correct: "C",
+      answer: "C",
+      description: "Level 10 | India GK\nAnswer: C (Rajasthan)\nRajasthan is the largest Indian state by area."
     }
   ],
 
@@ -526,171 +526,171 @@ const quizSets = {
       id: 401,
       contestant: 4,
       level: 1,
-      topic: "Hollywood",
-      text: "In Titanic, what does the ship hit?",
-      question: "In Titanic, what does the ship hit?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (3 Idiots): \"Aal ___ well!\"",
+      question: "Fill in the blank (3 Idiots): \"Aal ___ well!\"",
       options: {
-        A: "A rock",
-        B: "An iceberg",
-        C: "A whale",
-        D: "Another ship"
+        A: "izz",
+        B: "is",
+        C: "was",
+        D: "all"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 1 | Hollywood\nAnswer: B (An iceberg)\nThe RMS Titanic collided with an iceberg in the North Atlantic on April 14, 1912."
+      correct: "A",
+      answer: "A",
+      description: "Level 1 | Dialogue Fill-in\nAnswer: A (izz)\nFamous line from 3 Idiots: \"Aal izz well\"."
     },
     {
       id: 402,
       contestant: 4,
       level: 2,
-      topic: "Gaming",
-      text: "Which company created Super Mario?",
-      question: "Which company created Super Mario?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Ok ___\"",
+      question: "Fill in the meme: \"Ok ___\"",
       options: {
-        A: "Sega",
-        B: "Sony",
-        C: "Nintendo",
-        D: "Atari"
+        A: "boomer",
+        B: "bro",
+        C: "sir",
+        D: "cool"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 2 | Gaming\nAnswer: C (Nintendo)\nSuper Mario was created by Shigeru Miyamoto and published worldwide by Nintendo."
+      correct: "A",
+      answer: "A",
+      description: "Level 2 | Meme Fill-in\nAnswer: A (boomer)\n\"Ok boomer\" is a popular internet reply."
     },
     {
       id: 403,
       contestant: 4,
       level: 3,
-      topic: "C++",
-      text: "Which data type stores single-precision decimal numbers?",
-      question: "Which data type stores single-precision decimal numbers?",
+      topic: "C++ Basics",
+      text: "Which operator is used with cout to print output?",
+      question: "Which operator is used with cout to print output?",
       options: {
-        A: "int",
-        B: "float",
-        C: "char",
-        D: "bool"
+        A: ">>",
+        B: "==",
+        C: "<<",
+        D: "=>"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 3 | C++\nAnswer: B (float)\nIn C++, 'float' represents a 32-bit single-precision floating point number, whereas 'double' provides double-precision."
+      correct: "C",
+      answer: "C",
+      description: "Level 3 | C++ Basics\nAnswer: C (<<)\nThe stream insertion operator << sends data to cout."
     },
     {
       id: 404,
       contestant: 4,
       level: 4,
-      topic: "RDBMS",
-      text: "Which SQL clause filters rows based on a condition?",
-      question: "Which SQL clause filters rows based on a condition?",
+      topic: "India GK",
+      text: "Mumbai is the capital of which state?",
+      question: "Mumbai is the capital of which state?",
       options: {
-        A: "ORDER BY",
-        B: "GROUP BY",
-        C: "WHERE",
-        D: "HAVING"
+        A: "Gujarat",
+        B: "Goa",
+        C: "Karnataka",
+        D: "Maharashtra"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 4 | RDBMS\nAnswer: C (WHERE)\nThe WHERE clause filters rows from a query according to the provided Boolean condition."
+      correct: "D",
+      answer: "D",
+      description: "Level 4 | India GK\nAnswer: D (Maharashtra)\nMumbai is the capital of Maharashtra."
     },
     {
       id: 405,
       contestant: 4,
       level: 5,
-      topic: "Bollywood",
-      text: "In YJHD, the friends go on a trek to which hill destination?",
-      question: "In YJHD, the friends go on a trek to which hill destination?",
+      topic: "Movies",
+      text: "Who plays Rancho in 3 Idiots?",
+      question: "Who plays Rancho in 3 Idiots?",
       options: {
-        A: "Shimla",
-        B: "Manali",
-        C: "Ooty",
-        D: "Darjeeling"
+        A: "Aamir Khan",
+        B: "R. Madhavan",
+        C: "Sharman Joshi",
+        D: "Ranbir Kapoor"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 5 | Bollywood\nAnswer: B (Manali)\nIn Yeh Jawaani Hai Deewani, the group of friends heads to Manali, Himachal Pradesh for their adventurous trek."
+      correct: "A",
+      answer: "A",
+      description: "Level 5 | Movies\nAnswer: A (Aamir Khan)\nAamir Khan plays Rancho (Phunsukh Wangdu) in 3 Idiots (2009)."
     },
     {
       id: 406,
       contestant: 4,
       level: 6,
-      topic: "Hollywood",
-      text: "Who is the main villain of The Avengers (2012)?",
-      question: "Who is the main villain of The Avengers (2012)?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Om Shanti Om): \"Picture abhi baaki hai mere ___!\"",
+      question: "Fill in the blank (Om Shanti Om): \"Picture abhi baaki hai mere ___!\"",
       options: {
-        A: "Thanos",
-        B: "Ultron",
-        C: "Loki",
-        D: "Red Skull"
+        A: "bhai",
+        B: "dost",
+        C: "beta",
+        D: "sanam"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 6 | Hollywood\nAnswer: C (Loki)\nLoki, the God of Mischief, acts as the primary antagonist invading Earth with the Chitauri army."
+      correct: "B",
+      answer: "B",
+      description: "Level 6 | Dialogue Fill-in\nAnswer: B (dost)\nShah Rukh Khan's line in Om Shanti Om: \"Picture abhi baaki hai mere dost\"."
     },
     {
       id: 407,
       contestant: 4,
       level: 7,
-      topic: "Gaming",
-      text: "Which Street Fighter character is a sumo wrestler from Japan?",
-      question: "Which Street Fighter character is a sumo wrestler from Japan?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Beta tumse ___ ho payega.\"",
+      question: "Fill in the meme: \"Beta tumse ___ ho payega.\"",
       options: {
-        A: "Zangief",
-        B: "E. Honda",
-        C: "Balrog",
-        D: "Sagat"
+        A: "kabhi",
+        B: "sab",
+        C: "kuch",
+        D: "na"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 7 | Gaming\nAnswer: B (E. Honda)\nEdmond Honda is a Japanese professional sumo wrestler famous for the Hundred Hand Slap."
+      correct: "D",
+      answer: "D",
+      description: "Level 7 | Meme Fill-in\nAnswer: D (na)\n\"Beta tumse na ho payega\" is a popular Indian meme line."
     },
     {
       id: 408,
       contestant: 4,
       level: 8,
-      topic: "C++",
-      text: "What is the output of: int x = 5; int &r = x; r = 10; cout << x;",
-      question: "What is the output of: int x = 5; int &r = x; r = 10; cout << x;",
+      topic: "C++ Basics",
+      text: "What is the output of: cout << 2 + 3;",
+      question: "What is the output of: cout << 2 + 3;",
       options: {
-        A: "5",
-        B: "10",
-        C: "Garbage value",
-        D: "Compile error"
+        A: "23",
+        B: "5",
+        C: "2+3",
+        D: "Error"
       },
       correct: "B",
       answer: "B",
-      description: "Level 8 | C++\nAnswer: B (10)\nBecause 'r' is a reference (alias) to 'x', assigning r = 10 directly modifies x, printing 10."
+      description: "Level 8 | C++ Basics\nAnswer: B (5)\n2 + 3 is calculated first, so cout prints 5."
     },
     {
       id: 409,
       contestant: 4,
       level: 9,
-      topic: "RDBMS",
-      text: "Which normal form requires every determinant to be a candidate key?",
-      question: "Which normal form requires every determinant to be a candidate key?",
+      topic: "India GK",
+      text: "Which is the smallest Indian state by area?",
+      question: "Which is the smallest Indian state by area?",
       options: {
-        A: "2NF",
-        B: "3NF",
-        C: "BCNF",
-        D: "4NF"
+        A: "Sikkim",
+        B: "Goa",
+        C: "Tripura",
+        D: "Kerala"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 9 | RDBMS\nAnswer: C (BCNF)\nBoyce-Codd Normal Form (BCNF) requires that for every functional dependency X -> Y, X must be a superkey/candidate key."
+      correct: "B",
+      answer: "B",
+      description: "Level 9 | India GK\nAnswer: B (Goa)\nGoa is the smallest Indian state by area."
     },
     {
       id: 410,
       contestant: 4,
       level: 10,
-      topic: "Bollywood",
-      text: "Which Mumbai theatre ran DDLJ continuously for over 20 years?",
-      question: "Which Mumbai theatre ran DDLJ continuously for over 20 years?",
+      topic: "Movies",
+      text: "Who played Baahubali in the film Baahubali?",
+      question: "Who played Baahubali in the film Baahubali?",
       options: {
-        A: "Liberty Cinema",
-        B: "Regal Cinema",
-        C: "Maratha Mandir",
-        D: "Gaiety Galaxy"
+        A: "Rana Daggubati",
+        B: "Prabhas",
+        C: "Allu Arjun",
+        D: "Ram Charan"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 10 | Bollywood\nAnswer: C (Maratha Mandir)\nMaratha Mandir theatre near Mumbai Central achieved a global cinematic milestone by screening DDLJ daily for over 25 years."
+      correct: "B",
+      answer: "B",
+      description: "Level 10 | Movies\nAnswer: B (Prabhas)\nPrabhas played the title role in Baahubali."
     }
   ],
 
@@ -699,171 +699,171 @@ const quizSets = {
       id: 501,
       contestant: 5,
       level: 1,
-      topic: "Gaming",
-      text: "Dhalsim from Street Fighter represents which country?",
-      question: "Dhalsim from Street Fighter represents which country?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Never gonna give you ___\"",
+      question: "Fill in the meme: \"Never gonna give you ___\"",
       options: {
-        A: "Japan",
-        B: "China",
-        C: "India",
-        D: "Brazil"
+        A: "down",
+        B: "up",
+        C: "away",
+        D: "in"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 1 | Gaming\nAnswer: C (India)\nDhalsim is an Indian ascetic yoga master and one of the original World Warriors in Street Fighter II."
+      correct: "B",
+      answer: "B",
+      description: "Level 1 | Meme Fill-in\nAnswer: B (up)\nThe Rickroll meme comes from Rick Astley's song \"Never Gonna Give You Up\"."
     },
     {
       id: 502,
       contestant: 5,
       level: 2,
-      topic: "C++",
-      text: "Which operator is used with cout to print output?",
-      question: "Which operator is used with cout to print output?",
+      topic: "C++ Basics",
+      text: "Which header file is needed to use cout?",
+      question: "Which header file is needed to use cout?",
       options: {
-        A: ">>",
-        B: "<<",
-        C: "==",
-        D: "=>"
+        A: "<iostream>",
+        B: "<stdio.h>",
+        C: "<math.h>",
+        D: "<string.h>"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 2 | C++\nAnswer: B (<<)\nThe stream insertion operator '<<' is used with std::cout to send formatted data to standard output."
+      correct: "A",
+      answer: "A",
+      description: "Level 2 | C++ Basics\nAnswer: A (<iostream>)\nThe <iostream> header defines input/output objects like cout and cin."
     },
     {
       id: 503,
       contestant: 5,
       level: 3,
-      topic: "RDBMS",
-      text: "What does a primary key do?",
-      question: "What does a primary key do?",
+      topic: "India GK",
+      text: "Which is the national bird of India?",
+      question: "Which is the national bird of India?",
       options: {
-        A: "Allows duplicate rows",
-        B: "Uniquely identifies each row",
-        C: "Always stores NULL",
-        D: "Links two databases"
+        A: "Peacock",
+        B: "Parrot",
+        C: "Sparrow",
+        D: "Eagle"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 3 | RDBMS\nAnswer: B (Uniquely identifies each row)\nA primary key uniquely identifies every record in a table and cannot contain duplicate or NULL values."
+      correct: "A",
+      answer: "A",
+      description: "Level 3 | India GK\nAnswer: A (Peacock)\nThe Indian peacock is the national bird of India."
     },
     {
       id: 504,
       contestant: 5,
       level: 4,
-      topic: "Bollywood",
-      text: "What is the name of Kajol's character in DDLJ?",
-      question: "What is the name of Kajol's character in DDLJ?",
+      topic: "Movies",
+      text: "Who wrote the Harry Potter books?",
+      question: "Who wrote the Harry Potter books?",
       options: {
-        A: "Anjali",
-        B: "Tina",
-        C: "Simran",
-        D: "Pooja"
+        A: "J.R.R. Tolkien",
+        B: "J.K. Rowling",
+        C: "Roald Dahl",
+        D: "Stephen King"
       },
-      correct: "C",
-      answer: "C",
-      description: "Level 4 | Bollywood\nAnswer: C (Simran)\nKajol played Simran Singh in Dilwale Dulhania Le Jayenge (1995)."
+      correct: "B",
+      answer: "B",
+      description: "Level 4 | Movies\nAnswer: B (J.K. Rowling)\nJ.K. Rowling wrote the Harry Potter books."
     },
     {
       id: 505,
       contestant: 5,
       level: 5,
-      topic: "Hollywood",
-      text: "What is Jack's surname in Titanic?",
-      question: "What is Jack's surname in Titanic?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Hera Pheri): \"Ye Baburao ka ___ hai!\"",
+      question: "Fill in the blank (Hera Pheri): \"Ye Baburao ka ___ hai!\"",
       options: {
-        A: "Dawson",
-        B: "Hockley",
-        C: "Calvert",
-        D: "Murdoch"
+        A: "style",
+        B: "gaana",
+        C: "ghar",
+        D: "dhandha"
       },
       correct: "A",
       answer: "A",
-      description: "Level 5 | Hollywood\nAnswer: A (Dawson)\nLeonardo DiCaprio plays Jack Dawson, a free-spirited third-class artist aboard the RMS Titanic."
+      description: "Level 5 | Dialogue Fill-in\nAnswer: A (style)\nParesh Rawal's famous line in Hera Pheri: \"Ye Baburao ka style hai\"."
     },
     {
       id: 506,
       contestant: 5,
       level: 6,
-      topic: "Gaming",
-      text: "Street Fighter II was first released in arcades in which year?",
-      question: "Street Fighter II was first released in arcades in which year?",
+      topic: "Meme Fill-in",
+      text: "Fill in the meme: \"Ye hamari car hai, ye hum hain, aur ye hamari ___ ho rahi hai.\"",
+      question: "Fill in the meme: \"Ye hamari car hai, ye hum hain, aur ye hamari ___ ho rahi hai.\"",
       options: {
-        A: "1987",
-        B: "1991",
-        C: "1995",
-        D: "1999"
+        A: "shaadi",
+        B: "mehfil",
+        C: "pawri",
+        D: "pooja"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 6 | Gaming\nAnswer: B (1991)\nStreet Fighter II: The World Warrior revolutionized arcade fighting games upon its 1991 release."
+      correct: "C",
+      answer: "C",
+      description: "Level 6 | Meme Fill-in\nAnswer: C (pawri)\n\"Pawri ho rahi hai\" went viral in 2021."
     },
     {
       id: 507,
       contestant: 5,
       level: 7,
-      topic: "C++",
-      text: "Using the same function name with different parameter lists is called:",
-      question: "Using the same function name with different parameter lists is called:",
+      topic: "C++ Basics",
+      text: "Which symbol starts a single-line comment in C++?",
+      question: "Which symbol starts a single-line comment in C++?",
       options: {
-        A: "Overriding",
-        B: "Overloading",
-        C: "Inheritance",
-        D: "Encapsulation"
+        A: "//",
+        B: "##",
+        C: "**",
+        D: "--"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 7 | C++\nAnswer: B (Overloading)\nFunction overloading is compile-time polymorphism where functions share the same identifier with distinct parameter types or counts."
+      correct: "A",
+      answer: "A",
+      description: "Level 7 | C++ Basics\nAnswer: A (//)\n// starts a single-line comment; the compiler ignores the rest of that line."
     },
     {
       id: 508,
       contestant: 5,
       level: 8,
-      topic: "RDBMS",
-      text: "Which ACID property ensures a transaction is \"all or nothing\"?",
-      question: "Which ACID property ensures a transaction is \"all or nothing\"?",
+      topic: "India GK",
+      text: "What is the capital of Tamil Nadu?",
+      question: "What is the capital of Tamil Nadu?",
       options: {
-        A: "Atomicity",
-        B: "Consistency",
-        C: "Isolation",
-        D: "Durability"
+        A: "Chennai",
+        B: "Madurai",
+        C: "Coimbatore",
+        D: "Hyderabad"
       },
       correct: "A",
       answer: "A",
-      description: "Level 8 | RDBMS\nAnswer: A (Atomicity)\nAtomicity guarantees that all SQL operations within a database transaction succeed or the entire transaction is rolled back."
+      description: "Level 8 | India GK\nAnswer: A (Chennai)\nChennai is the capital of Tamil Nadu."
     },
     {
       id: 509,
       contestant: 5,
       level: 9,
-      topic: "Bollywood",
-      text: "Who played Chaudhry Baldev Singh in DDLJ?",
-      question: "Who played Chaudhry Baldev Singh in DDLJ?",
+      topic: "Movies",
+      text: "Gabbar Singh is the villain of which movie?",
+      question: "Gabbar Singh is the villain of which movie?",
       options: {
-        A: "Anupam Kher",
-        B: "Amrish Puri",
-        C: "Om Puri",
-        D: "Pran"
+        A: "Sholay",
+        B: "Deewar",
+        C: "Don",
+        D: "Karan Arjun"
       },
-      correct: "B",
-      answer: "B",
-      description: "Level 9 | Bollywood\nAnswer: B (Amrish Puri)\nVeteran actor Amrish Puri delivered an indelible portrayal of Simran's stern father Chaudhry Baldev Singh."
+      correct: "A",
+      answer: "A",
+      description: "Level 9 | Movies\nAnswer: A (Sholay)\nGabbar Singh, played by Amjad Khan, is the villain of Sholay (1975)."
     },
     {
       id: 510,
       contestant: 5,
       level: 10,
-      topic: "Hollywood",
-      text: "Who directed The Avengers (2012)?",
-      question: "Who directed The Avengers (2012)?",
+      topic: "Dialogue Fill-in",
+      text: "Fill in the blank (Pushpa): \"Pushpa, ___ nahi!\"",
+      question: "Fill in the blank (Pushpa): \"Pushpa, ___ nahi!\"",
       options: {
-        A: "Joss Whedon",
-        B: "Anthony and Joe Russo",
-        C: "Jon Favreau",
-        D: "Kenneth Branagh"
+        A: "rukega",
+        B: "darega",
+        C: "haarega",
+        D: "jhukega"
       },
-      correct: "A",
-      answer: "A",
-      description: "Level 10 | Hollywood\nAnswer: A (Joss Whedon)\nJoss Whedon directed the ground-breaking ensemble superhero film Marvel's The Avengers (2012)."
+      correct: "D",
+      answer: "D",
+      description: "Level 10 | Dialogue Fill-in\nAnswer: D (jhukega)\nAllu Arjun's line in Pushpa: \"Pushpa, jhukega nahi saala\"."
     }
   ]
 };
@@ -891,20 +891,20 @@ quizSets.set5 = quizSets.c5;
 
 // Answer key mapping
 quizSets.answerKey = {
-  contestant_1: ["B", "C", "A", "C", "C", "B", "C", "B", "C", "C"],
-  contestant_2: ["A", "A", "B", "A", "B", "B", "B", "C", "C", "B"],
-  contestant_3: ["C", "B", "A", "B", "C", "B", "C", "A", "A", "B"],
-  contestant_4: ["B", "C", "B", "C", "B", "C", "B", "B", "C", "C"],
-  contestant_5: ["C", "B", "B", "C", "A", "B", "B", "A", "B", "A"]
+  contestant_1: ["B", "C", "C", "D", "C", "C", "B", "D", "C", "D"],
+  contestant_2: ["B", "A", "B", "B", "D", "C", "B", "A", "B", "C"],
+  contestant_3: ["B", "C", "C", "B", "A", "C", "B", "C", "D", "C"],
+  contestant_4: ["A", "A", "C", "D", "A", "B", "D", "B", "B", "B"],
+  contestant_5: ["B", "A", "A", "B", "A", "C", "A", "A", "A", "D"]
 };
 
 // Quizmaster Notes
 quizSets.quizmasterNotes = [
-  "Topic order per contestant rotates (C1 starts C++, C2 RDBMS, C3 Bollywood, C4 Hollywood, C5 Gaming), so each gets 2 questions per topic.",
-  "Levels 1-3 easy, 4-6 medium, 7-8 hard, 9-10 tiebreaker-grade.",
-  "Contestant 3 Level 3: Ken also uses the Hadoken but is not in the options.",
-  "Contestant 3 Level 7: Titanic tied Ben-Hur for 11 Oscars; The Return of the King later matched it.",
-  "Contestant 3 Level 8 and Contestant 1 Level 10 depend on official Street Fighter backstory."
+  "All questions are easy. Difficulty rises gently from Level 1 (easiest) to Level 10.",
+  "Each contestant gets 2 questions from each of 5 topics: C++ Basics, India GK, Movies, Dialogue Fill-in, Meme Fill-in.",
+  "The same level has the same difficulty rank for every contestant.",
+  "Fill-in-the-blank answers follow the popular spelling of the dialogue or meme (e.g. Binod, pawri, Rasode).",
+  "Accept the option letter or the word itself as the answer."
 ];
 
 // Export or assign to window for browser access
