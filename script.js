@@ -9,13 +9,7 @@ let timeLeft = 30;
 let timerEnded = false;
 
 function isTimedQuestion(q) {
-  if (!q) return false;
-  if (q.level !== undefined && q.level !== null) {
-    return Number(q.level) <= 3;
-  }
-  if (q.index !== undefined && q.index !== null) {
-    return Number(q.index) < 3;
-  }
+  // All questions are unlimited (no time limit)
   return false;
 }
 
@@ -100,20 +94,15 @@ if (!window.isHost) {
       container.appendChild(btn);
     });
 
-    // Start timer for first 3 questions; remaining questions have unlimited time
+    // All questions have unlimited time
     const timerEl = document.querySelector('.timer');
-    if (isTimedQuestion(q)) {
-      timerEl.style.display = 'block';
-      timerEl.textContent = '30';
-      startTimer();
-      playQuestionAudio(q.index);
-    } else {
+    if (timerEl) {
       timerEl.style.display = 'block';
       timerEl.innerHTML = '<span class="unlimited-timer"><i class="fas fa-infinity"></i> Unlimited</span>';
-      clearInterval(timerInterval);
-      timerInterval = null;
-      playQuestionAudio(q.index);
     }
+    clearInterval(timerInterval);
+    timerInterval = null;
+    playQuestionAudio(q.index);
   });
 
   // Listen for options visibility toggle
@@ -122,9 +111,6 @@ if (!window.isHost) {
     if (container) {
       if (data.visible) {
         container.style.display = 'grid';
-        if (isTimedQuestion(currentQuestionObj)) {
-          startTimer();
-        }
       } else {
         container.style.display = 'none';
         clearInterval(timerInterval);
@@ -251,8 +237,11 @@ if (!window.isHost) {
     timerInterval = null;
     timeLeft = 30;
     lockedOption = null;
-    document.querySelector('.timer').textContent = '30';
-    document.querySelector('.timer').style.display = 'block';
+    const timerEl = document.querySelector('.timer');
+    if (timerEl) {
+      timerEl.innerHTML = '<span class="unlimited-timer"><i class="fas fa-infinity"></i> Unlimited</span>';
+      timerEl.style.display = 'block';
+    }
     document.getElementById('result-message').innerHTML = '';
     
     // Close loss modal

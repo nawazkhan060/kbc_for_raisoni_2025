@@ -970,15 +970,15 @@
       height: 70px;
       padding: 0 14px;
       border-radius: 35px;
-      border: 3px solid #ff3b30;
+      border: 3px solid gold;
       display: flex;
       justify-content: center;
       align-items: center;
       font-family: 'Orbitron', sans-serif;
       font-size: 1.8rem;
       font-weight: 900;
-      color: #ff3b30;
-      box-shadow: 0 0 15px rgba(255, 59, 48, 0.3);
+      color: gold;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
     }
     .host-modal-qtext {
       font-size: 1.25rem;
@@ -1390,7 +1390,7 @@
           <i class="fas fa-bell"></i> Active Lifeline: <span id="host-modal-lifeline-type">None</span>
         </div>
         <div class="host-timer-circle">
-          <span id="host-timer-val">30</span>
+          <span id="host-timer-val"><span style="font-size:0.95rem; font-weight:700;"><i class="fas fa-infinity"></i> Unlimited</span></span>
         </div>
         <div class="host-modal-qtext" id="host-modal-qtext">Question Text...</div>
         
@@ -1747,44 +1747,16 @@
       isRevealed = false;
       optionsVisible = false;
 
-      // Start Countdown Timer on Host Pop-up (Only first 3 questions have 30s timer, rest unlimited)
-      const isTimed = (currentQuestionData && currentQuestionData.level !== undefined && currentQuestionData.level !== null)
-        ? Number(currentQuestionData.level) <= 3
-        : (currentQuestionData && window.quizSets[currentSet] ? window.quizSets[currentSet].indexOf(currentQuestionData) < 3 : true);
-
+      // All questions have unlimited time
       clearInterval(hostTimerInterval);
       const hostTimerVal = document.getElementById('host-timer-val');
-      if (isTimed) {
-        hostTimeLeft = 30;
-        if (hostTimerVal) {
-          hostTimerVal.textContent = hostTimeLeft;
-          hostTimerVal.style.fontSize = '1.8rem';
-          hostTimerVal.parentElement.style.borderColor = '#ff3b30';
-          hostTimerVal.style.color = '#ff3b30';
-        }
-        hostTimerInterval = setInterval(() => {
-          hostTimeLeft--;
-          if (hostTimeLeft < 0) {
-            clearInterval(hostTimerInterval);
-            if (hostTimerVal) hostTimerVal.textContent = "Time's Up";
-            addLog("Host timer: Time's Up!");
-            // Disable lock buttons
-            ['A', 'B', 'C', 'D'].forEach(key => {
-              const btn = document.getElementById(`host-lock-${key}`);
-              if (btn) btn.setAttribute('disabled', 'true');
-            });
-          } else {
-            if (hostTimerVal) hostTimerVal.textContent = hostTimeLeft;
-          }
-        }, 1000);
-      } else {
-        if (hostTimerVal) {
-          hostTimerVal.innerHTML = '<span style="font-size:0.95rem; font-weight:700;">Unlimited</span>';
-          hostTimerVal.parentElement.style.borderColor = 'gold';
-          hostTimerVal.style.color = 'gold';
-        }
-        addLog(`Question ${currentQuestionData ? currentQuestionData.id : ''} (Level ${currentQuestionData ? (currentQuestionData.level || '4+') : '4+'}) started: Unlimited Time.`);
+      if (hostTimerVal) {
+        hostTimerVal.innerHTML = '<span style="font-size:0.95rem; font-weight:700;"><i class="fas fa-infinity"></i> Unlimited</span>';
+        hostTimerVal.parentElement.style.borderColor = 'gold';
+        hostTimerVal.parentElement.style.boxShadow = '0 0 15px rgba(255, 215, 0, 0.3)';
+        hostTimerVal.style.color = 'gold';
       }
+      addLog(`Question ${currentQuestionData ? currentQuestionData.id : ''} started: Unlimited Time.`);
 
       // Reset or set lifeline buttons state inside modal
       ['50:50', 'Ask Friend', 'Ask Audience'].forEach(type => {
